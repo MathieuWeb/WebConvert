@@ -8,7 +8,7 @@ quality slider, main pane with the dropzone and the file list). Content
 sections below the tool share one layout: heading on the left, content on
 the right, separated by hairlines. See README.md, "Charte graphique"."""
 import json
-from data import FORMATS, INPUT_IDS, OUTPUT_IDS, FEATURED_PAIRS
+from data import FORMATS, INPUT_IDS, OUTPUT_IDS, FEATURED_PAIRS, TARGET_SIZES
 
 BASE_URL = "https://webconvert.fr"
 SITE_NAME = "Webconvert.fr"
@@ -147,6 +147,7 @@ def site_header(current_path):
   <a href="/" class="brand"><span class="brand__mark" aria-hidden="true"></span>Webconvert</a>
   <nav class="site-nav" aria-label="Navigation principale">
     <a href="/#formats">Formats</a>
+    <a href="/compresser-image/"{cur('/compresser')}>Compresser</a>
     <a href="/guide/"{cur('/guide')}>Guides</a>
     <a href="/#questions">FAQ</a>
   </nav>
@@ -210,7 +211,7 @@ def intro_html(*, crumbs, h1, subtitle):
 </div>"""
 
 
-def format_picker_html(preset_from=None, preset_to=None, default_output="webp"):
+def format_picker_html(preset_from=None, preset_to=None, default_output="webp", to_only_ids=None):
     """The single format-selection widget, identical on every page (home,
     hub, pair): "De" and "Vers" fields in the tool's sidebar. Each field is
     a native <select> stretched invisibly over a styled face, so it stays
@@ -235,6 +236,16 @@ def format_picker_html(preset_from=None, preset_to=None, default_output="webp"):
       </select>
     </label>"""
 
+    if to_only_ids:
+        # Compression pages: output format only, changed in place (no "De",
+        # no swap, no navigation), pre-selected on the page's default.
+        return f"""<form class="picker" data-format-picker>
+  <div class="picker__field">
+    <div class="side-label"><span>Format de sortie</span></div>
+{field("to", to_only_ids, default_output, "Format de sortie", label(default_output), "", "Choisir un format")}
+  </div>
+</form>"""
+
     can_swap = bool(preset_from and preset_to and preset_from in OUTPUT_IDS and preset_to in INPUT_IDS)
     swap_attrs = "" if can_swap else " disabled"
     swap_title = (f"Inverser : {label(preset_to)} en {label(preset_from)}" if can_swap
@@ -254,20 +265,55 @@ def format_picker_html(preset_from=None, preset_to=None, default_output="webp"):
 </form>"""
 
 
-def tool_markup(*, input_id, preset_from=None, preset_to=None, default_output="webp"):
+TARGET_OUTPUT_IDS = ["jpg", "webp", "avif", "png"]
+
+
+def target_field_html(target_bytes):
+    """"Poids maximum" field of the compression pages: same styled-select
+    component as the format fields, changed in place by js/ui.js."""
+    opts = []
+    face = None
+    for _slug, bytes_, text in TARGET_SIZES:
+        sel = ""
+        if bytes_ == target_bytes:
+            sel, face = " selected", text
+        opts.append(f'        <option value="{bytes_}"{sel}>{text}</option>')
+    return f"""<div class="picker__field">
+      <div class="side-label"><span>Poids maximum</span></div>
+      <label class="fcard">
+        <span class="fcard__label" data-fcard-label>{face}</span>
+        <span class="fcard__hint">par image</span>
+        <span class="fcard__chevron">{icon("chevron", 16)}</span>
+        <select class="fcard__select" data-target-select aria-label="Poids maximum par image">
+{chr(10).join(opts)}
+        </select>
+      </label>
+    </div>
+    <p class="quality__note">Meilleure qualité possible sous cette limite ; les dimensions ne sont réduites que si nécessaire.</p>"""
+
+
+def tool_markup(*, input_id, preset_from=None, preset_to=None, default_output="webp", target=None):
     """The application window: sidebar (format picker, quality, privacy
     note) + main pane (dropzone, then the file list rendered by js/ui.js).
-    Same shape everywhere, so switching pages never moves the controls."""
+    Same shape everywhere, so switching pages never moves the controls.
+    With `target` (bytes), it becomes the compressor of the /compresser-*
+    pages: output format + "Poids maximum" instead of the quality slider."""
     if input_id == "any":
         dz_title = "Sélectionnez vos images"
     else:
         dz_title = f"Sélectionnez vos fichiers {fmt(input_id)['label']}"
 
-    return f"""<section class="app wrap" aria-label="Convertisseur">
-  <div class="app__side">
-    {format_picker_html(preset_from, preset_to, default_output)}
+    if target:
+        return _app_html(
+            "Compresseur", dz_title,
+            format_picker_html(default_output=default_output, to_only_ids=TARGET_OUTPUT_IDS)
+            + "\n\n    " + target_field_html(target))
+    return _app_html(
+        "Convertisseur", dz_title,
+        format_picker_html(preset_from, preset_to, default_output) + "\n\n    " + QUALITY_HTML)
 
-    <div class="quality" data-quality-card>
+
+QUALITY_HTML = """<div class="quality" data-quality-card>
       <div class="quality__row">
         <span class="side-label" id="quality-label"><span>Qualité d'encodage</span></span>
         <span class="quality__value"><span data-quality-number>80</span> · <span data-quality-tier>Équilibré</span></span>
@@ -278,7 +324,13 @@ def tool_markup(*, input_id, preset_from=None, preset_to=None, default_output="w
         <div class="slider__thumb" data-quality-thumb></div>
       </div>
       <p class="quality__note" data-quality-note>Réglage conseillé pour le web.</p>
-    </div>
+    </div>"""
+
+
+def _app_html(aria_label, dz_title, side_controls):
+    return f"""<section class="app wrap" aria-label="{aria_label}">
+  <div class="app__side">
+    {side_controls}
 
     <p class="app__privacy">{icon("lock", 16)}<span>Traitement local&nbsp;: aucune image n'est envoyée sur internet.</span></p>
   </div>
@@ -393,6 +445,19 @@ def format_catalog_html(pairs, pairs_heading="Conversions courantes", heading="F
         "formats", heading, body,
         intro=f"Webconvert lit {len(INPUT_IDS)} formats d'image et en écrit {len(OUTPUT_IDS)}. Choisissez un format pour voir toutes ses conversions.",
         extra_class="catalog")
+
+
+def link_list_html(items, cls="pair-list--cols"):
+    """items: [(title, desc, href)] — same look as the pair rows, for links
+    that aren't "X → Y" conversions (compression thresholds, démarches)."""
+    rows = "\n".join(
+        f"""      <li><a href="{href}"><span class="pair">{title}</span><span class="pair__desc">{desc}</span></a></li>"""
+        for title, desc, href in items
+    )
+    extra = f" {cls}" if cls else ""
+    return f"""    <ul class="pair-list{extra}">
+{rows}
+    </ul>"""
 
 
 def pair_list_section_html(heading_id, heading, pairs, intro=None):

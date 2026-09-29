@@ -566,6 +566,10 @@ button, input, select { font: inherit; color: inherit; }
   white-space: nowrap;
 }
 .file.is-grew .file__gain { color: var(--muted); }
+/* Compression pages: the result is still above the chosen weight limit. */
+.file.is-over .file__bar i { background: var(--error); }
+.file.is-over .file__gain,
+.file.is-over .file__conv { color: var(--error); }
 .file__dl {
   display: grid;
   place-items: center;
@@ -606,6 +610,7 @@ button, input, select { font: inherit; color: inherit; }
   .file__thumb { grid-area: th; width: 44px; height: 44px; }
   .file__name { grid-area: name; }
   .file__conv { display: none; }
+  .file.is-over .file__conv { display: block; }
   .file__bar { display: none; }
   .file__size { grid-area: size; text-align: left; font-size: 13px; }
   .file__gain { grid-area: gain; }
@@ -1166,6 +1171,10 @@ code {
   .brand__mark::after { inset: 6px; }
   .site-nav { gap: 0; font-size: 14px; }
   .site-nav a { padding: 0 9px; }
+  /* Five links don't fit next to the logo: keep the two sections with their
+     own pages; Formats and FAQ are anchors of the homepage, reachable from it. */
+  .site-nav a[href="/#formats"],
+  .site-nav a[href="/#questions"] { display: none; }
 
   .intro { padding: 8px 0 20px; }
   .intro h1 { font-size: 32px; line-height: 1.1; letter-spacing: -0.025em; }

@@ -430,3 +430,164 @@ def get_pair_copy(input_id, output_id):
 
 def get_hub_copy(format_id):
     return HUB_OVERRIDES.get(format_id)
+
+
+# ---------------------------------------------------------------------------
+# Compression to a target weight (/compresser-image/ and its sub-pages)
+# ---------------------------------------------------------------------------
+# 1 Ko = 1 000 octets and 1 Mo = 1 000 000 octets: a result under "1 Mo" in
+# this sense is also under 1 048 576 octets, so it passes either convention
+# a destination site might use.
+
+# (slug, bytes, label) — one page per threshold: /compresser-image-{slug}/
+TARGET_SIZES = [
+    ("50-ko", 50_000, "50 Ko"),
+    ("100-ko", 100_000, "100 Ko"),
+    ("200-ko", 200_000, "200 Ko"),
+    ("300-ko", 300_000, "300 Ko"),
+    ("500-ko", 500_000, "500 Ko"),
+    ("1-mo", 1_000_000, "1 Mo"),
+    ("2-mo", 2_000_000, "2 Mo"),
+    ("5-mo", 5_000_000, "5 Mo"),
+]
+
+TARGET_USES = {
+    "50-ko": "les formulaires les plus stricts, les avatars et les signatures d'e-mail",
+    "100-ko": "les photos de profil, les miniatures et certains formulaires en ligne",
+    "200-ko": "les formulaires de candidature, les photos de CV et les images de blog",
+    "300-ko": "les images de site web et les pièces jointes légères",
+    "500-ko": "les illustrations de site web et les annonces en ligne",
+    "1-mo": "la plupart des téléservices administratifs (dont l'ANTS) et les pièces jointes",
+    "2-mo": "les dossiers en ligne, les formulaires de recrutement et les envois groupés",
+    "5-mo": "les photos haute définition à envoyer par e-mail ou sur une plateforme",
+}
+
+# Démarches: pages /compresser-photo-{slug}/ that preset the right limit.
+# Only limits confirmed by an official source are stated as facts; "check
+# the limit shown on the form" stays in every page because they can change.
+DEMARCHES = {
+    "ants": dict(
+        path="/compresser-photo-ants/",
+        crumb="Pour l'ANTS",
+        title="Compresser une photo ou un justificatif pour l'ANTS (moins de 1 Mo)",
+        h1="Photo trop lourde pour l'ANTS ? Passez-la sous 1 Mo",
+        meta=("Justificatif refusé car trop volumineux sur le site de l'ANTS ? Compressez vos photos et scans "
+              "sous 1 Mo en JPG, directement dans votre navigateur, sans envoyer vos documents."),
+        intro="Carte grise, carte d'identité, passeport : chaque pièce jointe doit peser moins de 1 Mo. Vos documents restent sur votre appareil.",
+        target=1_000_000,
+        output="jpg",
+        paragraphs=[
+            "Sur la plupart des démarches du site de l'ANTS (carte grise, pré-demande de carte d'identité ou de "
+            "passeport), chaque document téléversé ne doit pas dépasser 1 Mo et doit être au format JPEG, PNG ou "
+            "PDF. Une photo prise au smartphone pèse souvent 3 à 5 Mo : elle est refusée avec un message indiquant "
+            "que le fichier est trop volumineux.",
+            "Déposez ici vos photos ou scans : chacun est recompressé en JPG sous 1 Mo en gardant la meilleure "
+            "qualité possible, pour que le texte du document reste lisible. Si la compression ne suffit pas, "
+            "l'image est légèrement réduite en dimensions.",
+            "Il s'agit de pièces d'identité et de justificatifs : ils ne sont jamais envoyés sur un serveur. Tout "
+            "le traitement a lieu dans votre navigateur.",
+        ],
+        faq=[
+            ("Quelle est la taille maximale d'un fichier sur le site de l'ANTS ?",
+             "Pour la plupart des démarches, 1 Mo par document, aux formats JPEG, PNG ou PDF. Vérifiez toujours "
+             "la limite affichée sur le formulaire de votre démarche : elle peut différer (les demandes de permis "
+             "de conduire acceptent par exemple des fichiers plus lourds)."),
+            ("Mon document restera-t-il lisible ?",
+             "Oui dans la grande majorité des cas : l'outil cherche la meilleure qualité qui tient sous 1 Mo "
+             "avant de réduire les dimensions. Vérifiez l'aperçu avant de l'envoyer."),
+            ("Mes documents d'identité sont-ils envoyés quelque part ?",
+             "Non. La compression est faite par votre navigateur : aucune image ne quitte votre appareil."),
+        ],
+    ),
+    "caf": dict(
+        path="/compresser-photo-caf/",
+        crumb="Pour la CAF",
+        title="Compresser un justificatif pour la CAF (envoi de 10 Mo maximum)",
+        h1="Justificatif trop lourd pour la CAF ? Allégez vos photos",
+        meta=("Vos justificatifs dépassent la limite d'envoi de la CAF ? Compressez vos photos de documents en JPG "
+              "dans votre navigateur, sans les envoyer sur un serveur."),
+        intro="Un envoi de documents à la CAF ne doit pas dépasser 10 Mo au total. Allégez vos photos de justificatifs sans les envoyer nulle part.",
+        target=2_000_000,
+        output="jpg",
+        paragraphs=[
+            "Depuis l'espace « Mon Compte » de la CAF, un envoi de justificatifs ne doit pas dépasser 10 Mo pour "
+            "l'ensemble des documents, aux formats JPEG, PDF, PNG ou GIF. Trois ou quatre photos de smartphone "
+            "suffisent à dépasser cette limite.",
+            "Le réglage par défaut (2 Mo par photo) permet d'envoyer jusqu'à cinq documents en un seul envoi. "
+            "Pour un envoi plus important, choisissez 1 Mo ou 500 Ko dans le menu « Poids maximum ».",
+            "Bulletins de salaire, quittances, avis d'imposition : ces documents restent sur votre appareil, la "
+            "compression a lieu dans votre navigateur.",
+        ],
+        faq=[
+            ("Quelle est la limite d'envoi de documents à la CAF ?",
+             "10 Mo pour l'ensemble des documents d'un même envoi. Un envoi ne regroupe qu'un seul type de "
+             "document : par exemple plusieurs bulletins de salaire, mais pas un bulletin et une quittance."),
+            ("Quel poids choisir pour chaque photo ?",
+             "Divisez 10 Mo par le nombre de documents à envoyer : 2 Mo par photo pour cinq documents, 1 Mo pour "
+             "dix. Le texte reste lisible dans la plupart des cas."),
+            ("Mes justificatifs sont-ils envoyés sur un serveur ?",
+             "Non. Tout le traitement a lieu dans votre navigateur, rien ne quitte votre appareil."),
+        ],
+    ),
+    "mail": dict(
+        path="/compresser-photo-pour-mail/",
+        crumb="Pour un e-mail",
+        title="Photo trop lourde pour un mail : compresser ses photos avant l'envoi",
+        h1="Photo trop lourde pour un mail ? Compressez-la avant l'envoi",
+        meta=("Photos trop lourdes pour une pièce jointe ? Compressez-les en quelques secondes pour les envoyer "
+              "par mail, gratuitement et sans les téléverser sur un serveur."),
+        intro="Les messageries limitent le poids des pièces jointes. Réduisez vos photos à 1 Mo chacune pour en envoyer plusieurs dans un seul mail.",
+        target=1_000_000,
+        output="jpg",
+        paragraphs=[
+            "Gmail accepte jusqu'à 25 Mo de pièces jointes par message et Outlook.com jusqu'à 20 Mo ; beaucoup de "
+            "messageries professionnelles sont plus strictes. Une série de photos de smartphone dépasse vite ces "
+            "limites, et le message est refusé ou transformé en lien de téléchargement.",
+            "À 1 Mo par photo, une vingtaine d'images tiennent dans un seul mail, tout en restant nettes sur un "
+            "écran d'ordinateur ou de téléphone. Choisissez 500 Ko pour en envoyer davantage, ou 2 Mo pour une "
+            "qualité d'impression.",
+            "Vos photos ne transitent par aucun serveur : elles sont compressées dans votre navigateur puis "
+            "téléchargées une à une ou groupées dans un ZIP.",
+        ],
+        faq=[
+            ("Quelle taille de pièce jointe accepte Gmail ?",
+             "25 Mo par message, toutes pièces jointes comprises. Au-delà, Gmail propose de partager les fichiers "
+             "via Google Drive."),
+            ("Quelle taille choisir pour mes photos ?",
+             "1 Mo par photo convient à un affichage sur écran. Pour une impression en grand format, gardez 2 à "
+             "5 Mo."),
+            ("Puis-je compresser plusieurs photos d'un coup ?",
+             "Oui, déposez-les toutes en même temps puis téléchargez le ZIP."),
+        ],
+    ),
+    "web": dict(
+        path="/compresser-image-pour-site-web/",
+        crumb="Pour un site web",
+        title="Compresser une image pour un site web (moins de 200 Ko)",
+        h1="Compresser une image pour un site web",
+        meta=("Réduisez le poids de vos images de site web sous 200 Ko en WebP ou JPG, pour des pages plus "
+              "rapides. Gratuit, par lot, sans envoi sur un serveur."),
+        intro="Des images légères accélèrent l'affichage de vos pages. Passez-les sous 200 Ko en WebP, en gardant la meilleure qualité possible.",
+        target=200_000,
+        output="webp",
+        paragraphs=[
+            "Les images représentent souvent la plus grande partie du poids d'une page web. Viser moins de 200 Ko "
+            "par image de contenu est un bon repère pour un affichage rapide, y compris sur mobile.",
+            "Le WebP est sélectionné par défaut : à qualité égale, il est nettement plus léger que le JPG et il est "
+            "lu par tous les navigateurs actuels. Pour une image d'en-tête plein écran, 300 à 500 Ko peuvent être "
+            "justifiés ; pour une miniature, 50 à 100 Ko suffisent.",
+            "Si une image dépasse la limite même compressée, l'outil réduit ses dimensions : une photo de 4000 px "
+            "de large est de toute façon affichée bien plus petite sur un site.",
+        ],
+        faq=[
+            ("Quel poids viser pour une image de site web ?",
+             "Moins de 200 Ko pour une image de contenu, 50 à 100 Ko pour une miniature, jusqu'à 500 Ko pour un "
+             "grand visuel d'en-tête."),
+            ("Faut-il utiliser le WebP ou le JPG ?",
+             "Le WebP, sauf contrainte particulière : il est plus léger à qualité égale et compatible avec tous "
+             "les navigateurs modernes. L'AVIF est encore plus léger mais plus lent à encoder."),
+            ("Mes images sont-elles envoyées sur un serveur ?",
+             "Non, la compression a lieu dans votre navigateur."),
+        ],
+    ),
+}

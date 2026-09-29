@@ -80,6 +80,21 @@ Fond minéral doux, titre centré, outil présenté comme une fenêtre d'applica
 - TIFF (via UTIF.js + pako) et HEIC (via heic2any) sont chargés depuis jsDelivr à la demande, uniquement
   quand un fichier de ce format est effectivement déposé — jamais au chargement de la page.
 
+## Compression à un poids cible
+
+Pages `/compresser-image/` (hub), `/compresser-image-{50-ko…5-mo}/` (une par seuil, `TARGET_SIZES`) et
+`/compresser-photo-{ants,caf,pour-mail}/`, `/compresser-image-pour-site-web/` (une par démarche,
+`DEMARCHES`), toutes dans `build/data.py`. Même fenêtre d'outil que les autres pages, mais la barre latérale
+propose « Format de sortie » + « Poids maximum » au lieu du curseur de qualité (`WC_CONFIG.target`, en octets).
+
+`compressToTarget()` (`js/conversion.js`) : recherche dichotomique de la meilleure qualité sous la limite
+(JPG/WebP/AVIF), puis réduction progressive des dimensions si même la qualité minimale est trop lourde (ou
+pour le PNG, sans perte). Un fichier déjà sous la limite et déjà au bon format est rendu tel quel.
+1 Ko = 1 000 octets, 1 Mo = 1 000 000 octets (respecte aussi les sites qui comptent en 1 024).
+
+Les limites des démarches ne sont écrites comme des faits que si une source officielle les confirme (ANTS :
+1 Mo par document ; CAF : 10 Mo par envoi) ; chaque page invite quand même à vérifier la limite affichée.
+
 ## Lancer le projet en local
 
 Site 100% statique avec des URLs propres (`/convertisseur-png/`, `/png-en-webp/`...) servies comme des

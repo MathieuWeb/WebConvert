@@ -233,17 +233,12 @@ async function encodeCanvas(canvas, outputFormatId, sliderQuality) {
   throw new Error("Format de sortie non pris en charge : " + outputFormatId);
 }
 
-// ---------------- Public conversion entry point ----------------
+// ---------------- Public conversion entry points ----------------
 
-/**
- * Convert a single image file from `inputFormatId` to `outputFormatId` at the
- * given slider quality (40-100, ignored by lossless outputs).
- * @param {File|Blob} file
- * @param {string} inputFormatId
- * @param {number} sliderQuality
- * @param {string} outputFormatId
- */
-export async function convertImage(file, inputFormatId, sliderQuality, outputFormatId) {
+/** Decode `file` and draw it on a fresh canvas, flattened onto white when
+ * the output has no alpha channel (JPG, BMP) so transparency doesn't turn
+ * black. */
+async function decodeToCanvas(file, inputFormatId, outputFormatId) {
   const source = await decodeSource(file, inputFormatId);
   const width = source.width ?? source.naturalWidth;
   const height = source.height ?? source.naturalHeight;
@@ -267,7 +262,119 @@ export async function convertImage(file, inputFormatId, sliderQuality, outputFor
   }
   ctx.drawImage(source, 0, 0, width, height);
   if (source.close) source.close(); // release ImageBitmap memory promptly
+  return canvas;
+}
 
+/**
+ * Convert a single image file from `inputFormatId` to `outputFormatId` at the
+ * given slider quality (40-100, ignored by lossless outputs).
+ * @param {File|Blob} file
+ * @param {string} inputFormatId
+ * @param {number} sliderQuality
+ * @param {string} outputFormatId
+ */
+export async function convertImage(file, inputFormatId, sliderQuality, outputFormatId) {
+  const canvas = await decodeToCanvas(file, inputFormatId, outputFormatId);
   const blob = await encodeCanvas(canvas, outputFormatId, sliderQuality);
-  return { blob, width, height };
+  return { blob, width: canvas.width, height: canvas.height };
+}
+
+function scaledCopy(canvas, scale, flattenWhite) {
+  const w = Math.max(1, Math.round(canvas.width * scale));
+  const h = Math.max(1, Math.round(canvas.height * scale));
+  const out = document.createElement("canvas");
+  out.width = w;
+  out.height = h;
+  const ctx = out.getContext("2d");
+  if (flattenWhite) {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, w, h);
+  }
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(canvas, 0, 0, w, h);
+  return out;
+}
+
+// Quality search bounds (canvas 0-1 scale). Below ~0.35 JPEG/WebP artefacts
+// become obvious, so past that point shrinking the dimensions looks better
+// than crushing the quality further.
+const TARGET_Q_MIN = 0.35;
+const TARGET_Q_MAX = 0.92;
+
+/**
+ * Re-encode `file` as `outputFormatId` so the result weighs at most
+ * `targetBytes`, keeping as much quality as possible:
+ *   1. lossy outputs (JPG, WebP, AVIF): binary search on the encoder quality
+ *      at full size;
+ *   2. if even the lowest acceptable quality is too heavy (or the output is
+ *      lossless, e.g. PNG), shrink the dimensions step by step and search again.
+ * If the original file already fits and is already in the requested format,
+ * it is returned untouched (re-encoding could only lose quality).
+ * @returns {Promise<{blob: Blob, width: number, height: number, quality: number|null,
+ *   scale: number, fits: boolean, untouched: boolean}>}
+ */
+export async function compressToTarget(file, inputFormatId, outputFormatId, targetBytes) {
+  const canvas = await decodeToCanvas(file, inputFormatId, outputFormatId);
+  const lossy = !!FORMATS[outputFormatId].lossy;
+
+  if (inputFormatId === outputFormatId && file.size <= targetBytes) {
+    return { blob: file, width: canvas.width, height: canvas.height, quality: null, scale: 1, fits: true, untouched: true };
+  }
+
+  const flatten = outputFormatId === "jpg" || outputFormatId === "bmp";
+
+  // Best encoding of `c` under the target: highest quality that fits (lossy),
+  // or the single lossless encoding. Returns the smallest attempt if none fit.
+  async function bestUnderTarget(c) {
+    if (!lossy) {
+      const blob = await encodeCanvas(c, outputFormatId, 100);
+      return { blob, quality: null, fits: blob.size <= targetBytes };
+    }
+    let lo = TARGET_Q_MIN;
+    let hi = TARGET_Q_MAX;
+    // Lowest quality first: when even that is too heavy (the common case for
+    // big photos), this size needs shrinking and one encode is enough to know.
+    const bottom = await encodeCanvas(c, outputFormatId, lo * 100);
+    if (bottom.size > targetBytes) return { blob: bottom, quality: lo, fits: false };
+    const top = await encodeCanvas(c, outputFormatId, hi * 100);
+    if (top.size <= targetBytes) return { blob: top, quality: hi, fits: true };
+    let best = { blob: bottom, quality: lo, fits: true };
+    for (let i = 0; i < 6; i++) {
+      const mid = (lo + hi) / 2;
+      const blob = await encodeCanvas(c, outputFormatId, mid * 100);
+      if (blob.size <= targetBytes) {
+        best = { blob, quality: mid, fits: true };
+        lo = mid;
+        // Within 7 % of the limit: further steps would gain an invisible
+        // sliver of quality for another (slow, for WebP/AVIF) full encode.
+        if (blob.size >= targetBytes * 0.93) break;
+      } else {
+        hi = mid;
+      }
+    }
+    return best;
+  }
+
+  let scale = 1;
+  let current = canvas;
+  let attempt = await bestUnderTarget(current);
+  // Shrink until it fits: weight grows roughly with the pixel count, so aim
+  // the next scale at sqrt(target / size), with a margin and a minimum step.
+  for (let round = 0; !attempt.fits && round < 8; round++) {
+    const ratio = Math.sqrt(targetBytes / attempt.blob.size) * 0.95;
+    scale *= Math.min(0.9, Math.max(0.3, ratio));
+    if (Math.round(canvas.width * scale) < 16 || Math.round(canvas.height * scale) < 16) break;
+    current = scaledCopy(canvas, scale, flatten);
+    attempt = await bestUnderTarget(current);
+  }
+
+  return {
+    blob: attempt.blob,
+    width: current.width,
+    height: current.height,
+    quality: attempt.quality,
+    scale,
+    fits: attempt.fits,
+    untouched: false,
+  };
 }

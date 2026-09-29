@@ -14,7 +14,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 
-from data import FORMATS, INPUT_IDS, OUTPUT_IDS, PAIRS, FEATURED_PAIRS, get_pair_copy, get_hub_copy
+from data import (FORMATS, INPUT_IDS, OUTPUT_IDS, PAIRS, FEATURED_PAIRS, TARGET_SIZES, TARGET_USES, DEMARCHES,
+                  get_pair_copy, get_hub_copy)
 from articles import ARTICLES
 import templates as t
 
@@ -40,6 +41,21 @@ def register(path, changefreq, priority):
 # ---------------------------------------------------------------------------
 # Homepage
 # ---------------------------------------------------------------------------
+
+def compress_teaser_html():
+    chips = "\n".join(f'      <a class="chip" href="/compresser-image-{slug}/">{text}</a>'
+                      for slug, _b, text in TARGET_SIZES)
+    return f"""    <div class="catalog__group">
+      <p class="catalog__label">Par poids maximum</p>
+      <div class="chips">
+{chips}
+      </div>
+    </div>
+    <div class="catalog__group">
+      <p class="catalog__label">Par démarche</p>
+{t.link_list_html(demarche_links())}
+    </div>"""
+
 
 def build_homepage():
     title = "Convertisseur d'images en ligne gratuit et privé (JPG, PNG, WebP, AVIF, HEIC...) | Webconvert.fr"
@@ -86,6 +102,8 @@ def build_homepage():
 {t.tool_markup(input_id="any", default_output=default_output)}
 
 {t.format_catalog_html(catalog_pairs)}
+{t.section_html("compresser", "Compresser à une taille précise", compress_teaser_html(),
+                intro="Un site exige moins de 1 Mo ou de 200 Ko ? Choisissez la limite, l'outil trouve la meilleure qualité qui tient dessous.")}
 {t.section_html("comment-ca-marche", "Comment fonctionne la conversion", how_body, tag="article")}
 {t.privacy_aside_html()}
 {t.quality_aside_html()}
@@ -311,6 +329,151 @@ def build_pair_page(i, o):
 
 
 # ---------------------------------------------------------------------------
+# Compression to a target weight: /compresser-image/, /compresser-image-{seuil}/,
+# /compresser-photo-{démarche}/
+# ---------------------------------------------------------------------------
+
+COMPRESS_HUB = "/compresser-image/"
+
+
+def threshold_links(exclude=None):
+    return [(f"Moins de {text}", TARGET_USES[slug].capitalize() + ".", f"/compresser-image-{slug}/")
+            for slug, _b, text in TARGET_SIZES if slug != exclude]
+
+
+def demarche_links(exclude=None):
+    return [(d["crumb"], d["intro"].split(".")[0] + ".", d["path"])
+            for key, d in DEMARCHES.items() if key != exclude]
+
+
+def compress_how_html(limit_text):
+    return f"""    <div class="prose">
+      <p>Pour chaque image, l'outil cherche la meilleure qualité d'encodage dont le résultat pèse moins de {limit_text} : il essaie plusieurs réglages et garde le plus élevé qui respecte la limite. Vous n'avez rien à régler à la main.</p>
+      <p>Si même une qualité basse ne suffit pas (photo très grande, ou format sans perte comme le PNG), l'image est réduite en dimensions, par petites étapes, jusqu'à passer sous la limite. Le détail est affiché pour chaque fichier : qualité retenue et, le cas échéant, nouvelles dimensions.</p>
+      <p>Une image déjà assez légère et déjà au bon format est rendue telle quelle, sans perte. Tout se passe dans votre navigateur : vos fichiers ne sont envoyés sur aucun serveur.</p>
+    </div>"""
+
+
+def compress_faq(limit_text):
+    return [
+        (f"Comment réduire une photo à moins de {limit_text} ?",
+         f"Déposez-la dans l'outil ci-dessus avec la limite « {limit_text} » : elle est recompressée automatiquement "
+         "avec la meilleure qualité possible sous cette limite, puis vous la téléchargez."),
+        ("La qualité de l'image va-t-elle baisser ?",
+         "Le moins possible : la qualité n'est abaissée que jusqu'au point nécessaire, et les dimensions ne sont "
+         "réduites que si la qualité seule ne suffit pas. Le détail est indiqué pour chaque fichier."),
+        ("Quelle différence entre Ko et Mo ?",
+         "1 Mo vaut 1 000 Ko. L'outil compte 1 Ko = 1 000 octets, ce qui garantit aussi le respect des sites qui "
+         "comptent 1 Ko = 1 024 octets."),
+    ] + list(t.PRIVACY_FAQ[:1])
+
+
+def build_compress_page(*, path, crumbs, h1, subtitle, title, meta, target, output, sections, faq_items,
+                        app_name, priority):
+    body = f"""<main id="contenu">
+{t.intro_html(crumbs=crumbs, h1=h1, subtitle=subtitle)}
+{t.tool_markup(input_id="any", default_output=output, target=target)}
+
+{sections}
+{t.privacy_aside_html()}
+{t.faq_html(faq_items)}
+</main>"""
+    crumb_ld = [(c, h if h else path) for c, h in crumbs]
+    json_ld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {"@type": "BreadcrumbList", "itemListElement": t.breadcrumb_json_ld(crumb_ld)},
+            {"@type": "WebApplication", "@id": BASE_ID(path.strip("/") + "/#app"), "name": app_name,
+             "url": t.BASE_URL + path, "applicationCategory": "MultimediaApplication",
+             "operatingSystem": "Tout navigateur web", "browserRequirements": "Navigateur compatible HTML5 Canvas",
+             "inLanguage": "fr-FR", "description": meta,
+             "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}},
+            t.faq_json_ld(faq_items),
+        ],
+    }
+    html = t.render_page(
+        path=path, title=title + " | Webconvert.fr", meta_description=meta, body_html=body, json_ld=json_ld,
+        include_js=True,
+        wc_config={"input": "any", "output": output, "target": target,
+                   "zipName": path.strip("/") + ".zip"},
+    )
+    write_page(path, html)
+    register(path, "monthly", priority)
+
+
+def build_compress_hub():
+    sections = (
+        t.section_html("seuils", "Choisir une limite de poids", t.link_list_html(threshold_links()),
+                       intro="Une page par limite courante, avec le bon réglage déjà sélectionné.")
+        + "\n"
+        + t.section_html("demarches", "Pour une démarche précise", t.link_list_html(demarche_links()),
+                         intro="La limite exigée par le site de destination, déjà réglée.")
+        + "\n"
+        + t.section_html("comment-compresser", "Comment fonctionne la compression", compress_how_html("la limite choisie"),
+                         tag="article")
+    )
+    build_compress_page(
+        path=COMPRESS_HUB,
+        crumbs=[("Accueil", "/"), ("Compresser une image", None)],
+        h1="Compresser une image à une taille précise",
+        subtitle="Choisissez un poids maximum : chaque image est compressée avec la meilleure qualité qui tient dessous. Rien n'est envoyé sur un serveur.",
+        title="Compresser une image à une taille précise (Ko ou Mo), gratuit",
+        meta=("Réduisez le poids de vos images sous une limite précise (50 Ko, 200 Ko, 1 Mo, 2 Mo…) avec la "
+              "meilleure qualité possible. Gratuit, par lot, 100% dans votre navigateur."),
+        target=1_000_000, output="jpg", sections=sections,
+        faq_items=compress_faq("la limite choisie"),
+        app_name="Compresseur d'images à taille cible", priority="0.9",
+    )
+
+
+def build_threshold_page(slug, target, text):
+    uses = TARGET_USES[slug]
+    sections = (
+        t.section_html("comment-compresser", f"Réduire une image à moins de {text}", compress_how_html(text),
+                       tag="article")
+        + "\n"
+        + t.section_html("seuils", "Autres limites", t.link_list_html(threshold_links(exclude=slug)))
+        + "\n"
+        + t.section_html("demarches", "Pour une démarche précise", t.link_list_html(demarche_links()))
+    )
+    build_compress_page(
+        path=f"/compresser-image-{slug}/",
+        crumbs=[("Accueil", "/"), ("Compresser une image", COMPRESS_HUB), (f"Moins de {text}", None)],
+        h1=f"Compresser une image à moins de {text}",
+        subtitle=f"Pour {uses}. Meilleure qualité possible sous {text}, sans envoi sur un serveur.",
+        title=f"Compresser une image à moins de {text} (JPG, PNG, WebP)",
+        meta=(f"Réduisez une photo ou une image à moins de {text} en quelques secondes, avec la meilleure qualité "
+              f"possible. Gratuit, par lot, sans envoyer vos fichiers sur un serveur."),
+        target=target, output="jpg", sections=sections, faq_items=compress_faq(text),
+        app_name=f"Compresser une image à moins de {text}", priority="0.8",
+    )
+
+
+def build_demarche_page(key):
+    d = DEMARCHES[key]
+    limit_text = next(text for _s, b, text in TARGET_SIZES if b == d["target"])
+    paragraphs = "".join(f"<p>{p}</p>" for p in d["paragraphs"])
+    sections = (
+        t.section_html("demarche", "Ce qu'il faut savoir", f'    <div class="prose">{paragraphs}</div>',
+                       tag="article")
+        + "\n"
+        + t.section_html("comment-compresser", "Comment fonctionne la compression", compress_how_html(limit_text),
+                         tag="article")
+        + "\n"
+        + t.section_html("demarches", "Autres démarches", t.link_list_html(demarche_links(exclude=key)))
+        + "\n"
+        + t.section_html("seuils", "Toutes les limites", t.link_list_html(threshold_links()))
+    )
+    build_compress_page(
+        path=d["path"],
+        crumbs=[("Accueil", "/"), ("Compresser une image", COMPRESS_HUB), (d["crumb"], None)],
+        h1=d["h1"], subtitle=d["intro"], title=d["title"], meta=d["meta"],
+        target=d["target"], output=d["output"], sections=sections,
+        faq_items=list(d["faq"]), app_name=d["title"], priority="0.8",
+    )
+
+
+# ---------------------------------------------------------------------------
 # Guide
 # ---------------------------------------------------------------------------
 
@@ -496,6 +659,11 @@ def main():
         build_hub_page(input_id)
     for i, o in PAIRS:
         build_pair_page(i, o)
+    build_compress_hub()
+    for slug, target, text in TARGET_SIZES:
+        build_threshold_page(slug, target, text)
+    for key in DEMARCHES:
+        build_demarche_page(key)
     build_guide_index()
     for article in ARTICLES:
         build_guide_article(article)

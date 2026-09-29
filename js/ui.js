@@ -1,5 +1,5 @@
 import { FORMATS, acceptAttrFor, acceptAttrForAny } from "./formats-data.js";
-import { convertImage, outputFileName, formatIdForFile, supportsEncoding } from "./conversion.js";
+import { convertImage, compressToTarget, outputFileName, formatIdForFile, supportsEncoding } from "./conversion.js";
 import { downloadAsZip, triggerDownload } from "./zip.js";
 
 // Every page sets window.WC_CONFIG inline before this module loads:
@@ -10,19 +10,23 @@ import { downloadAsZip, triggerDownload } from "./zip.js";
 //     everywhere) is the only thing that changes it, either by updating this
 //     in place (see setOutput below) or by navigating to the matching page.
 //   zipName: filename for the "download all" archive
+//   target: optional maximum weight in bytes (compression pages such as
+//     /compresser-image-200-ko/). When set, every file is compressed to fit
+//     under it (compressToTarget) instead of using the quality slider.
 function resolveConfig() {
   const c = window.WC_CONFIG || {};
   return {
     input: c.input || "any",
     output: c.output || "webp",
     zipName: c.zipName || "webconvert.zip",
+    target: c.target || null,
   };
 }
 
 /** "3,4 Mo" / "612 Ko" — French thousand/decimal formatting to match the design. */
 export function formatBytes(bytes) {
   if (bytes >= 1_000_000) {
-    return (bytes / 1_000_000).toFixed(1).replace(".", ",") + "\u00a0Mo";
+    return (bytes / 1_000_000).toFixed(1).replace(/\.0$/, "").replace(".", ",") + "\u00a0Mo";
   }
   return Math.max(1, Math.round(bytes / 1000)) + "\u00a0Ko";
 }
@@ -56,6 +60,7 @@ export function initApp() {
   const state = {
     quality: 80,
     output: config.output,
+    target: config.target,
     queue: [], // { id, file, name, inputFormatId, status, originalSize, result }
   };
 
@@ -155,6 +160,18 @@ export function initApp() {
   }
 
   renderQualityVisibility();
+
+  // ---------------- Maximum weight (compression pages) ----------------
+  const targetSelect = document.querySelector("[data-target-select]");
+  if (targetSelect) {
+    targetSelect.addEventListener("change", () => {
+      state.target = Number(targetSelect.value);
+      const card = targetSelect.closest(".fcard");
+      if (card) card.querySelector("[data-fcard-label]").textContent =
+        targetSelect.options[targetSelect.selectedIndex].textContent;
+      scheduleQueueReconvert();
+    });
+  }
 
   // ---------------- Dropzone / file intake ----------------
   const dropzone = document.querySelector("[data-dropzone]");
@@ -278,10 +295,11 @@ export function initApp() {
 
     const name = el("span", "file__name");
     name.appendChild(el("span", "file__filename", item.name));
-    name.appendChild(
-      el("span", "file__conv", FORMATS[item.inputFormatId].label + " → " + (item.outputLabel || currentFormat().label))
-    );
+    let conv = FORMATS[item.inputFormatId].label + " → " + (item.outputLabel || currentFormat().label);
+    if (item.status === "done" && item.targetInfo) conv += " · " + item.targetInfo;
+    name.appendChild(el("span", "file__conv", conv));
     row.appendChild(name);
+    if (item.status === "done" && item.overTarget) row.classList.add("is-over");
 
     const bar = el("span", "file__bar");
     const fill = el("i");
@@ -346,12 +364,31 @@ export function initApp() {
       const s = savingsLabel(totalOriginal, totalOut);
       const diff = formatBytes(Math.abs(totalOriginal - totalOut));
       summary = files + " · " + (s.grew ? diff + " de plus" : diff + " économisés") + " (" + s.text + ")";
+      if (state.target) {
+        const over = done.filter((f) => f.overTarget).length;
+        const limit = formatBytes(state.target);
+        const status = over > 0 ? over + " au-dessus de " + limit
+          : done.length > 1 ? "tous sous " + limit
+          : "sous " + limit;
+        summary = files + " · " + status + " (" + s.text + ")";
+      }
     } else {
       summary = files;
     }
     if (errors > 0) summary += " · " + errors + " échec" + (errors > 1 ? "s" : "");
     queueSummary.textContent = summary;
     downloadAllBtn.hidden = done.length === 0;
+  }
+
+  // Short explanation of what compressToTarget had to do, shown next to
+  // "PNG → JPG" in the file row.
+  function targetInfo(result, item) {
+    if (result.untouched) return "déjà sous la limite, fichier d'origine conservé";
+    if (!result.fits) return "impossible d'atteindre " + formatBytes(state.target);
+    const parts = [];
+    if (result.quality != null) parts.push("qualité " + Math.round(result.quality * 100));
+    if (result.scale < 0.999) parts.push("réduite à " + result.width + "×" + result.height + " px");
+    return parts.join(" · ") || "sans perte";
   }
 
   let processing = false;
@@ -364,7 +401,16 @@ export function initApp() {
         item.status = "converting";
         renderQueue();
         try {
-          const result = await convertImage(item.file, item.inputFormatId, state.quality, state.output);
+          let result;
+          item.targetInfo = null;
+          item.overTarget = false;
+          if (state.target) {
+            result = await compressToTarget(item.file, item.inputFormatId, state.output, state.target);
+            item.targetInfo = targetInfo(result, item);
+            item.overTarget = !result.fits;
+          } else {
+            result = await convertImage(item.file, item.inputFormatId, state.quality, state.output);
+          }
           if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
           item.result = result;
           item.thumbUrl = URL.createObjectURL(result.blob);
@@ -434,7 +480,9 @@ export function initApp() {
   // "any format to X" to send the visitor to.
   const pickerForm = document.querySelector("[data-format-picker]");
   if (pickerForm) {
-    const fromSelect = pickerForm.querySelector("[data-picker-from]");
+    // Compression pages only have the "Vers" field: a missing "De" behaves
+    // like an empty one, so "Vers" always changes the output in place.
+    const fromSelect = pickerForm.querySelector("[data-picker-from]") || { value: "", addEventListener() {} };
     const toSelect = pickerForm.querySelector("[data-picker-to]");
 
     const goToPair = (from, to) => (window.location.href = "/" + from + "-en-" + to + "/");
