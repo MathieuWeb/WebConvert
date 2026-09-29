@@ -10,7 +10,7 @@ index.html, convertisseur-*/index.html, *-en-*/index.html   Pages générées (v
 guide/index.html, guide/<slug>/index.html                    Articles générés (voir build/articles.py)
 confidentialite/index.html                                   Page générée
 sitemap.xml, robots.txt, site.webmanifest, .htaccess          Générés par build/generate.py
-css/styles.css       Tout le CSS du site (custom properties --color-*, --font-*, --radius)
+css/styles.css       Tout le CSS du site (custom properties --bg, --win, --ink, --muted, --line, --ok...)
 js/
   formats-data.js     Registre des formats côté client (miroir de build/data.py::FORMATS)
   conversion.js       Décodage/encodage réel : Canvas API + UTIF.js (TIFF) + heic2any (HEIC) + encodeurs
@@ -38,6 +38,35 @@ cd build && python3 generate.py
 ```
 
 Cela réécrit toutes les pages, `sitemap.xml`, `robots.txt`, `site.webmanifest` et `.htaccess` à la racine.
+
+## Charte graphique (« Pierre »)
+
+Fond minéral doux, titre centré, outil présenté comme une fenêtre d'application avec barre latérale.
+
+| Rôle | Variable CSS | Valeur |
+|---|---|---|
+| Fond (pierre), `THEME_COLOR`, manifest | `--bg` | `#e7e4dd` |
+| Fenêtre de l'outil, cartes, puces | `--win` | `#fbfaf8` |
+| Barre latérale | `--side` | `#f2f0eb` |
+| Texte, boutons sombres, logo | `--ink` | `#23221f` |
+| Texte secondaire (contraste 5,4:1 sur le fond) | `--muted` | `#5d5a53` |
+| Filets et bordures | `--line` | `#dcd8cf` |
+| Gain de poids (barres, pourcentages) | `--ok` | `#2f6b3b` |
+
+- **Police** : Figtree (Google Fonts), graisses 400/500/600/700/800. Titres en 800, interlettrage négatif.
+- **Formes** : fenêtre en rayon 18 px, zone de dépôt et encadrés 14 px, champs et boutons 10 px, puces de
+  format en pilule. Ombres quasi nulles (1 px), filets `--line` pour séparer.
+- **Pages outil** (accueil, `/convertisseur-x/`, `/x-en-y/`) : bloc d'intro à hauteur fixe sur ordinateur
+  (texte aligné en bas), puis la fenêtre : barre latérale (sélecteurs « De »/« Vers » = vrais `<select>`,
+  qualité, mention de traitement local) et zone principale (dépôt, liste des fichiers rendue par
+  `js/ui.js`, pied avec « Tout télécharger (ZIP) »). Le sélecteur et la zone de dépôt sont ainsi au même
+  pixel sur toutes les pages outil. Sous 900 px, la barre latérale se replie au-dessus de la zone de dépôt.
+- **Sections de contenu** : titre à gauche, contenu à droite, séparées par des filets (une seule colonne
+  sur mobile). Pages texte (guides, confidentialité) : colonne de lecture de 720 px.
+- **Logo** : carré sombre arrondi avec un carré au trait couleur pierre (CSS `.brand__mark`), repris par
+  `build/gen_assets.py` pour les favicons, `logo-square.png` et `og-image.jpg`.
+- À éviter (refusé lors du choix de la charte) : fonds quadrillés, halos, pastilles « badge », icônes dans
+  des carrés teintés, rangées de trois cartes, métaphores thématiques, violet.
 
 ## Formats pris en charge
 
@@ -80,7 +109,7 @@ Pull or Deploy pour récupérer les derniers commits.
 - **JSZip** 3.10.1 — archive ZIP groupée, chargée au clic sur « Tout télécharger ».
 - **UTIF.js** 3.1.0 + **pako** 2.1.0 — décodage TIFF, chargés au premier fichier `.tiff`/`.tif` déposé.
 - **heic2any** 0.0.4 — décodage HEIC (libheif en WebAssembly), chargé au premier fichier `.heic`/`.heif`.
-- **Google Fonts** — Familjen Grotesk, Instrument Sans, Inconsolata.
+- **Google Fonts** — Figtree (400 à 800), seule police du site.
 
 Toutes chargées depuis cdn.jsdelivr.net (ou fonts.googleapis.com), jamais appelées avec les images de
 l'utilisateur : ce sont de simples fichiers de code. Aucun backend, aucune API.

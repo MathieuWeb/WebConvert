@@ -22,16 +22,18 @@ function resolveConfig() {
 /** "3,4 Mo" / "612 Ko" — French thousand/decimal formatting to match the design. */
 export function formatBytes(bytes) {
   if (bytes >= 1_000_000) {
-    return (bytes / 1_000_000).toFixed(1).replace(".", ",") + " Mo";
+    return (bytes / 1_000_000).toFixed(1).replace(".", ",") + "\u00a0Mo";
   }
-  return Math.round(bytes / 1000) + " Ko";
+  return Math.max(1, Math.round(bytes / 1000)) + "\u00a0Ko";
 }
 
+// "−65 %" (true minus sign, non-breaking space before %, French typography).
 function savingsLabel(originalSize, newSize) {
   const pct = Math.round((1 - newSize / originalSize) * 100);
-  return pct >= 0
-    ? { pct, grew: false, text: "-" + pct + "%" }
-    : { pct, grew: true, text: "+" + Math.abs(pct) + "%" };
+  if (pct === 0) return { pct, grew: false, text: "0\u00a0%" };
+  return pct > 0
+    ? { pct, grew: false, text: "\u2212" + pct + "\u00a0%" }
+    : { pct, grew: true, text: "+" + Math.abs(pct) + "\u00a0%" };
 }
 
 function qualityTier(q) {
@@ -239,56 +241,117 @@ export function initApp() {
     processQueue();
   }
 
-  // ---------------- Queue processing ----------------
+  // ---------------- File list (queue + results) ----------------
+  // One list in the tool's main pane: every dropped file gets a row that
+  // goes from "En attente" to "Conversion…" to its result (thumbnail,
+  // weight bar, sizes, gain, per-file download). The footer summarises the
+  // batch and holds the "Tout télécharger (ZIP)" button.
+  const toolMain = document.querySelector("[data-tool]");
   const queueCard = document.querySelector("[data-queue-card]");
   const queueList = document.querySelector("[data-queue-list]");
   const queueSummary = document.querySelector("[data-queue-summary]");
+  const downloadAllBtn = document.querySelector("[data-download-all]");
+
+  function currentExt() {
+    return currentFormat().exts[0];
+  }
+
+  function el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function renderRow(item) {
+    const row = el("li", "file is-" + item.status);
+
+    const thumb = el("span", "file__thumb");
+    if (item.status === "done" && item.thumbUrl) {
+      const img = el("img");
+      img.src = item.thumbUrl;
+      img.alt = "";
+      img.decoding = "async";
+      thumb.appendChild(img);
+    }
+    row.appendChild(thumb);
+
+    const name = el("span", "file__name");
+    name.appendChild(el("span", "file__filename", item.name));
+    name.appendChild(
+      el("span", "file__conv", FORMATS[item.inputFormatId].label + " → " + (item.outputLabel || currentFormat().label))
+    );
+    row.appendChild(name);
+
+    const bar = el("span", "file__bar");
+    const fill = el("i");
+    bar.appendChild(fill);
+    row.appendChild(bar);
+
+    const size = el("span", "file__size");
+    const gain = el("span", "file__gain");
+
+    if (item.status === "done") {
+      const out = item.result.blob.size;
+      const s = savingsLabel(item.originalSize, out);
+      fill.style.width = Math.min(100, Math.max(2, (out / item.originalSize) * 100)) + "%";
+      if (s.grew) row.classList.add("is-grew");
+      size.textContent = formatBytes(item.originalSize) + " → " + formatBytes(out);
+      gain.textContent = s.text;
+    } else if (item.status === "converting") {
+      size.textContent = "Conversion…";
+    } else if (item.status === "error") {
+      size.textContent = "Échec";
+    } else {
+      size.textContent = "En attente";
+    }
+    row.appendChild(size);
+    row.appendChild(gain);
+
+    if (item.status === "done") {
+      const fileName = outputFileName(item.name, currentExt());
+      const dl = el("button", "file__dl");
+      dl.type = "button";
+      dl.title = "Télécharger " + fileName;
+      dl.setAttribute("aria-label", "Télécharger " + fileName);
+      dl.innerHTML =
+        '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>';
+      dl.addEventListener("click", () => triggerDownload(item.result.blob, fileName));
+      row.appendChild(dl);
+    } else {
+      row.appendChild(el("span", "file__dl-slot"));
+    }
+    return row;
+  }
 
   function renderQueue() {
-    if (state.queue.length === 0) {
-      queueCard.classList.remove("is-visible");
-      return;
-    }
-    queueCard.classList.add("is-visible");
-    const done = state.queue.filter((f) => f.status === "done").length;
-    const totalBytes = state.queue.reduce((sum, f) => sum + f.originalSize, 0);
-    queueSummary.textContent =
-      state.queue.length + " fichier" + (state.queue.length > 1 ? "s" : "") +
-      (done < state.queue.length ? ", " + done + " terminé" + (done > 1 ? "s" : "") : ", " + formatBytes(totalBytes));
+    const count = state.queue.length;
+    toolMain.classList.toggle("has-files", count > 0);
+    queueCard.classList.toggle("is-visible", count > 0);
+    if (count === 0) return;
 
     queueList.innerHTML = "";
-    for (const item of state.queue) {
-      const row = document.createElement("div");
-      row.className = "queue-row";
+    for (const item of state.queue) queueList.appendChild(renderRow(item));
 
-      const name = document.createElement("span");
-      name.className = "queue-row__name";
-      name.textContent = item.name;
-      row.appendChild(name);
-
-      if (item.status === "done") {
-        const check = document.createElement("span");
-        check.className = "queue-row__check";
-        check.textContent = "✓";
-        row.appendChild(check);
-      } else if (item.status === "converting") {
-        const bar = document.createElement("span");
-        bar.className = "queue-row__bar";
-        const fill = document.createElement("span");
-        fill.className = "queue-row__bar-fill is-active";
-        bar.appendChild(fill);
-        row.appendChild(bar);
-      }
-
-      const status = document.createElement("span");
-      status.className = "queue-row__status" + (item.status === "error" ? " is-error" : "");
-      status.textContent =
-        item.status === "done" ? "terminé" : item.status === "converting" ? "conversion…" :
-        item.status === "error" ? "erreur" : "en attente";
-      row.appendChild(status);
-
-      queueList.appendChild(row);
+    const done = state.queue.filter((f) => f.status === "done" && f.result);
+    const errors = state.queue.filter((f) => f.status === "error").length;
+    const pending = count - done.length - errors;
+    const files = count + " fichier" + (count > 1 ? "s" : "");
+    let summary;
+    if (pending > 0) {
+      summary = files + " · " + done.length + " terminé" + (done.length > 1 ? "s" : "");
+    } else if (done.length > 0) {
+      const totalOriginal = done.reduce((s, f) => s + f.originalSize, 0);
+      const totalOut = done.reduce((s, f) => s + f.result.blob.size, 0);
+      const s = savingsLabel(totalOriginal, totalOut);
+      const diff = formatBytes(Math.abs(totalOriginal - totalOut));
+      summary = files + " · " + (s.grew ? diff + " de plus" : diff + " économisés") + " (" + s.text + ")";
+    } else {
+      summary = files;
     }
+    if (errors > 0) summary += " · " + errors + " échec" + (errors > 1 ? "s" : "");
+    queueSummary.textContent = summary;
+    downloadAllBtn.hidden = done.length === 0;
   }
 
   let processing = false;
@@ -302,7 +365,10 @@ export function initApp() {
         renderQueue();
         try {
           const result = await convertImage(item.file, item.inputFormatId, state.quality, state.output);
+          if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
           item.result = result;
+          item.thumbUrl = URL.createObjectURL(result.blob);
+          item.outputLabel = currentFormat().label;
           item.status = "done";
         } catch (err) {
           item.status = "error";
@@ -316,78 +382,18 @@ export function initApp() {
     } finally {
       processing = false;
     }
-    renderResults();
   }
 
   const scheduleQueueReconvert = debounce(async () => {
     const finished = state.queue.filter((f) => f.status === "done" || f.status === "error");
     if (finished.length === 0) return;
-    for (const item of finished) item.status = "waiting";
+    for (const item of finished) {
+      item.status = "waiting";
+      item.outputLabel = null;
+    }
     renderQueue();
     await processQueue();
   }, 300);
-
-  // ---------------- Results ----------------
-  const resultsSection = document.querySelector("[data-results]");
-  const resultsPct = document.querySelector("[data-results-pct]");
-  const resultsDetail = document.querySelector("[data-results-detail]");
-  const resultsList = document.querySelector("[data-results-list]");
-  const downloadAllBtn = document.querySelector("[data-download-all]");
-
-  function currentExt() {
-    return currentFormat().exts[0];
-  }
-
-  function renderResults() {
-    const done = state.queue.filter((f) => f.status === "done" && f.result);
-    if (done.length === 0) {
-      resultsSection.classList.remove("is-visible");
-      return;
-    }
-    resultsSection.classList.add("is-visible");
-
-    const totalOriginal = done.reduce((s, f) => s + f.originalSize, 0);
-    const totalOut = done.reduce((s, f) => s + f.result.blob.size, 0);
-    const savings = savingsLabel(totalOriginal, totalOut);
-
-    resultsPct.textContent = savings.text;
-    resultsDetail.innerHTML =
-      (savings.grew ? "de poids en plus sur le lot" : "de poids en moins sur le lot") +
-      "<br><span class=\"mono\">" +
-      formatBytes(totalOriginal) + " vers " + formatBytes(totalOut) + ", " +
-      done.length + " fichier" + (done.length > 1 ? "s" : "") + "</span>";
-    downloadAllBtn.textContent = "Tout télécharger, ZIP " + formatBytes(totalOut);
-
-    resultsList.innerHTML = "";
-    for (const item of done) {
-      const row = document.createElement("div");
-      row.className = "result-row";
-
-      const name = document.createElement("span");
-      name.className = "result-row__name";
-      name.textContent = outputFileName(item.name, currentExt());
-      row.appendChild(name);
-
-      const weights = document.createElement("span");
-      weights.className = "result-row__weights";
-      weights.textContent = formatBytes(item.originalSize) + " vers " + formatBytes(item.result.blob.size);
-      row.appendChild(weights);
-
-      const save = document.createElement("span");
-      save.className = "result-row__save";
-      save.textContent = savingsLabel(item.originalSize, item.result.blob.size).text;
-      row.appendChild(save);
-
-      const dl = document.createElement("button");
-      dl.type = "button";
-      dl.className = "btn btn-secondary result-row__download";
-      dl.textContent = "Télécharger";
-      dl.addEventListener("click", () => triggerDownload(item.result.blob, outputFileName(item.name, currentExt())));
-      row.appendChild(dl);
-
-      resultsList.appendChild(row);
-    }
-  }
 
   downloadAllBtn.addEventListener("click", async () => {
     const done = state.queue.filter((f) => f.status === "done" && f.result);

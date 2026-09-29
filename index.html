@@ -6,7 +6,7 @@
 <title>Convertisseur d'images en ligne gratuit et privé (JPG, PNG, WebP, AVIF, HEIC...) | Webconvert.fr</title>
 <meta name="description" content="Convertissez vos images en ligne entre JPG, PNG, WebP, AVIF, GIF, BMP, ICO, SVG, TIFF et HEIC. 100% dans votre navigateur : aucun fichier envoyé sur un serveur. Gratuit, sans compte." />
 <meta name="robots" content="index, follow, max-image-preview:large" />
-<meta name="theme-color" content="#f4efe9" />
+<meta name="theme-color" content="#e7e4dd" />
 <meta name="format-detection" content="telephone=no" />
 <meta name="apple-mobile-web-app-title" content="Webconvert" />
 <link rel="canonical" href="https://webconvert.fr/" />
@@ -38,48 +38,41 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&family=Inconsolata:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/css/styles.css" />
 <script src="/js/consent.js" data-ga-id="G-99CDZX4JZD" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#contenu">Aller au contenu</a>
 
-<header role="banner" class="site-header">
-  <div class="site-header__bar">
-    <a href="/" class="brand">
-      <span class="brand-mark" aria-hidden="true">
-        <span class="brand-mark__tab"></span>
-        <span class="brand-mark__lines"><span></span><span></span><span></span></span>
-      </span>
-      <span class="brand-name">Webconvert<span class="tld">.fr</span></span>
-    </a>
-    <nav class="site-header__nav" aria-label="Navigation principale">
-      <a href="/#formats" class="nav-link">Formats</a>
-      <a href="/guide/" class="nav-link">Guides</a>
-      <a href="/#questions" class="nav-link">FAQ</a>
-    </nav>
-    <a href="/confidentialite/" class="site-header__badge" title="Aucun fichier n'est envoyé : tout est converti dans votre navigateur">
-      <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg><span>100&nbsp;% local</span>
-    </a>
-  </div>
+<header role="banner" class="site-header wrap">
+  <a href="/" class="brand"><span class="brand__mark" aria-hidden="true"></span>Webconvert</a>
+  <nav class="site-nav" aria-label="Navigation principale">
+    <a href="/#formats">Formats</a>
+    <a href="/guide/">Guides</a>
+    <a href="/#questions">FAQ</a>
+  </nav>
 </header>
 
-<section class="hero">
-  <div class="hero__inner">
-    <div class="hero__text">
-      <nav class="breadcrumbs" aria-label="Fil d'Ariane"><span aria-current="page">Accueil</span></nav>
-      <h1>Convertisseur d'images en ligne, gratuit et privé</h1>
-      <p>JPG, PNG, WebP, AVIF, HEIC et bien d'autres. Tout se passe dans votre navigateur : vos fichiers ne quittent jamais votre appareil.</p>
-    </div>
-    <form class="format-picker" data-format-picker>
-  <div class="format-picker__rings" aria-hidden="true"></div>
-  <label class="fcard is-empty">
-    <span class="fcard__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><circle cx="10" cy="12" r="1.5"/><path d="m19 17-3.5-3.5L8 21"/></svg></span>
-    <span class="fcard__label" data-fcard-label>Tous</span>
-    <span class="fcard__chevron"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></span>
-    <select class="fcard__select" data-picker-from aria-label="Format d'origine">
-<option value="">Choisir un format…</option>
+<main id="contenu">
+<div class="intro wrap">
+  <nav class="breadcrumbs visually-hidden" aria-label="Fil d'Ariane"><span aria-current="page">Accueil</span></nav>
+  <div class="intro__text">
+    <h1>Convertisseur d'images en ligne, gratuit et privé</h1>
+    <p>JPG, PNG, WebP, AVIF, HEIC et bien d'autres. Tout se passe dans votre navigateur : vos fichiers ne quittent jamais votre appareil.</p>
+  </div>
+</div>
+<section class="app wrap" aria-label="Convertisseur">
+  <div class="app__side">
+    <form class="picker" data-format-picker>
+  <div class="picker__field">
+    <div class="side-label"><span>De</span></div>
+    <label class="fcard is-empty">
+      <span class="fcard__label" data-fcard-label>Tous</span>
+      <span class="fcard__hint">10 formats</span>
+      <span class="fcard__chevron"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></span>
+      <select class="fcard__select" data-picker-from aria-label="Format d'origine">
+<option value="">Tous les formats</option>
 <option value="jpg">JPG</option>
 <option value="png">PNG</option>
 <option value="webp">WebP</option>
@@ -90,237 +83,216 @@
 <option value="svg">SVG</option>
 <option value="tiff">TIFF</option>
 <option value="heic">HEIC</option>
-    </select>
-  </label>
-  <div class="format-picker__mid">
-    <button type="button" class="format-picker__swap" data-picker-swap title="Choisissez deux formats pour inverser la conversion" aria-label="Choisissez deux formats pour inverser la conversion" disabled><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M17 4l3 3-3 3"/><path d="M20 7H9"/><path d="M7 20l-3-3 3-3"/><path d="M4 17h11"/></svg></button>
-    <span class="format-picker__en" aria-hidden="true">en</span>
+      </select>
+    </label>
   </div>
-  <label class="fcard fcard--target is-empty">
-    <span class="fcard__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><circle cx="10" cy="12" r="1.5"/><path d="m19 17-3.5-3.5L8 21"/></svg></span>
-    <span class="fcard__label" data-fcard-label>Choisir</span>
-    <span class="fcard__chevron"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></span>
-    <select class="fcard__select" data-picker-to aria-label="Format de sortie">
-<option value="">Choisir un format…</option>
+  <div class="picker__field">
+    <div class="side-label"><span>Vers</span>
+      <button type="button" class="swap" data-picker-swap title="Choisissez deux formats pour inverser la conversion" aria-label="Choisissez deux formats pour inverser la conversion" disabled><svg class="icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 4v16"/><path d="m4 8 4-4 4 4"/><path d="M16 20V4"/><path d="m20 16-4 4-4-4"/></svg><span>Inverser</span></button>
+    </div>
+    <label class="fcard is-empty">
+      <span class="fcard__label" data-fcard-label>WebP</span>
+      <span class="fcard__hint">par défaut</span>
+      <span class="fcard__chevron"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></span>
+      <select class="fcard__select" data-picker-to aria-label="Format de sortie">
+<option value="">WebP (par défaut)</option>
 <option value="jpg">JPG</option>
 <option value="png">PNG</option>
 <option value="webp">WebP</option>
 <option value="avif">AVIF</option>
 <option value="bmp">BMP</option>
 <option value="ico">ICO</option>
-    </select>
-  </label>
+      </select>
+    </label>
+  </div>
 </form>
-  </div>
-</section>
 
-<main id="contenu">
-  <div class="tool-single">
-  <div class="card dropzone-card dropzone" data-dropzone>
-    <span class="dropzone__icon"><svg class="icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 9.5"/><path d="M12 12v8"/><path d="m8.5 15.5 3.5-3.5 3.5 3.5"/></svg></span>
-    <div class="dropzone__title">Sélectionnez vos images</div>
-    <div class="dropzone__formats">ou glissez-les ici &nbsp;·&nbsp; <span>jpg, jpeg, png, webp, avif, gif, bmp, ico, svg, tiff, tif, heic, heif</span></div>
-    <button type="button" class="btn btn-primary dropzone__pick" data-pick-button><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6"/><path d="M9 14h6"/></svg><span>Choisir des fichiers</span></button>
-    <input type="file" data-file-input class="visually-hidden" multiple aria-label="Choisir des fichiers image à convertir" />
-  </div>
-
-  <div class="quality-card" data-quality-card>
-    <div class="quality-card__row">
-      <span class="quality-card__label">Qualité d'encodage</span>
-      <span class="quality-card__value">
-        <span class="quality-card__tier" data-quality-tier>Équilibré</span>
-        <span class="quality-card__number" data-quality-number>80</span>
-      </span>
-    </div>
-    <div
-      class="quality-slider"
-      data-quality-slider
-      tabindex="0"
-      role="slider"
-      aria-label="Qualité d'encodage"
-      aria-valuemin="40"
-      aria-valuemax="100"
-      aria-valuenow="80"
-    >
-      <div class="quality-slider__track">
-        <div class="quality-slider__fill" data-quality-fill></div>
+    <div class="quality" data-quality-card>
+      <div class="quality__row">
+        <span class="side-label" id="quality-label"><span>Qualité d'encodage</span></span>
+        <span class="quality__value"><span data-quality-number>80</span> · <span data-quality-tier>Équilibré</span></span>
       </div>
-      <div class="quality-slider__thumb" data-quality-thumb></div>
+      <div class="slider" data-quality-slider tabindex="0" role="slider" aria-labelledby="quality-label"
+        aria-valuemin="40" aria-valuemax="100" aria-valuenow="80">
+        <div class="slider__track"><div class="slider__fill" data-quality-fill></div></div>
+        <div class="slider__thumb" data-quality-thumb></div>
+      </div>
+      <p class="quality__note" data-quality-note>Réglage conseillé pour le web.</p>
     </div>
-    <p class="quality-card__note" data-quality-note>Réglage conseillé pour le web.</p>
+
+    <p class="app__privacy"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><span>Traitement local&nbsp;: aucune image n'est envoyée sur internet.</span></p>
   </div>
 
-  <p class="tool-notice" data-tool-notice role="alert"></p>
-
-  <div class="card queue-card" data-queue-card>
-    <div class="queue-card__header">
-      <span>File d'attente</span>
-      <span data-queue-summary></span>
+  <div class="app__main" data-tool>
+    <div class="dropzone" data-dropzone>
+      <div class="dropzone__text">
+        <p class="dropzone__title">Sélectionnez vos images</p>
+        <p class="dropzone__hint">ou glissez-les ici</p>
+      </div>
+      <button type="button" class="btn btn--dark" data-pick-button>Choisir des fichiers</button>
+      <input type="file" data-file-input class="visually-hidden" multiple tabindex="-1" aria-label="Choisir des fichiers image à convertir" />
     </div>
-    <div data-queue-list></div>
-  </div>
-</div>
 
-<section class="card results" data-results aria-live="polite">
-  <div class="results__header">
-    <div class="results__stat">
-      <span class="results__pct" data-results-pct>0%</span>
-      <span class="results__detail" data-results-detail></span>
+    <p class="tool-notice" data-tool-notice role="alert"></p>
+
+    <div class="files" data-queue-card>
+      <ul class="files__list" data-queue-list aria-label="Fichiers"></ul>
+      <div class="files__foot">
+        <span class="files__summary" data-queue-summary aria-live="polite"></span>
+        <button type="button" class="btn btn--dark" data-download-all>Tout télécharger (ZIP)</button>
+      </div>
     </div>
-    <button type="button" class="btn btn-primary results__download-all" data-download-all>Tout télécharger</button>
   </div>
-  <div data-results-list></div>
 </section>
 
-  <div class="blocks">
-    <section class="block catalog" aria-labelledby="formats">
-  <div class="block__head">
-    <h2 id="formats"><span class="block__icon"><svg class="icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></span>Catalogue des formats</h2>
-    <p class="block__intro">Webconvert lit 10 formats d'image et en écrit 6. Choisissez un format pour voir toutes ses conversions.</p>
+<section class="sec wrap catalog" aria-labelledby="formats">
+  <div class="sec__head">
+    <h2 id="formats">Formats pris en charge</h2>
+    <p class="sec__intro">Webconvert lit 10 formats d'image et en écrit 6. Choisissez un format pour voir toutes ses conversions.</p>
   </div>
-  <div class="catalog__body">
-    <div class="catalog__formats">
-      <div class="catalog__label"><span>Formats d'entrée</span><span>10</span></div>
+  <div class="sec__body">
+    <div class="catalog__group">
+      <p class="catalog__label">Formats d'entrée · 10</p>
       <div class="chips">
-        <a class="chip" href="/convertisseur-jpg/">JPG</a>
-        <a class="chip" href="/convertisseur-png/">PNG</a>
-        <a class="chip" href="/convertisseur-webp/">WebP</a>
-        <a class="chip" href="/convertisseur-avif/">AVIF</a>
-        <a class="chip" href="/convertisseur-gif/">GIF</a>
-        <a class="chip" href="/convertisseur-bmp/">BMP</a>
-        <a class="chip" href="/convertisseur-ico/">ICO</a>
-        <a class="chip" href="/convertisseur-svg/">SVG</a>
-        <a class="chip" href="/convertisseur-tiff/">TIFF</a>
-        <a class="chip" href="/convertisseur-heic/">HEIC</a>
-      </div>
-      <div class="catalog__label"><span>Formats de sortie</span><span>6</span></div>
-      <div class="chips">
-        <a class="chip" href="/convertisseur-jpg/">JPG</a>
-        <a class="chip" href="/convertisseur-png/">PNG</a>
-        <a class="chip" href="/convertisseur-webp/">WebP</a>
-        <a class="chip" href="/convertisseur-avif/">AVIF</a>
-        <a class="chip" href="/convertisseur-bmp/">BMP</a>
-        <a class="chip" href="/convertisseur-ico/">ICO</a>
+      <a class="chip" href="/convertisseur-jpg/">JPG</a>
+      <a class="chip" href="/convertisseur-png/">PNG</a>
+      <a class="chip" href="/convertisseur-webp/">WebP</a>
+      <a class="chip" href="/convertisseur-avif/">AVIF</a>
+      <a class="chip" href="/convertisseur-gif/">GIF</a>
+      <a class="chip" href="/convertisseur-bmp/">BMP</a>
+      <a class="chip" href="/convertisseur-ico/">ICO</a>
+      <a class="chip" href="/convertisseur-svg/">SVG</a>
+      <a class="chip" href="/convertisseur-tiff/">TIFF</a>
+      <a class="chip" href="/convertisseur-heic/">HEIC</a>
       </div>
     </div>
-    <div class="catalog__pairs">
-      <div class="catalog__label"><span>Conversions courantes</span></div>
-      <ul class="pair-list">
-        <li><a href="/png-en-webp/"><span class="pair">PNG <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg> WebP</span><span class="pair__desc">Images de sites web optimisées</span></a></li>
-        <li><a href="/jpg-en-webp/"><span class="pair">JPG <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg> WebP</span><span class="pair__desc">Images de sites web optimisées</span></a></li>
-        <li><a href="/webp-en-png/"><span class="pair">WebP <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg> PNG</span><span class="pair__desc">Logos, captures d'écran et images avec transparence</span></a></li>
-        <li><a href="/webp-en-jpg/"><span class="pair">WebP <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg> JPG</span><span class="pair__desc">Photographies et images avec dégradés</span></a></li>
-        <li><a href="/heic-en-jpg/"><span class="pair">HEIC <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg> JPG</span><span class="pair__desc">Photographies et images avec dégradés</span></a></li>
-      </ul>
+    <div class="catalog__group">
+      <p class="catalog__label">Formats de sortie · 6</p>
+      <div class="chips">
+      <a class="chip" href="/convertisseur-jpg/">JPG</a>
+      <a class="chip" href="/convertisseur-png/">PNG</a>
+      <a class="chip" href="/convertisseur-webp/">WebP</a>
+      <a class="chip" href="/convertisseur-avif/">AVIF</a>
+      <a class="chip" href="/convertisseur-bmp/">BMP</a>
+      <a class="chip" href="/convertisseur-ico/">ICO</a>
+      </div>
+    </div>
+    <div class="catalog__group">
+      <p class="catalog__label">Conversions courantes</p>
+    <ul class="pair-list">
+      <li><a href="/png-en-webp/"><span class="pair">PNG → WebP</span><span class="pair__desc">Images de sites web optimisées</span></a></li>
+      <li><a href="/jpg-en-webp/"><span class="pair">JPG → WebP</span><span class="pair__desc">Images de sites web optimisées</span></a></li>
+      <li><a href="/webp-en-png/"><span class="pair">WebP → PNG</span><span class="pair__desc">Logos, captures d'écran et images avec transparence</span></a></li>
+      <li><a href="/webp-en-jpg/"><span class="pair">WebP → JPG</span><span class="pair__desc">Photographies et images avec dégradés</span></a></li>
+      <li><a href="/heic-en-jpg/"><span class="pair">HEIC → JPG</span><span class="pair__desc">Photographies et images avec dégradés</span></a></li>
+    </ul>
     </div>
   </div>
 </section>
-    <aside class="block" aria-labelledby="securite">
-  <div class="block__head">
-    <h2 id="securite"><span class="block__icon"><svg class="icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span>Vos fichiers restent chez vous</h2>
-    <p class="block__intro">Webconvert ne voit jamais vos images : il n'existe aucun serveur qui pourrait les recevoir.</p>
+<article class="sec wrap" aria-labelledby="comment-ca-marche">
+  <div class="sec__head">
+    <h2 id="comment-ca-marche">Comment fonctionne la conversion</h2>
   </div>
-  <ul class="feature-list">
-    <li><span class="feature-list__icon"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M10 10h4v4h-4z"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></span><span><strong>Traitement local :</strong> chaque image est décodée et ré-encodée par votre propre navigateur.</span></li>
-    <li><span class="feature-list__icon"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3l18 18"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.7M19 12.9a10 10 0 0 0-2.4-1.7"/><path d="M2 9a15 15 0 0 1 4.5-2.8M22 9A15 15 0 0 0 11 5.1"/><circle cx="12" cy="20" r=".5"/></svg></span><span><strong>Aucun envoi :</strong> aucune requête réseau ne transporte vos fichiers, vérifiable dans l'onglet Réseau.</span></li>
-    <li><span class="feature-list__icon"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11"/><path d="M12 9S10.5 4 8 4a2 2 0 0 0 0 4.5M12 9s1.5-5 4-5a2 2 0 0 1 0 4.5"/></svg></span><span><strong>Gratuit, sans compte :</strong> pas de serveur de conversion à rentabiliser, donc rien à vous faire payer.</span></li>
-  </ul>
-  <a class="link-arrow" href="/confidentialite/">Lire la politique de confidentialité <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-</aside>
-  </div>
-
-  <div class="blocks">
-    <article class="block prose" aria-labelledby="comment-ca-marche">
-      <div class="block__head">
-    <h2 id="comment-ca-marche"><span class="block__icon"><svg class="icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M10 10h4v4h-4z"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></span>Comment fonctionne la conversion</h2>
-  </div>
+  <div class="sec__body">
+    <div class="prose">
       <p>Chaque fichier est décodé directement par votre navigateur, dessiné sur une zone de dessin invisible (un <code>&lt;canvas&gt;</code> hors écran), puis ré-encodé dans le format choisi via les fonctions natives du navigateur. Pour les formats que les navigateurs ne savent pas lire nativement (HEIC, TIFF), une petite librairie de décodage est chargée à la demande depuis un CDN public — elle traite le fichier localement, sans jamais le transmettre.</p>
       <p>Le résultat est un nouveau fichier, généré en mémoire, que vous téléchargez directement. Votre fichier d'origine n'est jamais modifié ni envoyé où que ce soit.</p>
       <p>C'est la même approche que <a href="/guide/confidentialite-conversion-image-navigateur/">l'article sur la confidentialité</a> détaille plus en profondeur : à la différence d'un convertisseur classique, il n'y a structurellement rien à intercepter, puisqu'aucune requête réseau ne transporte vos images.</p>
-    </article>
-    <aside class="block" aria-labelledby="qualite">
-  <div class="block__head">
-    <h2 id="qualite"><span class="block__icon"><svg class="icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></span>Des conversions soignées</h2>
+    </div>
   </div>
-  <ul class="feature-list">
-    <li><span class="feature-list__icon"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><span><strong>Qualité réglable :</strong> un curseur pour arbitrer entre poids et netteté sur les formats avec perte.</span></li>
-    <li><span class="feature-list__icon"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span><span><strong>Traitement par lot :</strong> déposez des dizaines d'images, récupérez-les une à une ou dans un ZIP.</span></li>
-    <li><span class="feature-list__icon"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><circle cx="10" cy="12" r="1.5"/><path d="m19 17-3.5-3.5L8 21"/></svg></span><span><strong>Transparence préservée :</strong> le canal alpha est conservé dès que le format de sortie le permet.</span></li>
-  </ul>
+</article>
+<aside class="sec wrap" aria-labelledby="securite">
+  <div class="sec__head">
+    <h2 id="securite">Vos fichiers restent chez vous</h2>
+    <p class="sec__intro">Webconvert ne voit jamais vos images : il n'existe aucun serveur qui pourrait les recevoir.</p>
+  </div>
+  <div class="sec__body">
+    <ul class="points">
+      <li><strong>Traitement local :</strong> chaque image est décodée et ré-encodée par votre propre navigateur.</li>
+      <li><strong>Aucun envoi :</strong> aucune requête réseau ne transporte vos fichiers, vérifiable dans l'onglet Réseau.</li>
+      <li><strong>Gratuit, sans compte :</strong> pas de serveur de conversion à rentabiliser, donc rien à vous faire payer.</li>
+    </ul>
+    <p><a class="link-arrow" href="/confidentialite/">Lire la politique de confidentialité →</a></p>
+  </div>
 </aside>
+<aside class="sec wrap" aria-labelledby="qualite">
+  <div class="sec__head">
+    <h2 id="qualite">Des conversions soignées</h2>
   </div>
-
-  <section class="block hub" aria-labelledby="hub-guides">
-  <div class="block__head">
-    <h2 id="hub-guides"><span class="block__icon"><svg class="icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h7"/></svg></span>Derniers guides</h2>
+  <div class="sec__body">
+    <ul class="points">
+      <li><strong>Qualité réglable :</strong> un curseur pour arbitrer entre poids et netteté sur les formats avec perte.</li>
+      <li><strong>Traitement par lot :</strong> déposez des dizaines d'images, récupérez-les une à une ou dans un ZIP.</li>
+      <li><strong>Transparence préservée :</strong> le canal alpha est conservé dès que le format de sortie le permet.</li>
+    </ul>
   </div>
-  <div class="hub-grid">
-    <a class="hub-card" href="/guide/creer-favicon-ico/">
-      <div class="hub-card__title">Créer une favicon .ico à partir de votre logo : le guide complet</div>
-      <div class="hub-card__desc">La petite icône affichée dans l'onglet du navigateur mérite un peu plus d'attention qu'on ne le pense. Voici comment la préparer correctement.</div>
-    </a>
-    <a class="hub-card" href="/guide/reduire-poids-images-site-web/">
-      <div class="hub-card__title">Réduire le poids de ses images sans perdre en qualité : le guide complet</div>
-      <div class="hub-card__desc">Les images pèsent souvent plus de la moitié du poids total d'une page web. Voici comment les alléger sans sacrifice visuel perceptible.</div>
-    </a>
-    <a class="hub-card" href="/guide/png-vs-jpg/">
-      <div class="hub-card__title">PNG vs JPG : bien choisir pour ne pas perdre en qualité</div>
-      <div class="hub-card__desc">Le choix entre PNG et JPG semble anodin, mais il détermine directement la netteté et le poids final de votre image.</div>
-    </a>
+</aside>
+<section class="sec wrap" aria-labelledby="hub-guides">
+  <div class="sec__head">
+    <h2 id="hub-guides">Derniers guides</h2>
+  </div>
+  <div class="sec__body">
+    <ul class="guide-rows">
+      <li><a href="/guide/creer-favicon-ico/"><span class="guide-row__title">Créer une favicon .ico à partir de votre logo : le guide complet</span><span class="guide-row__desc">La petite icône affichée dans l'onglet du navigateur mérite un peu plus d'attention qu'on ne le pense. Voici comment la préparer correctement.</span></a></li>
+      <li><a href="/guide/reduire-poids-images-site-web/"><span class="guide-row__title">Réduire le poids de ses images sans perdre en qualité : le guide complet</span><span class="guide-row__desc">Les images pèsent souvent plus de la moitié du poids total d'une page web. Voici comment les alléger sans sacrifice visuel perceptible.</span></a></li>
+      <li><a href="/guide/png-vs-jpg/"><span class="guide-row__title">PNG vs JPG : bien choisir pour ne pas perdre en qualité</span><span class="guide-row__desc">Le choix entre PNG et JPG semble anodin, mais il détermine directement la netteté et le poids final de votre image.</span></a></li>
+    </ul>
+    <p><a class="link-arrow" href="/guide/">Tous les guides →</a></p>
   </div>
 </section>
-
-  <div class="blocks blocks--narrow">
-<section class="block faq" aria-labelledby="questions">
-  <div class="block__head">
-    <h2 id="questions"><span class="block__icon"><svg class="icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4.8 1c0 1.7-2.3 2-2.3 3.5"/><circle cx="12" cy="17" r=".5"/></svg></span>Questions fréquentes</h2>
+<section class="sec wrap faq" aria-labelledby="questions">
+  <div class="sec__head">
+    <h2 id="questions">Questions fréquentes</h2>
   </div>
-      <div class="faq-item" data-faq-item data-open="false">
-        <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
-          Mes images sont-elles envoyées quelque part ?
-          <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
-        </button></h3>
-        <p class="faq-item__answer">Non. Tout le traitement se déroule dans votre navigateur grâce à l'API Canvas et, pour le HEIC et le TIFF, à de petites librairies de décodage chargées depuis un CDN public — mais jamais vos fichiers eux-mêmes. Vous pouvez le vérifier dans l'onglet Réseau de votre navigateur : aucune requête ne contient vos images.</p>
-      </div>
-      <div class="faq-item" data-faq-item data-open="false">
-        <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
-          Quels formats sont pris en charge ?
-          <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
-        </button></h3>
-        <p class="faq-item__answer">En entrée : JPG, PNG, WebP, AVIF, GIF, BMP, ICO, SVG, TIFF et HEIC. En sortie : JPG, PNG, WebP, AVIF, BMP et ICO. Le détail de chaque conversion possible est listé plus bas sur cette page.</p>
-      </div>
-      <div class="faq-item" data-faq-item data-open="false">
-        <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
-          Le site fonctionne-t-il hors connexion ?
-          <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
-        </button></h3>
-        <p class="faq-item__answer">Une fois la page chargée, la conversion elle-même ne nécessite pas le réseau (sauf la toute première fois pour un fichier HEIC ou TIFF, le temps de charger le petit décodeur correspondant).</p>
-      </div>
-      <div class="faq-item" data-faq-item data-open="false">
-        <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
-          Y a-t-il une limite de taille ou de nombre de fichiers ?
-          <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
-        </button></h3>
-        <p class="faq-item__answer">La seule limite est la mémoire disponible sur votre appareil. Des lots de plusieurs dizaines d'images passent sans problème sur une machine récente.</p>
-      </div>
-      <div class="faq-item" data-faq-item data-open="false">
-        <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
-          Est-ce vraiment gratuit ?
-          <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
-        </button></h3>
-        <p class="faq-item__answer">Oui, sans limite artificielle et sans création de compte. Le site ne fait tourner aucun serveur de conversion à faire payer : tout le travail est fait par votre propre navigateur.</p>
-      </div>
+  <div class="sec__body">
+    <div class="faq-item" data-faq-item data-open="false">
+      <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
+        <span>Mes images sont-elles envoyées quelque part ?</span>
+        <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
+      </button></h3>
+      <p class="faq-item__answer">Non. Tout le traitement se déroule dans votre navigateur grâce à l'API Canvas et, pour le HEIC et le TIFF, à de petites librairies de décodage chargées depuis un CDN public — mais jamais vos fichiers eux-mêmes. Vous pouvez le vérifier dans l'onglet Réseau de votre navigateur : aucune requête ne contient vos images.</p>
+    </div>
+    <div class="faq-item" data-faq-item data-open="false">
+      <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
+        <span>Quels formats sont pris en charge ?</span>
+        <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
+      </button></h3>
+      <p class="faq-item__answer">En entrée : JPG, PNG, WebP, AVIF, GIF, BMP, ICO, SVG, TIFF et HEIC. En sortie : JPG, PNG, WebP, AVIF, BMP et ICO. Le détail de chaque conversion possible est listé plus bas sur cette page.</p>
+    </div>
+    <div class="faq-item" data-faq-item data-open="false">
+      <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
+        <span>Le site fonctionne-t-il hors connexion ?</span>
+        <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
+      </button></h3>
+      <p class="faq-item__answer">Une fois la page chargée, la conversion elle-même ne nécessite pas le réseau (sauf la toute première fois pour un fichier HEIC ou TIFF, le temps de charger le petit décodeur correspondant).</p>
+    </div>
+    <div class="faq-item" data-faq-item data-open="false">
+      <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
+        <span>Y a-t-il une limite de taille ou de nombre de fichiers ?</span>
+        <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
+      </button></h3>
+      <p class="faq-item__answer">La seule limite est la mémoire disponible sur votre appareil. Des lots de plusieurs dizaines d'images passent sans problème sur une machine récente.</p>
+    </div>
+    <div class="faq-item" data-faq-item data-open="false">
+      <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
+        <span>Est-ce vraiment gratuit ?</span>
+        <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
+      </button></h3>
+      <p class="faq-item__answer">Oui, sans limite artificielle et sans création de compte. Le site ne fait tourner aucun serveur de conversion à faire payer : tout le travail est fait par votre propre navigateur.</p>
+    </div>
+  </div>
 </section>
-  </div>
 </main>
 
 <footer role="contentinfo" class="site-footer">
-  <div class="site-footer__bar">
-    <span class="site-footer__brand">Webconvert.fr</span>
-    <a href="/confidentialite/" title="Politique de confidentialité de Webconvert.fr">Confidentialité</a>
-    <a href="/guide/" title="Guides Webconvert.fr">Guides</a>
-    <a href="https://mathieu-perez.fr" title="Portfolio de Mathieu Perez, créateur de Webconvert.fr">À propos</a>
-    <a href="/confidentialite/#cookies" class="site-footer__push" data-consent-open>Gérer les cookies</a>
+  <div class="wrap site-footer__bar">
+    <span class="site-footer__brand"><span class="brand__mark" aria-hidden="true"></span>Webconvert.fr</span>
+    <nav class="site-footer__links" aria-label="Liens de pied de page">
+      <a href="/confidentialite/" title="Politique de confidentialité de Webconvert.fr">Confidentialité</a>
+      <a href="/guide/" title="Guides Webconvert.fr">Guides</a>
+      <a href="https://mathieu-perez.fr" title="Portfolio de Mathieu Perez, créateur de Webconvert.fr">À propos</a>
+      <a href="/confidentialite/#cookies" data-consent-open>Gérer les cookies</a>
+    </nav>
   </div>
 </footer>
 <script>

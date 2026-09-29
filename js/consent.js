@@ -69,13 +69,15 @@
     banner.setAttribute("role", "region");
     banner.setAttribute("aria-label", "Cookies de mesure d'audience");
     banner.innerHTML =
-      '<p class="consent__text"><strong>Mesure d’audience</strong> ' +
+      '<p class="consent__text"><strong>Mesure d’audience.</strong> ' +
       "Avec votre accord, Google Analytics mesure la fréquentation du site. " +
-      "Vos images, elles, ne quittent jamais votre appareil. " +
+      '<span class="consent__extra">Vos images, elles, ne quittent jamais votre appareil. </span>' +
       '<a href="/confidentialite/#cookies">En savoir plus</a></p>' +
+      // Both buttons share one style on purpose: refusing must be as easy
+      // and as visible as accepting (CNIL).
       '<div class="consent__actions">' +
-      '<button type="button" class="btn btn-secondary consent__btn" data-consent="denied">Refuser</button>' +
-      '<button type="button" class="btn btn-primary consent__btn" data-consent="granted">Accepter</button>' +
+      '<button type="button" class="btn consent__btn" data-consent="denied">Refuser</button>' +
+      '<button type="button" class="btn consent__btn" data-consent="granted">Accepter</button>' +
       "</div>";
     banner.addEventListener("click", function (e) {
       var btn = e.target.closest("[data-consent]");

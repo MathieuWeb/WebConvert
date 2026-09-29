@@ -71,35 +71,26 @@ def build_homepage():
     catalog_pairs = [(t.label(i), t.label(o), FORMATS[o]["short"].capitalize(), f"/{i}-en-{o}/")
                      for i, o in FEATURED_PAIRS[:5]]
 
-    body = f"""{t.hero_html(
+    how_body = """    <div class="prose">
+      <p>Chaque fichier est décodé directement par votre navigateur, dessiné sur une zone de dessin invisible (un <code>&lt;canvas&gt;</code> hors écran), puis ré-encodé dans le format choisi via les fonctions natives du navigateur. Pour les formats que les navigateurs ne savent pas lire nativement (HEIC, TIFF), une petite librairie de décodage est chargée à la demande depuis un CDN public — elle traite le fichier localement, sans jamais le transmettre.</p>
+      <p>Le résultat est un nouveau fichier, généré en mémoire, que vous téléchargez directement. Votre fichier d'origine n'est jamais modifié ni envoyé où que ce soit.</p>
+      <p>C'est la même approche que <a href="/guide/confidentialite-conversion-image-navigateur/">l'article sur la confidentialité</a> détaille plus en profondeur : à la différence d'un convertisseur classique, il n'y a structurellement rien à intercepter, puisqu'aucune requête réseau ne transporte vos images.</p>
+    </div>"""
+
+    body = f"""<main id="contenu">
+{t.intro_html(
         crumbs=[("Accueil", None)],
         h1="Convertisseur d'images en ligne, gratuit et privé",
         subtitle="JPG, PNG, WebP, AVIF, HEIC et bien d'autres. Tout se passe dans votre navigateur : vos fichiers ne quittent jamais votre appareil.",
     )}
+{t.tool_markup(input_id="any", default_output=default_output)}
 
-<main id="contenu">
-  {t.tool_markup(input_id="any")}
-
-  <div class="blocks">
-    {t.format_catalog_html(catalog_pairs)}
-    {t.privacy_aside_html()}
-  </div>
-
-  <div class="blocks">
-    <article class="block prose" aria-labelledby="comment-ca-marche">
-      {t.section_head("cpu", "Comment fonctionne la conversion", "comment-ca-marche")}
-      <p>Chaque fichier est décodé directement par votre navigateur, dessiné sur une zone de dessin invisible (un <code>&lt;canvas&gt;</code> hors écran), puis ré-encodé dans le format choisi via les fonctions natives du navigateur. Pour les formats que les navigateurs ne savent pas lire nativement (HEIC, TIFF), une petite librairie de décodage est chargée à la demande depuis un CDN public — elle traite le fichier localement, sans jamais le transmettre.</p>
-      <p>Le résultat est un nouveau fichier, généré en mémoire, que vous téléchargez directement. Votre fichier d'origine n'est jamais modifié ni envoyé où que ce soit.</p>
-      <p>C'est la même approche que <a href="/guide/confidentialite-conversion-image-navigateur/">l'article sur la confidentialité</a> détaille plus en profondeur : à la différence d'un convertisseur classique, il n'y a structurellement rien à intercepter, puisqu'aucune requête réseau ne transporte vos images.</p>
-    </article>
-    {t.quality_aside_html()}
-  </div>
-
-  {t.guide_grid_html(ARTICLES[-3:][::-1], heading_id="hub-guides", heading="Derniers guides")}
-
-  <div class="blocks blocks--narrow">
+{t.format_catalog_html(catalog_pairs)}
+{t.section_html("comment-ca-marche", "Comment fonctionne la conversion", how_body, tag="article")}
+{t.privacy_aside_html()}
+{t.quality_aside_html()}
+{t.guide_grid_html(ARTICLES[-3:][::-1], heading_id="hub-guides", heading="Derniers guides")}
 {t.faq_html(faq_items)}
-  </div>
 </main>"""
 
     json_ld = {
@@ -171,32 +162,28 @@ def build_hub_page(input_id):
         "Points forts : " + " ; ".join(f["strengths"]).lower() + ". Limites : " + " ; ".join(f["weaknesses"]).lower() + "."
     ))
 
-    body = f"""{t.hero_html(
-        crumbs=[("Accueil", "/"), (f"Convertisseur {f['label']}", None)],
-        h1=h1, subtitle=subtitle, preset_from=input_id,
-    )}
-
-<main id="contenu">
-  {t.tool_markup(input_id=input_id)}
-
-  <div class="blocks">
-    {t.pair_list_section_html("hub-conversions", f"Conversions depuis {f['label']}", conv_items,
-                              intro=f"Choisissez le format de sortie de vos fichiers {f['label']}.")}
-    {t.privacy_aside_html()}
-  </div>
-
-  <div class="blocks">
-    <article class="block prose" aria-labelledby="a-propos-format">
-      {t.section_head("image", f"Le format {f['label']}", "a-propos-format")}
+    about_body = f"""    <div class="prose">
       <p>{f['what_it_is']}</p>
       <p>Points forts :</p>
       <ul>{strengths}</ul>
       <p>Limites :</p>
       <ul>{weaknesses}</ul>
       {note_p}
-    </article>
+    </div>"""
+    default_output = t.default_output_for(input_id)
+
+    body = f"""<main id="contenu">
+{t.intro_html(
+        crumbs=[("Accueil", "/"), (f"Convertisseur {f['label']}", None)],
+        h1=h1, subtitle=subtitle,
+    )}
+{t.tool_markup(input_id=input_id, preset_from=input_id, default_output=default_output)}
+
+{t.pair_list_section_html("hub-conversions", f"Conversions depuis {f['label']}", conv_items,
+                              intro=f"Choisissez le format de sortie de vos fichiers {f['label']}.")}
+{t.section_html("a-propos-format", f"Le format {f['label']}", about_body, tag="article")}
+{t.privacy_aside_html()}
 {t.faq_html(faq_items)}
-  </div>
 </main>"""
 
     json_ld = {
@@ -279,28 +266,22 @@ def build_pair_page(i, o):
 
     paragraphs_html = "".join(f"<p>{p}</p>" for p in copy["paragraphs"])
 
-    body = f"""{t.hero_html(
-        crumbs=[("Accueil", "/"), (f"Convertisseur {fi['label']}", f"/convertisseur-{i}/"), (f"{fi['label']} en {fo['label']}", None)],
-        h1=h1, subtitle=subtitle, preset_from=i, preset_to=o,
-    )}
-
-<main id="contenu">
-  {t.tool_markup(input_id=i)}
-
-  {t.format_info_cards_html([i, o])}
-
-  <div class="blocks">
-    <article class="block prose" aria-labelledby="a-propos-conversion">
-      {t.section_head("swap", f"Pourquoi convertir {fi['label']} en {fo['label']}", "a-propos-conversion")}
+    why_body = f"""    <div class="prose">
       {paragraphs_html}
-    </article>
-    {t.privacy_aside_html()}
-  </div>
+    </div>
+{t.format_info_html([i, o])}"""
 
-  <div class="blocks">
-    {t.pair_list_section_html("hub-autres", "Voir aussi", see_also, icon_name="arrow")}
+    body = f"""<main id="contenu">
+{t.intro_html(
+        crumbs=[("Accueil", "/"), (f"Convertisseur {fi['label']}", f"/convertisseur-{i}/"), (f"{fi['label']} en {fo['label']}", None)],
+        h1=h1, subtitle=subtitle,
+    )}
+{t.tool_markup(input_id=i, preset_from=i, preset_to=o, default_output=o)}
+
+{t.section_html("a-propos-conversion", f"Pourquoi convertir {fi['label']} en {fo['label']}", why_body, tag="article")}
+{t.privacy_aside_html()}
+{t.pair_list_section_html("hub-autres", "Voir aussi", see_also)}
 {t.faq_html(faq_items)}
-  </div>
 </main>"""
 
     json_ld = {
@@ -337,10 +318,9 @@ def build_guide_index():
     title = "Guides : formats d'image, confidentialité et performance web | Webconvert.fr"
     meta = ("Guides pratiques sur les formats d'image (WebP, AVIF, HEIC...), la confidentialité et la "
             "performance web, pour bien choisir et convertir vos images.")
-    body = f"""{t.breadcrumbs_html([("Accueil", "/"), ("Guides", None)])}
-
-<main id="contenu">
-  <div class="intro">
+    body = f"""<main id="contenu" class="wrap page">
+  <div class="page-intro">
+    {t.breadcrumbs_nav([("Accueil", "/"), ("Guides", None)])}
     <h1>Guides</h1>
     <p>Formats d'image, confidentialité et performance web : de quoi convertir vos images en connaissance de cause.</p>
   </div>
@@ -354,10 +334,9 @@ def build_guide_index():
 
 def build_guide_article(article):
     page_title = article["title"] + " | Webconvert.fr"
-    body = f"""{t.breadcrumbs_html([("Accueil", "/"), ("Guides", "/guide/"), (article["title"], None)])}
-
-<main id="contenu">
+    body = f"""<main id="contenu" class="wrap page">
   <article class="article">
+    {t.breadcrumbs_nav([("Accueil", "/"), ("Guides", "/guide/"), (article["title"], None)])}
     <p class="article__meta">{article['tag']} · {article['published']} · {article['reading_time']} de lecture</p>
     <h1>{article['title']}</h1>
     <p class="lede">{article['lede']}</p>
@@ -366,7 +345,7 @@ def build_guide_article(article):
     <div class="article-footer-cta">
       <h2>Convertissez vos images maintenant</h2>
       <p>Le convertisseur Webconvert.fr traite vos fichiers directement dans votre navigateur, gratuitement et sans limite.</p>
-      <p><a class="btn btn-primary" style="display:inline-flex;align-items:center;min-height:44px;padding:10px 20px;" href="/">Ouvrir le convertisseur →</a></p>
+      <p><a class="btn btn--dark" href="/">Ouvrir le convertisseur →</a></p>
     </div>
   </article>
 </main>"""
@@ -401,9 +380,9 @@ def build_confidentialite():
     title = "Politique de confidentialité | Webconvert.fr"
     meta = ("Vos images ne quittent jamais votre appareil : la conversion a lieu entièrement dans votre "
             "navigateur. Seule une mesure d'audience, soumise à votre accord, est utilisée.")
-    body = f"""{t.breadcrumbs_html([("Accueil", "/"), ("Confidentialité", None)])}
-
-<main class="page-content">
+    body = f"""<main id="contenu" class="wrap page">
+<article class="article doc">
+  {t.breadcrumbs_nav([("Accueil", "/"), ("Confidentialité", None)])}
   <h1>Politique de confidentialité</h1>
   <p>Webconvert.fr est un outil de conversion d'images qui fonctionne entièrement dans votre navigateur. Vos images ne sont jamais collectées. La seule donnée recueillie est une mesure d'audience anonyme, et uniquement si vous l'acceptez.</p>
 
@@ -424,6 +403,7 @@ def build_confidentialite():
 
   <h2>Contact</h2>
   <p>Pour toute question, vous pouvez contacter l'éditeur du site via <a href="https://mathieu-perez.fr">mathieu-perez.fr</a>.</p>
+</article>
 </main>"""
     html = t.render_page(path="/confidentialite/", title=title, meta_description=meta, body_html=body,
                           robots="index, follow")
@@ -457,8 +437,8 @@ def build_manifest():
         "description": "Convertisseur d'images multi-formats, 100% local dans le navigateur.",
         "start_url": "/",
         "display": "standalone",
-        "background_color": "#f4efe9",
-        "theme_color": "#f4efe9",
+        "background_color": t.THEME_COLOR,
+        "theme_color": t.THEME_COLOR,
         "lang": "fr",
         "icons": [
             {"src": "/assets/icons/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png"},
