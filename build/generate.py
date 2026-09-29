@@ -399,13 +399,13 @@ def build_guide_article(article):
 
 def build_confidentialite():
     title = "Politique de confidentialité | Webconvert.fr"
-    meta = ("Webconvert.fr ne collecte aucune donnée : la conversion d'images a lieu entièrement dans votre "
-            "navigateur, sans upload ni serveur.")
+    meta = ("Vos images ne quittent jamais votre appareil : la conversion a lieu entièrement dans votre "
+            "navigateur. Seule une mesure d'audience, soumise à votre accord, est utilisée.")
     body = f"""{t.breadcrumbs_html([("Accueil", "/"), ("Confidentialité", None)])}
 
 <main class="page-content">
   <h1>Politique de confidentialité</h1>
-  <p>Webconvert.fr est un outil de conversion d'images qui fonctionne entièrement dans votre navigateur. Cette page explique simplement ce qui n'est pas collecté, plutôt que ce qui l'est — car il n'y a rien à déclarer.</p>
+  <p>Webconvert.fr est un outil de conversion d'images qui fonctionne entièrement dans votre navigateur. Vos images ne sont jamais collectées. La seule donnée recueillie est une mesure d'audience anonyme, et uniquement si vous l'acceptez.</p>
 
   <h2>Vos images</h2>
   <p>Les fichiers que vous déposez ne quittent jamais votre appareil. La conversion est réalisée localement via l'API Canvas de votre navigateur. Aucune image, miniature ou métadonnée n'est envoyée à un serveur, à Webconvert.fr ou à un tiers.</p>
@@ -413,8 +413,11 @@ def build_confidentialite():
   <h2>Formats nécessitant une librairie de décodage (HEIC, TIFF)</h2>
   <p>Les navigateurs ne savent pas lire nativement les fichiers HEIC et TIFF. Pour ces deux formats uniquement, une petite librairie technique (respectivement heic2any et UTIF.js, avec pako pour la décompression) est chargée depuis un CDN public (jsDelivr) au moment où vous déposez un fichier de ce type. Cette librairie est un simple script : elle s'exécute dans votre navigateur et ne transmet jamais vos fichiers à un serveur distant, y compris au fournisseur du CDN.</p>
 
-  <h2>Cookies et traceurs</h2>
-  <p>Ce site n'utilise aucun outil de mesure d'audience, aucun cookie de suivi et aucun pixel publicitaire.</p>
+  <h2 id="cookies">Cookies et mesure d'audience</h2>
+  <p>Avec votre accord, le site utilise Google Analytics pour mesurer sa fréquentation : pages consultées, durée de visite, type d'appareil, pays approximatif. Ces statistiques servent uniquement à améliorer le site. Google Analytics dépose des cookies (<code>_ga</code>, <code>_ga_*</code>) et les données sont traitées par Google Ireland Limited, qui peut les transférer aux États-Unis dans le cadre du Data Privacy Framework.</p>
+  <p>Tant que vous n'avez pas cliqué sur « Accepter », aucun script Google Analytics n'est chargé et aucun cookie n'est déposé. Votre choix est conservé 13 mois si vous acceptez, 6 mois si vous refusez, puis la question vous est reposée. Google Analytics ne reçoit jamais vos images : elles ne quittent pas votre appareil, que vous acceptiez ou non.</p>
+  <p>Aucun cookie publicitaire ni pixel de suivi n'est utilisé.</p>
+  <p><a href="#cookies" data-consent-open>Modifier mon choix concernant les cookies</a></p>
 
   <h2>Hébergement</h2>
   <p>Le site est constitué de fichiers statiques (HTML, CSS, JavaScript) servis tels quels par l'hébergeur. Seules les polices de caractères (Google Fonts) et trois librairies JavaScript ponctuelles — JSZip pour l'archive ZIP groupée, UTIF.js/pako pour le TIFF, heic2any pour le HEIC — sont chargées depuis un CDN public ; ce sont de simples fichiers de code, sans transmission de vos images.</p>
@@ -472,9 +475,9 @@ def build_htaccess():
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/html "access plus 0 seconds"
-  ExpiresByType text/css "access plus 7 days"
-  ExpiresByType application/javascript "access plus 7 days"
-  ExpiresByType text/javascript "access plus 7 days"
+  ExpiresByType text/css "access plus 0 seconds"
+  ExpiresByType application/javascript "access plus 0 seconds"
+  ExpiresByType text/javascript "access plus 0 seconds"
   ExpiresByType image/jpeg "access plus 30 days"
   ExpiresByType image/png "access plus 30 days"
   ExpiresByType image/webp "access plus 30 days"
@@ -483,7 +486,12 @@ def build_htaccess():
 </IfModule>
 
 <IfModule mod_headers.c>
-  <FilesMatch "\\.(css|js|jpg|jpeg|png|webp|gif|ico|webmanifest)$">
+  # CSS/JS have no fingerprint in their URL: make browsers revalidate them
+  # (cheap 304 via ETag) so a deploy never pairs new HTML with stale CSS/JS.
+  <FilesMatch "\\.(css|js)$">
+    Header set Cache-Control "public, no-cache"
+  </FilesMatch>
+  <FilesMatch "\\.(jpg|jpeg|png|webp|gif|ico|webmanifest)$">
     Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
   <FilesMatch "\\.html$">

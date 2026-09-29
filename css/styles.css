@@ -1378,3 +1378,70 @@ main {
   line-height: 1.55;
   color: var(--color-text-secondary);
 }
+
+/* ---------- Consent banner (js/consent.js) ----------
+   Fixed bottom card, so showing/hiding it never shifts the page. Both
+   buttons have the same size and weight, as the CNIL requires refusing
+   to be as easy as accepting. */
+.consent {
+  position: fixed;
+  z-index: 100;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px 24px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: var(--color-card);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 18px 50px -20px rgba(26, 23, 20, 0.5);
+}
+.consent[hidden] {
+  display: none;
+}
+.consent__text {
+  margin: 0;
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+.consent__text strong {
+  display: block;
+  color: var(--color-ink);
+}
+.consent__text a {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.consent__actions {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+.consent__btn {
+  min-height: 44px;
+  min-width: 108px;
+  padding: 10px 18px;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.site-footer__push {
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+@media (max-width: 640px) {
+  .consent {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .consent__btn {
+    flex: 1;
+  }
+}

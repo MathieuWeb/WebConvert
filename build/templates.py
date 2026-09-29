@@ -9,6 +9,9 @@ from data import FORMATS, INPUT_IDS, OUTPUT_IDS, FEATURED_PAIRS
 BASE_URL = "https://webconvert.fr"
 SITE_NAME = "Webconvert.fr"
 THEME_COLOR = "#f4efe9"
+# Google Analytics 4 measurement ID. Only loaded after the visitor accepts
+# the consent banner (js/consent.js); set to "" to remove analytics entirely.
+GA_ID = "G-99CDZX4JZD"
 
 FONTS_LINK = (
     '<link rel="preconnect" href="https://fonts.googleapis.com" />\n'
@@ -96,6 +99,10 @@ def render_page(*, path, title, meta_description, body_html, json_ld=None,
             "<script>\nwindow.WC_CONFIG = " + json.dumps(wc_config, ensure_ascii=False) + ";\n</script>\n"
         )
 
+    consent_html = ""
+    if GA_ID:
+        consent_html = f'<script src="/js/consent.js" data-ga-id="{GA_ID}" defer></script>\n'
+
     app_js_html = ""
     if include_js:
         app_js_html = wc_config_html + '<script type="module" src="/js/main.js"></script>\n'
@@ -135,7 +142,7 @@ def render_page(*, path, title, meta_description, body_html, json_ld=None,
 {json_ld_html}
 {FONTS_LINK}
 <link rel="stylesheet" href="/css/styles.css" />
-</head>
+{consent_html}</head>
 <body>
 <a class="skip-link" href="#contenu">Aller au contenu</a>
 
@@ -180,7 +187,7 @@ def site_footer():
     <a href="/confidentialite/" title="Politique de confidentialité de Webconvert.fr">Confidentialité</a>
     <a href="/guide/" title="Guides Webconvert.fr">Guides</a>
     <a href="https://mathieu-perez.fr" title="Portfolio de Mathieu Perez, créateur de Webconvert.fr">À propos</a>
-    <span class="site-footer__push">Aucune donnée collectée</span>
+    <a href="/confidentialite/#cookies" class="site-footer__push" data-consent-open>Gérer les cookies</a>
   </div>
 </footer>"""
 

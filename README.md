@@ -17,6 +17,7 @@ js/
                        BMP/ICO écrits à la main (aucun navigateur ne sait encoder ces deux formats nativement)
   ui.js               Dropzone, sélecteur de format de sortie, file d'attente, résultats, FAQ, picker homepage
   zip.js               Chargement paresseux de JSZip et génération du ZIP groupé
+  consent.js           Bandeau de consentement cookies + chargement de Google Analytics après accord
   main.js               Point d'entrée
 assets/               Favicons, og-image.jpg, logo-square.png (générés par build/gen_assets.py)
 build/
@@ -82,5 +83,13 @@ Pull or Deploy pour récupérer les derniers commits.
 - **Google Fonts** — Familjen Grotesk, Instrument Sans, Inconsolata.
 
 Toutes chargées depuis cdn.jsdelivr.net (ou fonts.googleapis.com), jamais appelées avec les images de
-l'utilisateur : ce sont de simples fichiers de code. Aucun backend, aucune API, aucun outil de mesure
-d'audience.
+l'utilisateur : ce sont de simples fichiers de code. Aucun backend, aucune API.
+
+## Mesure d'audience (Google Analytics)
+
+- **Google Analytics 4** (`G-99CDZX4JZD`, constante `GA_ID` dans `build/templates.py`) : chargé par
+  `js/consent.js` **uniquement après clic sur « Accepter »** dans le bandeau de consentement (conformité
+  CNIL). Choix conservé 13 mois (accepté) / 6 mois (refusé) dans `localStorage`, modifiable via le lien
+  « Gérer les cookies » du pied de page. Mettre `GA_ID = ""` pour retirer entièrement la mesure d'audience.
+- **Google Search Console** : propriété de type Domaine, validée par un enregistrement DNS TXT (aucune
+  balise dans le code).
