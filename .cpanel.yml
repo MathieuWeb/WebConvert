@@ -1,0 +1,8 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home2/pema2735/webconvert.fr/
+    # Everything except build/ (Python page generator), README.md and git files.
+    # Listed explicitly because `cp -R *` would skip the .htaccess dotfile.
+    - /bin/cp -R index.html .htaccess robots.txt sitemap.xml site.webmanifest assets css js $DEPLOYPATH
+    - /bin/cp -R confidentialite guide convertisseur-* *-en-* $DEPLOYPATH
