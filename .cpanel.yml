@@ -2,7 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home2/pema2735/webconvert.fr/
-    # Everything except build/ (Python page generator), README.md and git files.
-    # Listed explicitly because `cp -R *` would skip the .htaccess dotfile.
-    - /bin/cp -R index.html .htaccess robots.txt sitemap.xml site.webmanifest assets css js $DEPLOYPATH
-    - /bin/cp -R confidentialite guide convertisseur-* *-en-* $DEPLOYPATH
+    # Root files (.htaccess listed explicitly: `*` skips dotfiles) + every
+    # non-hidden folder, copied as folders (find avoids cp's trailing-slash
+    # quirks). build/ is copied too but .htaccess answers 404 for it.
+    - /bin/cp -R index.html 404.html favicon.ico .htaccess robots.txt sitemap.xml site.webmanifest $DEPLOYPATH
+    - /usr/bin/find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' -exec /bin/cp -R {} $DEPLOYPATH \;

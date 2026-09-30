@@ -30,11 +30,15 @@ FONTS_LINK = (
     'type="font/woff2" crossorigin />'
 )
 
+# ?v= busts browsers' favicon cache (Chrome keeps the old icon for weeks);
+# bump it whenever the icons change. The 192 px PNG is the one Google Search
+# prefers for its results (multiple of 48 px).
+ICON_VERSION = "2"
 ICON_LINKS = (
-    '<link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico" />\n'
-    '<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png" />\n'
-    '<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png" />\n'
-    '<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png" />\n'
+    f'<link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico?v={ICON_VERSION}" />\n'
+    f'<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png?v={ICON_VERSION}" />\n'
+    f'<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192x192.png?v={ICON_VERSION}" />\n'
+    f'<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png?v={ICON_VERSION}" />\n'
     '<link rel="manifest" href="/site.webmanifest" />'
 )
 

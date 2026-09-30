@@ -12,6 +12,11 @@
 
 ErrorDocument 404 /404.html
 
+# The site may be served straight from the git clone: keep the generator,
+# its data and the docs out of reach (and out of search results).
+RedirectMatch 404 ^/(build|propositions|\.test)(/|$)
+RedirectMatch 404 ^/README\.md$
+
 # Cache static assets: HTML re-validates every visit, everything else is
 # fingerprint-free but changes rarely, so a moderate cache is a fair trade-off.
 AddType font/woff2 .woff2

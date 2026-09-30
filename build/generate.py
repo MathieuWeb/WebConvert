@@ -1219,6 +1219,12 @@ def build_manifest():
         json.dump(manifest, f, ensure_ascii=False, indent=2)
 
 
+def copy_root_favicon():
+    """Some clients and crawlers only ask for /favicon.ico at the root."""
+    import shutil
+    shutil.copyfile(os.path.join(ROOT, "assets", "icons", "favicon.ico"), os.path.join(ROOT, "favicon.ico"))
+
+
 def build_htaccess():
     content = """# One canonical origin: https://webconvert.fr (no www, no plain http).
 # Two rules so the http check also honours X-Forwarded-Proto: behind a TLS
@@ -1233,6 +1239,11 @@ def build_htaccess():
 </IfModule>
 
 ErrorDocument 404 /404.html
+
+# The site may be served straight from the git clone: keep the generator,
+# its data and the docs out of reach (and out of search results).
+RedirectMatch 404 ^/(build|propositions|\\.test)(/|$)
+RedirectMatch 404 ^/README\\.md$
 
 # Cache static assets: HTML re-validates every visit, everything else is
 # fingerprint-free but changes rarely, so a moderate cache is a fair trade-off.
@@ -1306,6 +1317,7 @@ def main():
     build_robots()
     build_manifest()
     build_htaccess()
+    copy_root_favicon()
 
     print(f"Generated {len(PAGE_HASHES) + 1} pages ({len(SITEMAP_URLS)} in the sitemap, plus 404.html).")
 
