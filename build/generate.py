@@ -27,6 +27,12 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SITEMAP_URLS = []  # (path, changefreq, priority)
 
 
+def ucfirst(text):
+    """Uppercase the first letter only (str.capitalize() would lowercase
+    the rest: "ANTS" -> "ants", "iPhone" -> "iphone")."""
+    return text[:1].upper() + text[1:]
+
+
 def write_page(path, html):
     """path like '/' or '/png-en-webp/' -> <ROOT><path>index.html"""
     assert path == "/" or (path.startswith("/") and path.endswith("/"))
@@ -131,7 +137,7 @@ def build_homepage():
 
     default_output = t.default_output_for("any")
 
-    catalog_pairs = [(t.label(i), t.label(o), FORMATS[o]["short"].capitalize(), f"/{i}-en-{o}/")
+    catalog_pairs = [(t.label(i), t.label(o), ucfirst(FORMATS[o]["short"]), f"/{i}-en-{o}/")
                      for i, o in FEATURED_PAIRS[:5]]
 
     how_body = """    <div class="prose">
@@ -211,11 +217,11 @@ def build_hub_page(input_id):
         f"votre navigateur. Gratuit, rapide, sans envoi de fichier sur un serveur."
     )
     subtitle = override["intro"] if override else (
-        f"{f['short'].capitalize()} : convertissez-les vers {', '.join(t.label(o) for o in others)} en un clic."
+        f"{ucfirst(f['short'])} : convertissez-les vers {', '.join(t.label(o) for o in others)} en un clic."
     )
 
     conv_items = [
-        (f["label"], t.label(o), FORMATS[o]["short"].capitalize(), f"/{input_id}-en-{o}/")
+        (f["label"], t.label(o), ucfirst(FORMATS[o]["short"]), f"/{input_id}-en-{o}/")
         for o in others
     ]
 
@@ -395,7 +401,7 @@ COMPRESS_HUB = "/compresser-image/"
 
 
 def threshold_links(exclude=None):
-    return [(f"Moins de {text}", TARGET_USES[slug].capitalize() + ".", f"/compresser-image-{slug}/")
+    return [(f"Moins de {text}", ucfirst(TARGET_USES[slug]) + ".", f"/compresser-image-{slug}/")
             for slug, _b, text in TARGET_SIZES if slug != exclude]
 
 
@@ -543,10 +549,7 @@ TOOLS_PAGE = "/outils/"
 
 # Platform size pages, filled from PLATFORM_PAGES in data.py (only values
 # confirmed by the platform's own documentation).
-try:
-    from data import PLATFORM_PAGES
-except ImportError:
-    PLATFORM_PAGES = []
+from data import PLATFORM_PAGES, SPECS_CHECKED
 
 
 def build_tool_page(*, path, crumbs, h1, subtitle, title, meta, tool_html, wc_config, sections, faq_items,
@@ -620,10 +623,23 @@ def build_resize_hub():
     )
 
 
+def platform_spec_html(p):
+    s = p["spec"]
+    notes = "".join(f"<p>{n}</p>" for n in p["notes"])
+    return f"""    <table class="spec">
+      <tbody>
+        <tr><th scope="row">Dimensions</th><td>{s['size']}</td></tr>
+        <tr><th scope="row">Poids maximum</th><td>{s['limit']}</td></tr>
+        <tr><th scope="row">Formats acceptés</th><td>{s['formats']}</td></tr>
+        <tr><th scope="row">Source</th><td><a href="{s['source_url']}" rel="noopener">{s['source_name']}</a>, vérifiée le {SPECS_CHECKED}</td></tr>
+      </tbody>
+    </table>
+    <div class="prose">{notes}</div>"""
+
+
 def build_platform_page(p):
-    spec = p["spec_html"]
     sections = (
-        t.section_html("dimensions", p["spec_heading"], spec, tag="article")
+        t.section_html("dimensions", f"Format officiel : {p['crumb']}", platform_spec_html(p), tag="article")
         + "\n"
         + t.section_html("plateformes", "Autres formats", t.link_list_html(platform_links(exclude=p["path"])))
     )
@@ -634,7 +650,7 @@ def build_platform_page(p):
         tool_html=t.resize_tool_markup(width=p["width"], height=p["height"], output=p.get("output", "jpg"),
                                        target=p.get("target"), formats=p.get("formats", ("jpg", "png", "webp"))),
         wc_config={"tool": "resize", "zipName": p["path"].strip("/") + ".zip"},
-        sections=sections, faq_items=p["faq"], app_name=p["title"], priority="0.8",
+        sections=sections, faq_items=list(p["faq"]) + list(t.PRIVACY_FAQ[:1]), app_name=p["title"], priority="0.8",
     )
 
 
@@ -710,7 +726,7 @@ def tool_catalog(full):
     """[(group, [(title, desc, href)])] — every tool of the site; `full` adds
     the per-threshold / per-platform / per-démarche variants."""
     convert = [("Convertisseur d'images", "JPG, PNG, WebP, AVIF, HEIC… dans le format de votre choix.", "/")]
-    convert += [(f"Convertisseur {t.label(i)}", FORMATS[i]["short"].capitalize() + ".", f"/convertisseur-{i}/")
+    convert += [(f"Convertisseur {t.label(i)}", ucfirst(FORMATS[i]["short"]) + ".", f"/convertisseur-{i}/")
                 for i in (INPUT_IDS if full else ["heic", "webp", "png"])]
     compress = [("Compresser à une taille précise", "50 Ko, 200 Ko, 1 Mo… la meilleure qualité sous la limite.", COMPRESS_HUB)]
     if full:
@@ -718,8 +734,9 @@ def tool_catalog(full):
     resize = [("Redimensionner une image", "En pixels, avec ou sans recadrage, par lot.", RESIZE_HUB)]
     if full:
         resize += platform_links()
-    elif PLATFORM_PAGES:
-        resize += platform_links()[:3]
+    else:
+        featured = {"/banniere-linkedin/", "/miniature-youtube/", "/sticker-whatsapp/"}
+        resize += [item for item in platform_links() if item[2] in featured]
     documents = [("Images en PDF", "Plusieurs photos ou scans en un seul PDF, avec un poids maximum.", PDF_HUB)]
     privacy = [("Supprimer les métadonnées", "Position GPS, appareil, date : retirés sans perte de qualité.", EXIF_PAGE)]
     return [("Convertir", convert), ("Compresser", compress), ("Redimensionner", resize),
@@ -736,7 +753,20 @@ def tools_catalog_html(full):
     return "\n".join(groups)
 
 
+TOOL_GROUP_INTROS = {
+    "Convertir": "Passez vos images d'un format à l'autre : JPG, PNG, WebP, AVIF, HEIC, GIF, BMP, ICO, SVG, TIFF.",
+    "Compresser": "Réduisez le poids sous une limite précise, ou celle exigée par une démarche en ligne.",
+    "Redimensionner": "Aux pixels près, ou aux dimensions exactes exigées par chaque réseau social.",
+    "Créer un PDF": "Réunissez photos et scans en un seul PDF, sous le poids maximum de votre choix.",
+    "Confidentialité": "Retirez ce que vos photos révèlent avant de les partager.",
+}
+
+
 def build_tools_page():
+    groups = "\n".join(
+        t.section_html("outils-" + name.lower().replace(" ", "-").replace("é", "e"), name, t.link_list_html(items),
+                       intro=TOOL_GROUP_INTROS.get(name))
+        for name, items in tool_catalog(full=True))
     body = f"""<main id="contenu">
 <div class="wrap page">
   <div class="page-intro">
@@ -745,7 +775,7 @@ def build_tools_page():
     <p>Convertir, compresser, redimensionner, créer un PDF, protéger vos photos : tous les outils de Webconvert.fr, gratuits et sans envoi de fichier.</p>
   </div>
 </div>
-{t.section_html("outils", "Outils d'image", tools_catalog_html(full=True), extra_class="catalog")}
+{groups}
 </main>"""
     json_ld = {
         "@context": "https://schema.org",

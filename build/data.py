@@ -608,9 +608,9 @@ DEMARCHES = {
         ],
         faq=[
             ("Quelle est la taille maximale d'un fichier sur le site de l'ANTS ?",
-             "Pour la plupart des démarches, 1 Mo par document, aux formats JPEG, PNG ou PDF. Vérifiez toujours "
-             "la limite affichée sur le formulaire de votre démarche : elle peut différer (les demandes de permis "
-             "de conduire acceptent par exemple des fichiers plus lourds)."),
+             "Pour la carte grise et les autres titres, 1 Mo par document, aux formats JPEG, PNG ou PDF. Les "
+             "demandes de permis de conduire acceptent jusqu'à 11 Mo par document (JPG, PNG, BMP, TIFF ou PDF). "
+             "Vérifiez toujours la limite affichée sur le formulaire de votre démarche."),
             ("Mon document restera-t-il lisible ?",
              "Oui dans la grande majorité des cas : l'outil cherche la meilleure qualité qui tient sous 1 Mo "
              "avant de réduire les dimensions. Vérifiez l'aperçu avant de l'envoyer."),
@@ -679,6 +679,67 @@ DEMARCHES = {
              "Oui, déposez-les toutes en même temps puis téléchargez le ZIP."),
         ],
     ),
+    "retraite": dict(
+        path="/compresser-document-retraite/",
+        crumb="Pour la retraite (CNAV)",
+        title="Document trop lourd pour la retraite (CNAV) : compresser",
+        h1="Justificatif trop lourd pour l'Assurance retraite ?",
+        meta=("Justificatif refusé sur lassuranceretraite.fr ? Passez vos photos et scans sous la limite de 4 Mo "
+              "par fichier, sans envoyer vos documents."),
+        intro="L'Assurance retraite limite chaque fichier à 4 Mo, en PDF ou JPG. Compressez vos photos de justificatifs sans les envoyer nulle part.",
+        target=2_000_000,
+        output="jpg",
+        paragraphs=[
+            "Sur le site de l'Assurance retraite (CNAV), chaque justificatif envoyé en ligne ne doit pas dépasser "
+            "4 Mo, au format PDF ou JPG. Une photo de document prise au smartphone peut dépasser cette limite, "
+            "surtout en haute résolution.",
+            "Le réglage par défaut (2 Mo en JPG) garde une marge confortable sous la limite, avec un texte "
+            "parfaitement lisible. Plusieurs pages d'un même document ? Réunissez-les en un seul PDF avec l'outil "
+            "« Images en PDF ».",
+            "Relevés de carrière, bulletins de salaire, pièces d'identité : ces documents restent sur votre "
+            "appareil, la compression a lieu dans votre navigateur.",
+        ],
+        faq=[
+            ("Quelle taille maximale pour un justificatif sur lassuranceretraite.fr ?",
+             "4 Mo par fichier, au format PDF ou JPG, selon la page d'aide à l'envoi de fichiers de l'Assurance "
+             "retraite. Vérifiez la limite affichée sur le formulaire, elle peut évoluer."),
+            ("Mon document fait plusieurs pages, comment faire ?",
+             "Utilisez l'outil « Images en PDF » : il réunit vos photos en un seul PDF et peut le compresser sous "
+             "la limite choisie."),
+            ("Mes documents sont-ils envoyés sur un serveur ?",
+             "Non. Tout le traitement a lieu dans votre navigateur, rien ne quitte votre appareil."),
+        ],
+    ),
+    "france-travail": dict(
+        path="/compresser-document-france-travail/",
+        crumb="Pour France Travail",
+        title="Pièce jointe trop lourde pour France Travail : compresser",
+        h1="Pièce jointe trop lourde pour France Travail ?",
+        meta=("Pièce jointe refusée dans votre espace France Travail ? Compressez vos photos et scans sous 5 Mo, "
+              "sans envoyer vos documents sur un serveur."),
+        intro="Une pièce jointe envoyée à votre conseiller France Travail ne doit pas dépasser 5 Mo. Allégez vos photos de documents sans les envoyer nulle part.",
+        target=2_000_000,
+        output="jpg",
+        paragraphs=[
+            "Dans votre espace personnel France Travail, les pièces jointes des messages envoyés à votre conseiller "
+            "sont limitées à 5 Mo, dans des formats courants comme PDF, JPG ou PNG. Au-delà, la pièce jointe est "
+            "refusée.",
+            "Le réglage par défaut (2 Mo en JPG) laisse une bonne marge tout en gardant le document lisible. Pour "
+            "envoyer un document de plusieurs pages, réunissez les photos en un seul PDF avec l'outil « Images en "
+            "PDF ».",
+            "Attestations, contrats, bulletins de salaire : ces documents ne quittent pas votre appareil, la "
+            "compression a lieu dans votre navigateur.",
+        ],
+        faq=[
+            ("Quelle taille maximale pour une pièce jointe France Travail ?",
+             "5 Mo par pièce jointe pour un message à votre conseiller, selon l'aide de France Travail. Vérifiez la "
+             "limite affichée si vous passez par un autre formulaire."),
+            ("Quel format choisir ?",
+             "Le JPG pour une photo de document, le PDF pour un document de plusieurs pages. Les deux sont acceptés."),
+            ("Mes documents sont-ils envoyés sur un serveur ?",
+             "Non. Tout le traitement a lieu dans votre navigateur, rien ne quitte votre appareil."),
+        ],
+    ),
     "web": dict(
         path="/compresser-image-pour-site-web/",
         crumb="Pour un site web",
@@ -710,3 +771,226 @@ DEMARCHES = {
         ],
     ),
 }
+
+
+# ---------------------------------------------------------------------------
+# Platform size pages (/banniere-linkedin/ ...): exact dimensions + weight
+# limits, ONLY from each platform's own help centre / developer docs
+# (verified 2026-09-30). Each page's tool is pre-set with them.
+# ---------------------------------------------------------------------------
+SPECS_CHECKED = "30 septembre 2026"
+
+
+def _platform(slug, crumb, short, h1, title, meta, intro, width, height, *, output="jpg",
+              formats=("jpg", "png", "webp"), target=None, limit_text, formats_text, source_name,
+              source_url, notes, faq):
+    return dict(
+        path=f"/{slug}/", crumb=crumb, short=short, h1=h1, title=title, meta=meta, intro=intro,
+        width=width, height=height, output=output, formats=formats, target=target,
+        spec=dict(size=f"{width} × {height} px", limit=limit_text, formats=formats_text,
+                  source_name=source_name, source_url=source_url),
+        notes=notes, faq=faq,
+    )
+
+
+PLATFORM_PAGES = [
+    _platform(
+        "banniere-linkedin", "Bannière LinkedIn", "1584 × 396 px, l'image de fond du profil.",
+        "Taille de la bannière LinkedIn : 1584 × 396 px",
+        "Taille bannière LinkedIn : redimensionner en 1584 × 396",
+        "Redimensionnez et recadrez votre bannière LinkedIn au format recommandé de 1584 × 396 px, en JPG. "
+        "Gratuit, sans envoi sur un serveur.",
+        "Déposez votre image : elle est recadrée au format exact recommandé par LinkedIn. Faites-la glisser pour choisir la partie visible.",
+        1584, 396, limit_text="8 Mo", formats_text="JPG ou PNG", source_name="Aide LinkedIn",
+        source_url="https://www.linkedin.com/help/linkedin/answer/a568217",
+        notes=["La bannière est un format très allongé (4:1) : placez le sujet au centre, le haut et le bas étant rognés.",
+               "Sur ordinateur, votre photo de profil recouvre le coin inférieur gauche de la bannière : évitez d'y mettre du texte."],
+        faq=[("Quelle est la taille de la bannière LinkedIn ?", "LinkedIn recommande 1584 × 396 pixels, en JPG ou PNG, pour un fichier de moins de 8 Mo."),
+             ("Pourquoi ma bannière LinkedIn est-elle floue ou coupée ?", "Si l'image est plus petite que 1584 × 396 px, LinkedIn l'agrandit et elle perd en netteté ; si ses proportions diffèrent, elle est recadrée automatiquement. Préparer l'image au format exact évite les deux.")],
+    ),
+    _platform(
+        "banniere-linkedin-entreprise", "Bannière LinkedIn entreprise", "1512 × 256 px, la couverture d'une Page.",
+        "Taille de la couverture d'une Page LinkedIn : 1512 × 256 px",
+        "Bannière LinkedIn entreprise : taille 1512 × 256 px",
+        "Préparez l'image de couverture de votre Page entreprise LinkedIn au format officiel de 1512 × 256 px, "
+        "sous 3 Mo. Gratuit, sans envoi.",
+        "L'image de couverture d'une Page entreprise n'a pas le même format que celle d'un profil. Recadrez-la ici au format officiel.",
+        1512, 256, target=2_000_000, limit_text="3 Mo", formats_text="PNG ou JPEG", source_name="Aide LinkedIn",
+        source_url="https://www.linkedin.com/help/linkedin/answer/a563309",
+        notes=["1512 × 256 px est à la fois la taille minimale et la taille recommandée par LinkedIn pour une Page.",
+               "Le poids maximum est préréglé sur 2 Mo pour garder une marge sous la limite de 3 Mo."],
+        faq=[("Quelle est la taille de la bannière d'une page entreprise LinkedIn ?", "1512 × 256 pixels, au format PNG ou JPEG, pour un fichier de 3 Mo maximum, selon l'aide officielle de LinkedIn."),
+             ("Est-ce la même taille que la bannière d'un profil ?", "Non : la bannière d'un profil personnel mesure 1584 × 396 px. Utilisez la page dédiée pour celle-ci.")],
+    ),
+    _platform(
+        "photo-profil-linkedin", "Photo de profil LinkedIn", "400 × 400 px, carrée.",
+        "Photo de profil LinkedIn : taille 400 × 400 px",
+        "Taille photo de profil LinkedIn : 400 × 400 px",
+        "Recadrez votre photo de profil LinkedIn en carré, au format recommandé de 400 × 400 px. Gratuit, sans "
+        "envoyer votre photo sur un serveur.",
+        "Déposez votre photo et centrez votre visage : elle est recadrée en carré de 400 × 400 px, la taille recommandée par LinkedIn.",
+        400, 400, limit_text="8 Mo", formats_text="PNG ou JPG", source_name="Aide LinkedIn",
+        source_url="https://www.linkedin.com/help/linkedin/answer/a549049",
+        notes=["LinkedIn accepte des photos de 400 × 400 à 7680 × 4320 px : 400 × 400 est le minimum pour un rendu net.",
+               "La photo est affichée dans un cercle : gardez un peu d'espace autour du visage."],
+        faq=[("Quelle taille pour une photo de profil LinkedIn ?", "Au moins 400 × 400 pixels, en PNG ou JPG, pour 8 Mo maximum."),
+             ("Ma photo est rectangulaire, que faire ?", "Déposez-la ici : elle est recadrée en carré et vous choisissez la partie gardée en la faisant glisser.")],
+    ),
+    _platform(
+        "miniature-youtube", "Miniature YouTube", "3840 × 2160 px (16:9), moins de 2 Mo.",
+        "Taille de la miniature YouTube : 3840 × 2160 px",
+        "Taille miniature YouTube : redimensionner en 16:9",
+        "Préparez vos miniatures YouTube au format 16:9 recommandé (3840 × 2160 px), sous 2 Mo, en JPG. "
+        "Gratuit, sans envoi sur un serveur.",
+        "Recadrez votre image en 16:9 à la taille recommandée par YouTube, compressée sous 2 Mo pour être acceptée même depuis l'appli mobile.",
+        3840, 2160, target=2_000_000, formats=("jpg", "png"), limit_text="2 Mo depuis l'appli mobile, 50 Mo depuis un ordinateur",
+        formats_text="JPG ou PNG", source_name="Aide YouTube",
+        source_url="https://support.google.com/youtube/answer/72431",
+        notes=["YouTube recommande désormais 3840 × 2160 px (4K) ; beaucoup de guides indiquent encore 1280 × 720 px, l'ancienne recommandation.",
+               "La largeur minimale acceptée est de 640 px. Vous pouvez saisir 1920 × 1080 ou 1280 × 720 si votre image d'origine est plus petite."],
+        faq=[("Quelle est la taille d'une miniature YouTube ?", "YouTube recommande 3840 × 2160 pixels au format 16:9, avec une largeur minimale de 640 pixels, en JPG ou PNG."),
+             ("Quel poids maximum pour une miniature YouTube ?", "2 Mo pour un envoi depuis l'appli mobile, 50 Mo depuis un ordinateur. L'outil vise 2 Mo pour fonctionner dans tous les cas.")],
+    ),
+    _platform(
+        "banniere-youtube", "Bannière YouTube", "2560 × 1440 px, moins de 6 Mo.",
+        "Taille de la bannière YouTube : 2560 × 1440 px",
+        "Taille bannière YouTube : 2560 × 1440 px",
+        "Redimensionnez l'image de bannière de votre chaîne YouTube en 2560 × 1440 px, sous 6 Mo. Gratuit, par "
+        "lot, sans envoi sur un serveur.",
+        "Recadrez la bannière de votre chaîne au format recommandé par YouTube. Gardez l'essentiel au centre : c'est la seule zone visible sur tous les écrans.",
+        2560, 1440, target=5_000_000, limit_text="6 Mo", formats_text="JPG ou PNG", source_name="Aide YouTube",
+        source_url="https://support.google.com/youtube/answer/10456525",
+        notes=["La taille minimale est de 2048 × 1152 px.",
+               "Seule la zone centrale de 1235 × 338 px est visible sur tous les appareils (mobile, ordinateur, TV) : placez-y le texte et le logo."],
+        faq=[("Quelle est la taille d'une bannière YouTube ?", "2560 × 1440 pixels recommandés, 2048 × 1152 au minimum, pour un fichier de 6 Mo maximum."),
+             ("Pourquoi ma bannière YouTube est-elle coupée sur mobile ?", "Sur mobile, YouTube n'affiche que la zone centrale de 1235 × 338 px. Tout ce qui est en dehors peut être rogné.")],
+    ),
+    _platform(
+        "banniere-discord", "Bannière Discord", "960 × 540 px (16:9), bannière de serveur.",
+        "Taille de la bannière de serveur Discord : 960 × 540 px",
+        "Taille bannière Discord : 960 × 540 px (serveur)",
+        "Recadrez la bannière de votre serveur Discord au format 16:9, en 960 × 540 px minimum. Gratuit, sans "
+        "envoi sur un serveur.",
+        "Discord demande une bannière de serveur d'au moins 960 × 540 px, au format 16:9. Recadrez votre image aux bonnes proportions.",
+        960, 540, limit_text="Non précisé par Discord pour la bannière de serveur", formats_text="Image fixe ou GIF animé",
+        source_name="Aide Discord", source_url="https://support.discord.com/hc/en-us/articles/360028716472-Server-Banners",
+        notes=["Pour une image plus nette, vous pouvez saisir 1920 × 1080 : les proportions 16:9 sont identiques.",
+               "La bannière de profil (Nitro) est un autre format : au moins 680 × 240 px, moins de 10 Mo, en PNG, JPG ou GIF."],
+        faq=[("Quelle est la taille d'une bannière de serveur Discord ?", "Au moins 960 × 540 pixels, au format 16:9, selon l'aide officielle de Discord."),
+             ("Et la bannière de profil Discord ?", "Elle mesure au moins 680 × 240 pixels et doit peser moins de 10 Mo (PNG, JPG ou GIF). Saisissez ces dimensions dans l'outil.")],
+    ),
+    _platform(
+        "emoji-discord", "Emoji Discord", "128 × 128 px, moins de 256 Ko.",
+        "Créer un emoji Discord : 128 × 128 px, moins de 256 Ko",
+        "Taille emoji Discord : 128 × 128 px, moins de 256 Ko",
+        "Transformez une image en emoji Discord : recadrée en 128 × 128 px, compressée sous 256 Ko, en PNG avec "
+        "transparence. Gratuit, sans envoi.",
+        "Recadrez votre image en carré de 128 × 128 px et passez-la sous la limite de 256 Ko, en gardant la transparence.",
+        128, 128, output="png", formats=("png", "webp", "jpg"), target=200_000, limit_text="256 Ko",
+        formats_text="PNG, JPEG, GIF ou WebP", source_name="Aide et documentation développeur Discord",
+        source_url="https://support.discord.com/hc/en-us/articles/360036479811-How-to-Add-Custom-Emojis-on-Discord",
+        notes=["Le PNG garde la transparence : c'est le format le plus adapté à un emoji détouré.",
+               "Le poids maximum est préréglé sur 200 Ko pour garder une marge sous 256 Ko."],
+        faq=[("Quelle taille pour un emoji Discord ?", "128 × 128 pixels et moins de 256 Ko, en PNG, JPEG, GIF ou WebP."),
+             ("Pourquoi Discord refuse-t-il mon emoji ?", "Le plus souvent parce que le fichier dépasse 256 Ko. L'outil le recadre et le compresse sous cette limite.")],
+    ),
+    _platform(
+        "sticker-discord", "Sticker Discord", "320 × 320 px, PNG, moins de 512 Ko.",
+        "Créer un sticker Discord : 320 × 320 px en PNG",
+        "Taille sticker Discord : 320 × 320 px, PNG, 512 Ko",
+        "Préparez un sticker de serveur Discord : image recadrée en 320 × 320 px exactement, en PNG, sous 512 Ko. "
+        "Gratuit, sans envoi.",
+        "Les stickers de serveur Discord doivent mesurer exactement 320 × 320 px et peser moins de 512 Ko. Recadrez votre image au bon format.",
+        320, 320, output="png", formats=("png",), target=500_000, limit_text="512 Ko",
+        formats_text="PNG (ou APNG pour un sticker animé)", source_name="Aide Discord",
+        source_url="https://support.discord.com/hc/en-us/articles/4402687377815-Tips-for-Sticker-Creators-FAQ",
+        notes=["Les dimensions doivent être exactement de 320 × 320 px.", "Un fond transparent rend le sticker plus propre dans la conversation."],
+        faq=[("Quelle taille pour un sticker Discord ?", "Exactement 320 × 320 pixels, en PNG ou APNG, pour un fichier de moins de 512 Ko."),
+             ("Mon image n'est pas carrée, est-ce un problème ?", "Non : l'outil la recadre en carré. Faites-la glisser pour choisir la partie gardée.")],
+    ),
+    _platform(
+        "emote-twitch", "Emote Twitch", "112 × 112 px, PNG, moins de 1 Mo.",
+        "Créer une emote Twitch : 112 × 112 px en PNG",
+        "Taille emote Twitch : 112 × 112 px en PNG",
+        "Préparez une emote Twitch en PNG carré de 112 × 112 px, sous 1 Mo, avec transparence. Gratuit, sans "
+        "envoi sur un serveur.",
+        "Recadrez votre image en carré de 112 × 112 px, la plus grande des trois tailles d'emote Twitch, en PNG transparent.",
+        112, 112, output="png", formats=("png",), target=1_000_000, limit_text="1 Mo",
+        formats_text="PNG (GIF pour une emote animée)", source_name="Aide Twitch",
+        source_url="https://help.twitch.tv/s/article/emote-guidelines",
+        notes=["Twitch demande trois tailles (28, 56 et 112 px), ou une seule image carrée de 112 à 4096 px qu'il redimensionne lui-même.",
+               "Pour les deux petites tailles, saisissez 56 × 56 puis 28 × 28 et téléchargez à nouveau."],
+        faq=[("Quelles tailles pour une emote Twitch ?", "28 × 28, 56 × 56 et 112 × 112 pixels, ou une seule image carrée de 112 à 4096 pixels, en PNG, pour 1 Mo maximum."),
+             ("Dois-je garder un fond transparent ?", "C'est préférable : l'emote s'affiche sur le fond du chat. Le PNG conserve la transparence.")],
+    ),
+    _platform(
+        "banniere-twitch", "Bannière Twitch", "1200 × 480 px, moins de 10 Mo.",
+        "Taille de la bannière de profil Twitch : 1200 × 480 px",
+        "Taille bannière Twitch : 1200 × 480 px",
+        "Redimensionnez la bannière de profil de votre chaîne Twitch en 1200 × 480 px, sous 10 Mo. Gratuit, sans "
+        "envoi sur un serveur.",
+        "Recadrez la bannière de votre chaîne au format recommandé par Twitch.",
+        1200, 480, limit_text="10 Mo", formats_text="JPEG, PNG ou GIF", source_name="Aide Twitch",
+        source_url="https://help.twitch.tv/s/article/twitch-account-settings",
+        notes=["La photo de profil Twitch mesure quant à elle 256 × 256 px (10 Mo maximum) : saisissez ces dimensions pour la préparer."],
+        faq=[("Quelle est la taille d'une bannière Twitch ?", "1200 × 480 pixels recommandés, pour un fichier de 10 Mo maximum en JPEG, PNG ou GIF."),
+             ("Et la photo de profil Twitch ?", "256 × 256 pixels, 10 Mo maximum.")],
+    ),
+    _platform(
+        "sticker-whatsapp", "Sticker WhatsApp", "512 × 512 px, WebP, moins de 100 Ko.",
+        "Créer un sticker WhatsApp : 512 × 512 px en WebP",
+        "Sticker WhatsApp : image en WebP 512 × 512, moins de 100 Ko",
+        "Transformez une image en sticker WhatsApp : 512 × 512 px exactement, au format WebP, sous 100 Ko. "
+        "Gratuit, sans envoyer votre image.",
+        "WhatsApp exige des stickers en WebP de 512 × 512 px exactement et de moins de 100 Ko. L'outil s'occupe des trois.",
+        512, 512, output="webp", formats=("webp",), target=100_000, limit_text="100 Ko (500 Ko pour un sticker animé)",
+        formats_text="WebP", source_name="Documentation officielle WhatsApp Stickers",
+        source_url="https://github.com/WhatsApp/stickers/blob/main/Android/README.md",
+        notes=["Un fond transparent est recommandé : le WebP le conserve.",
+               "Pour publier un pack, WhatsApp demande aussi une icône de 96 × 96 px en PNG, de moins de 50 Ko."],
+        faq=[("Quel format pour un sticker WhatsApp ?", "Une image WebP de exactement 512 × 512 pixels, de moins de 100 Ko (500 Ko pour un sticker animé)."),
+             ("Comment ajouter le sticker à WhatsApp ?", "WhatsApp n'accepte les stickers que regroupés en packs, via une application de création de stickers. Cet outil prépare les images au bon format.")],
+    ),
+    _platform(
+        "couverture-facebook", "Couverture Facebook", "851 × 315 px, idéalement moins de 100 Ko.",
+        "Taille de la photo de couverture Facebook : 851 × 315 px",
+        "Couverture Facebook : taille 851 × 315 px",
+        "Préparez la photo de couverture de votre Page Facebook en 851 × 315 px, en JPG de moins de 100 Ko pour "
+        "un chargement rapide. Gratuit, sans envoi.",
+        "Facebook recommande une couverture de 851 × 315 px, en JPG de moins de 100 Ko pour qu'elle s'affiche le plus vite possible.",
+        851, 315, target=100_000, formats=("jpg", "png"), limit_text="Moins de 100 Ko recommandé",
+        formats_text="JPG (PNG pour un logo ou du texte)", source_name="Aide Facebook",
+        source_url="https://www.facebook.com/help/125379114252045",
+        notes=["La taille minimale est de 400 × 150 px.",
+               "Pour une couverture avec logo ou texte, Facebook conseille le PNG pour éviter le flou autour des lettres."],
+        faq=[("Quelle est la taille d'une couverture Facebook ?", "851 × 315 pixels, en JPG de moins de 100 Ko pour un chargement plus rapide, selon l'aide Facebook."),
+             ("Pourquoi ma couverture Facebook est-elle floue ?", "Facebook recompresse les images lourdes. Un JPG déjà au bon format et sous 100 Ko s'affiche plus net.")],
+    ),
+    _platform(
+        "banniere-twitter-x", "Bannière X (Twitter)", "1500 × 500 px, l'en-tête du profil.",
+        "Taille de la bannière X (Twitter) : 1500 × 500 px",
+        "Taille bannière Twitter / X : 1500 × 500 px",
+        "Recadrez l'image d'en-tête de votre profil X (Twitter) au format recommandé de 1500 × 500 px. Gratuit, "
+        "sans envoi sur un serveur.",
+        "Recadrez l'en-tête de votre profil X au format recommandé (3:1).",
+        1500, 500, limit_text="Non précisé par X pour l'en-tête", formats_text="JPG ou PNG", source_name="Aide X",
+        source_url="https://help.x.com/en/managing-your-account/common-issues-when-uploading-profile-photo",
+        notes=["La photo de profil X mesure 400 × 400 px et doit peser moins de 2 Mo (JPEG, GIF ou PNG) : saisissez ces dimensions pour la préparer."],
+        faq=[("Quelle est la taille de la bannière Twitter / X ?", "1500 × 500 pixels recommandés."),
+             ("Et la photo de profil X ?", "400 × 400 pixels, moins de 2 Mo, en JPEG, GIF ou PNG.")],
+    ),
+    _platform(
+        "photo-instagram", "Photo Instagram", "1080 px de large, du paysage 1,91:1 au portrait 3:4.",
+        "Taille d'une photo Instagram : 1080 × 1440 px (portrait 3:4)",
+        "Taille photo Instagram : 1080 × 1440 px (3:4)",
+        "Recadrez vos photos pour le fil Instagram : 1080 px de large, en portrait 3:4 (1080 × 1440), carré ou "
+        "paysage. Gratuit, par lot, sans envoi.",
+        "Instagram accepte des photos de 1080 px de large, du paysage (1,91:1) au portrait (3:4). Le portrait 3:4 occupe le plus de place dans le fil.",
+        1080, 1440, formats=("jpg", "png"), limit_text="Non précisé par Instagram", formats_text="JPG ou PNG",
+        source_name="Aide Instagram", source_url="https://help.instagram.com/1631821640426723",
+        notes=["Pour une photo carrée, saisissez 1080 × 1080 ; pour du paysage, 1080 × 566.",
+               "Instagram accepte désormais le portrait jusqu'au 3:4 (1080 × 1440) ; beaucoup de guides indiquent encore 4:5 (1080 × 1350)."],
+        faq=[("Quelle est la taille d'une photo Instagram ?", "1080 pixels de large, avec une hauteur de 566 px (paysage 1,91:1) à 1440 px (portrait 3:4), selon l'aide Instagram."),
+             ("Pourquoi Instagram recadre-t-il ma photo ?", "Parce que ses proportions sortent de la plage acceptée. Recadrée ici en 3:4, 1:1 ou 1,91:1, elle est publiée telle quelle.")],
+    ),
+]

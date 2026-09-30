@@ -637,6 +637,24 @@ button, input, select { font: inherit; color: inherit; }
   .file__dl, .file__dl-slot { grid-area: dl; }
 }
 
+/* Official spec table on platform pages */
+.spec {
+  width: 100%;
+  margin: 0 0 18px;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.spec th,
+.spec td {
+  padding: 10px 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+.spec th { width: 38%; padding-right: 16px; font-weight: 600; color: var(--muted); }
+.spec td { color: var(--ink); font-weight: 600; }
+.spec a { color: var(--ok); text-decoration: underline; text-underline-offset: 2px; font-weight: 500; }
+
 /* ---------- Tools: resize, PDF, metadata ---------- */
 .dims {
   display: flex;
@@ -873,6 +891,10 @@ button, input, select { font: inherit; color: inherit; }
   border-top: 0;
 }
 .pair-list--cols li:nth-child(-n + 2) { border-top: 1px solid var(--line); }
+/* Tool / démarche lists: titles longer than "PNG → WebP", stacked above
+   their description instead of sharing a fixed-width column. */
+.pair-list--stack a { display: flex; flex-direction: column; gap: 3px; }
+.pair-list--stack .pair { white-space: normal; }
 
 .points {
   margin: 0 0 18px;

@@ -95,6 +95,25 @@ pour le PNG, sans perte). Un fichier déjà sous la limite et déjà au bon form
 Les limites des démarches ne sont écrites comme des faits que si une source officielle les confirme (ANTS :
 1 Mo par document ; CAF : 10 Mo par envoi) ; chaque page invite quand même à vérifier la limite affichée.
 
+## Autres outils (redimensionner, PDF, métadonnées)
+
+`js/main.js` lance l'outil indiqué par `WC_CONFIG.tool` (absent = convertisseur / compresseur `js/ui.js`) ;
+chaque outil est un module de `js/tools/`, chargé uniquement sur ses pages. Aides communes dans `js/common.js`.
+
+- **Redimensionner** (`tools/resize.js`) : `/redimensionner-image/` et une page par format de plateforme
+  (`PLATFORM_PAGES` dans `build/data.py` : bannière LinkedIn, miniature YouTube, sticker WhatsApp...).
+  Recadrage « cover » avec cadrage à la souris et zoom, poids maximum sans toucher aux dimensions
+  (`compressCanvasToTarget(..., { allowResize: false })`). **Règle** : une dimension n'est publiée que si
+  l'aide officielle de la plateforme la confirme (source + date de vérification affichées sur la page,
+  `SPECS_CHECKED`).
+- **Images en PDF** (`tools/pdf.js`) : `/images-en-pdf/`. PDF écrit à la main (pages JPEG / DCTDecode, aucune
+  librairie), pages A4 ou à la taille de l'image, poids maximum réparti entre les pages.
+- **Supprimer les métadonnées** (`tools/exif.js`) : `/supprimer-metadonnees-photo/`. Lecture avec exifr
+  (chargé à la demande depuis jsDelivr), suppression **sans réencodage** pour JPG/PNG/WebP ; JPG pivotés
+  (orientation EXIF ≠ 1), HEIC, AVIF, TIFF réencodés en JPG qualité 95.
+- **Tous les outils** : `/outils/` (catalogue complet, par catégorie) ; version courte sur l'accueil, sous
+  le convertisseur. Lien « Outils » dans l'en-tête.
+
 ## Lancer le projet en local
 
 Site 100% statique avec des URLs propres (`/convertisseur-png/`, `/png-en-webp/`...) servies comme des
@@ -124,6 +143,7 @@ Pull or Deploy pour récupérer les derniers commits.
 - **JSZip** 3.10.1 — archive ZIP groupée, chargée au clic sur « Tout télécharger ».
 - **UTIF.js** 3.1.0 + **pako** 2.1.0 — décodage TIFF, chargés au premier fichier `.tiff`/`.tif` déposé.
 - **heic2any** 0.0.4 — décodage HEIC (libheif en WebAssembly), chargé au premier fichier `.heic`/`.heif`.
+- **exifr** 7.1.3 — lecture des métadonnées, chargé uniquement sur la page « Supprimer les métadonnées ».
 
 Toutes chargées depuis cdn.jsdelivr.net, jamais appelées avec les images de
 l'utilisateur : ce sont de simples fichiers de code. Aucun backend, aucune API.

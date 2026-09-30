@@ -1,7 +1,7 @@
 {
  "/": {
   "date": "2026-09-30",
-  "hash": "e60eb94483577c42d0b04c7eb0621f5aa7c0dc72f184c282dac4d2850d71c0a4"
+  "hash": "f9cbb7964f4741059f90787e51160ac0ae7b1c6fc286a6063f57ca9d5e4f918b"
  },
  "/a-propos/": {
   "date": "2026-09-30",
@@ -15,61 +15,93 @@
   "date": "2026-09-30",
   "hash": "9800b64a3fcc7a056314c718686f509634beef7c300beee1481a7476e4f77067"
  },
+ "/banniere-discord/": {
+  "date": "2026-09-30",
+  "hash": "22a7d9233f986226f52e6b8192a2058c8fbbd5b4d51dba9cc703a57254485e46"
+ },
+ "/banniere-linkedin-entreprise/": {
+  "date": "2026-09-30",
+  "hash": "224a4531da19c1a439fcf30b3b8352f80743dd12da5eab8e0c6720779e8732a6"
+ },
+ "/banniere-linkedin/": {
+  "date": "2026-09-30",
+  "hash": "3b1630f8697236d0e6f0ca34fa3d9d10b552776c34c493ba884023221a9bd383"
+ },
+ "/banniere-twitch/": {
+  "date": "2026-09-30",
+  "hash": "863fc3131edad2e90af81f584d6fc3939210d4f40a84a20e71ec1139525ec701"
+ },
+ "/banniere-twitter-x/": {
+  "date": "2026-09-30",
+  "hash": "efffed6acd0b049876e80b8357ec296a2f0bcce5118b916d56646a6cd02a5e20"
+ },
+ "/banniere-youtube/": {
+  "date": "2026-09-30",
+  "hash": "715d3a69f161b78af750693ea10a2c778f02634a587229776f91c5021fa4dcc2"
+ },
  "/bmp-en-jpg/": {
   "date": "2026-09-30",
   "hash": "cadeb438cd96ffebafde8a21fa3887332515dfd66981c105f952e827a176602d"
  },
+ "/compresser-document-france-travail/": {
+  "date": "2026-09-30",
+  "hash": "3c647733366c01d8c69f6a6a439ee760b41c820a57f429555cc8cb17a4d5c9a5"
+ },
+ "/compresser-document-retraite/": {
+  "date": "2026-09-30",
+  "hash": "d894286b78a4e028b2d424309e460a0347a45b5ee7d4752b08a28411324ca167"
+ },
  "/compresser-image-1-mo/": {
   "date": "2026-09-30",
-  "hash": "9850e9b1b0062360a1d3424c0e255fb749a02056a409a9dcf9eeb15f56e5320e"
+  "hash": "89b0096eed7261270d52d720273169b2f3c71ab979e9cc001b3227c6ea835d90"
  },
  "/compresser-image-100-ko/": {
   "date": "2026-09-30",
-  "hash": "2c3a1c8c80cddda91dd4e0d1790247568fc5b9b850cc1d5fe6033e1f3616888a"
+  "hash": "3c71b59d09b64ff467aa5fed3206e569b99e4d702a9e7b0f4b6034e893694d60"
  },
  "/compresser-image-2-mo/": {
   "date": "2026-09-30",
-  "hash": "9b8fbdf9af998c975472276874b6282fa4e9e73308efe4f67305007e7747fc86"
+  "hash": "3f5e35a9b01e9724ba3b2ae11c92b32f0916605da074534330e578bf83a53bc4"
  },
  "/compresser-image-200-ko/": {
   "date": "2026-09-30",
-  "hash": "99296799d2aee3b584f1439364a2c208125485859417d3661706b7280f653557"
+  "hash": "be6168d6cd1ab0f5f6b8c79cf77418eb46fd1213f0fc2fd08f04c3bafc253e6b"
  },
  "/compresser-image-300-ko/": {
   "date": "2026-09-30",
-  "hash": "e1d4bb823007a6cb6c5522e2b9211de549f9718c132550790afd71bc5089e50f"
+  "hash": "af6caac6e7fb4a85269d00a29bd90a2ecf12d909a97cb6cd8b6a4b196dfd17ed"
  },
  "/compresser-image-5-mo/": {
   "date": "2026-09-30",
-  "hash": "68e800ae6eefab7301f66e46d505529dd6104f580ee429443952993ce5a6d843"
+  "hash": "21d426f8017b8a70e6690f41c945b732bcb66f8f25cf207510a39af543bd5b4c"
  },
  "/compresser-image-50-ko/": {
   "date": "2026-09-30",
-  "hash": "00e3f0c778ca93e203b54a4a68ae383de245e4ba161542255e88a012576a615e"
+  "hash": "5f23659f5c87e5b0f618c84bab31d9b3b5aa8c1e92ab309b8b7fc0e1d462d5d3"
  },
  "/compresser-image-500-ko/": {
   "date": "2026-09-30",
-  "hash": "cd0a434ab3e1b6bd0e6c2ac1aaa02c6cc14e5667cda593627db218b6ac24d1d8"
+  "hash": "c4202c20ca125e0bbc51166f4594a58c1555d48dae03a767854693a48bdb9dba"
  },
  "/compresser-image-pour-site-web/": {
   "date": "2026-09-30",
-  "hash": "b077f6c42197aca9a4e48776686b79d230d241c5a39a2d7955c46ef25d9a498b"
+  "hash": "54dc790dff3423125de2c34757c379d1a10386ddd05f445c2c80d50c10bbff5b"
  },
  "/compresser-image/": {
   "date": "2026-09-30",
-  "hash": "1f3e5167fb8ab62c1de9791fafcc26b3571f161e6ac07503e314644dee7f9351"
+  "hash": "3546f4c2a15c79bdf2564130b82cacfa479d8383cd0d368ebb20b735460a5d6d"
  },
  "/compresser-photo-ants/": {
   "date": "2026-09-30",
-  "hash": "5cb3c7ac4501c7b16b3a5b0848c5dd885ac05076b0aa3f2952a4f66614be6101"
+  "hash": "9571f5383c45b99d63c808715cff9512a0794c4138a874d61536c9a6f3e4a805"
  },
  "/compresser-photo-caf/": {
   "date": "2026-09-30",
-  "hash": "c68e9a54d6ed25923621969547b318461d5294e63883f14f5931ad4effc88ea5"
+  "hash": "ec0f669190ebd101df1bad709c3962c50a930b06092cae9795846f2a41ad0155"
  },
  "/compresser-photo-pour-mail/": {
   "date": "2026-09-30",
-  "hash": "14bdefc49c63bd4995816d4c48cf3b6d81ac2b7c4da978a7cc49bf6bd1434cba"
+  "hash": "f3aac940860d6e33858bc59fdfff6bebabc199f3c98aacb1625521111879e538"
  },
  "/confidentialite/": {
   "date": "2026-09-30",
@@ -115,6 +147,18 @@
   "date": "2026-09-30",
   "hash": "390f03cdf1ce5837af92afe079af269fff7385a99745fce57ebcafb037a801a7"
  },
+ "/couverture-facebook/": {
+  "date": "2026-09-30",
+  "hash": "05ca8c2dbe26130ea9ad822524ca36d05c65dd95c944025db87d8e59f0496574"
+ },
+ "/emoji-discord/": {
+  "date": "2026-09-30",
+  "hash": "c0ea2951d53ad70ee7a794d0837c5cc8218e58fca69cacb0c509f15d45de015a"
+ },
+ "/emote-twitch/": {
+  "date": "2026-09-30",
+  "hash": "a8087f1cacf805d87d996512b8d3f75d60f888aafa09a20ea6ae16a6930a2d22"
+ },
  "/gif-en-jpg/": {
   "date": "2026-09-30",
   "hash": "3dd7bafd542560620b9a79d34cf67b36fc4f5b51b436b9fa8e93e033545aa754"
@@ -129,31 +173,31 @@
  },
  "/guide/confidentialite-conversion-image-navigateur/": {
   "date": "2026-09-30",
-  "hash": "8a6a4187bcb4f7f0f4a447d9328cd65d39e00fb3c90625f2ca42ea092eb09e14"
+  "hash": "e96cf5dcaf9234b0b4640ea4df33d467fca7617a78cfd21e67d96f691225c03e"
  },
  "/guide/convertir-heic-iphone/": {
   "date": "2026-09-30",
-  "hash": "d8e78e11f119cc59e828c4928ffe968ae218871646cfdf7509657f2a9b1f008f"
+  "hash": "22716f04f791b1a203f460690f2c10500532e31152d82b6d29ad04b6bc150ee1"
  },
  "/guide/creer-favicon-ico/": {
   "date": "2026-09-30",
-  "hash": "458b0a9f78712b1e08b3a1c4d39d3e8e0b0c0a37701644ca3696aba6ecac7cba"
+  "hash": "9b8193d5a0e167a06c51a955df50b672411b5cbc7c87599704e311d1c144f8c1"
  },
  "/guide/png-vs-jpg/": {
   "date": "2026-09-30",
-  "hash": "412bb75920db2283589e113811fce5b353392309f48a7250191959b1c190d5a1"
+  "hash": "694f10e1769fe963a159f18bffbbc3e5d64e709b6277631bc0bf90fbb79837c0"
  },
  "/guide/quest-ce-que-avif/": {
   "date": "2026-09-30",
-  "hash": "913d6c823df531d4c36d9c33065a44a73ffc579b082aae78f2d7eb974b296d49"
+  "hash": "43a7cd1f95d81143ab438c93cd9fde00908ce1966a86eb4b86820e35c90a199d"
  },
  "/guide/reduire-poids-images-site-web/": {
   "date": "2026-09-30",
-  "hash": "66d770ab100f93e94849a7a010e7d9bd413a335e169b14c723447b3a66c3aa45"
+  "hash": "47bf405254201212d69c4e76b96a0a5dbf8461d7c47c9b14e6a85bd104c5893d"
  },
  "/guide/webp-avif-png-jpg-quel-format-choisir/": {
   "date": "2026-09-30",
-  "hash": "3167311d5f68d0ae83e00327dd5fb05893a154b7eff96aa9eac1a85729457650"
+  "hash": "6a3fd3ba865092d70b925ad0366a968928b73e00f81dfa2d6226573739293491"
  },
  "/heic-en-jpg/": {
   "date": "2026-09-30",
@@ -169,7 +213,7 @@
  },
  "/images-en-pdf/": {
   "date": "2026-09-30",
-  "hash": "eeec61366b0d4808e5b62ce34e5cc16d0a7c3147df2ebe436be1964eba0e5b37"
+  "hash": "6f9c0cca8f6019dc673926bd0113fec3f9a9cf64f61d7bff7ad757ba354e639c"
  },
  "/jpg-en-png/": {
   "date": "2026-09-30",
@@ -183,9 +227,21 @@
   "date": "2026-09-30",
   "hash": "35a49954cae658b84b111b2109fa0fc5b11396210eeb0bba0a34d512d7503dd4"
  },
+ "/miniature-youtube/": {
+  "date": "2026-09-30",
+  "hash": "a9cd96b3271257b1d28826b15b4bc371136a11d81423fe940a7e8030b6a27ecb"
+ },
  "/outils/": {
   "date": "2026-09-30",
-  "hash": "14c13d87d9ce1d5f947c5d97c6b6d18118a128fc7d3b879bdf062d2079f979fb"
+  "hash": "d1fb1259613d0f0875f9536aa3e6a98f8f6d83ba8e59343d475ffcc41b120881"
+ },
+ "/photo-instagram/": {
+  "date": "2026-09-30",
+  "hash": "23644aeb82124c7f1500e6f6b326a92237eee1ea7368910e5515e564e6c8e8f8"
+ },
+ "/photo-profil-linkedin/": {
+  "date": "2026-09-30",
+  "hash": "709a37e0dcecf9064c8d1c74490b971f782ed09421c14a9bb271db085e8352c6"
  },
  "/png-en-ico/": {
   "date": "2026-09-30",
@@ -201,7 +257,15 @@
  },
  "/redimensionner-image/": {
   "date": "2026-09-30",
-  "hash": "5c2ac05420f8934dc1684e5b95e48038f0c17f89a02669066a5c8164eb2bd507"
+  "hash": "b54a10c2c440e902dac61f9ada2efd4de2157392a91a6b859ee852e50ad49cef"
+ },
+ "/sticker-discord/": {
+  "date": "2026-09-30",
+  "hash": "1b590a55e01e69b77a7e4e67e58a6f1dc9fe04ecb398c1afb100b82beb31237f"
+ },
+ "/sticker-whatsapp/": {
+  "date": "2026-09-30",
+  "hash": "f96d33e115bffe35049df9429e0b6a6b6ba9905983b4f854f495af1ed8cc0937"
  },
  "/supprimer-metadonnees-photo/": {
   "date": "2026-09-30",

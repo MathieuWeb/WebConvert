@@ -557,7 +557,7 @@ def link_list_html(items, cls="pair-list--cols"):
         for title, desc, href in items
     )
     extra = f" {cls}" if cls else ""
-    return f"""    <ul class="pair-list{extra}">
+    return f"""    <ul class="pair-list pair-list--stack{extra}">
 {rows}
     </ul>"""
 

@@ -130,7 +130,12 @@ async function readMeta(file) {
     tags = null; // unreadable or no metadata: still cleaned below
   }
   if (!tags) return { count: 0, orientation: 1 };
-  const meta = { count: Object.keys(tags).length, orientation: Number(tags.Orientation) || 1 };
+  // Not metadata about the photo's owner: PNG header fields (kept, they
+  // describe the pixels) and the lat/long exifr computes from the GPS tags.
+  const TECHNICAL = new Set(["ImageWidth", "ImageHeight", "BitDepth", "ColorType", "Compression", "Filter",
+    "Interlace", "latitude", "longitude"]);
+  const count = Object.keys(tags).filter((k) => !TECHNICAL.has(k)).length;
+  const meta = { count, orientation: Number(tags.Orientation) || 1 };
   if (typeof tags.latitude === "number" && typeof tags.longitude === "number") {
     meta.gps = { lat: tags.latitude, lon: tags.longitude };
   }
