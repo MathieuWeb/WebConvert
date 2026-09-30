@@ -157,7 +157,7 @@ def site_header(current_path):
   <a href="/" class="brand"><span class="brand__mark" aria-hidden="true"></span>Webconvert</a>
   <nav class="site-nav" aria-label="Navigation principale">
     <a href="/#formats">Formats</a>
-    <a href="/compresser-image/"{cur('/compresser')}>Compresser</a>
+    <a href="/outils/"{cur('/outils')}>Outils</a>
     <a href="/guide/"{cur('/guide')}>Guides</a>
     <a href="/#questions">FAQ</a>
   </nav>
@@ -338,8 +338,11 @@ QUALITY_HTML = """<div class="quality" data-quality-card>
     </div>"""
 
 
-def _app_html(aria_label, dz_title, side_controls):
-    return f"""<section class="app wrap" aria-label="{aria_label}">
+def _app_html(aria_label, dz_title, side_controls, main_extra="", tool_class="", multiple=True,
+              dz_hint="ou glissez-les ici", pick_label="Choisir des fichiers", zip_label="Tout télécharger (ZIP)"):
+    cls = "app wrap" + (f" {tool_class}" if tool_class else "")
+    multi = " multiple" if multiple else ""
+    return f"""<section class="{cls}" aria-label="{aria_label}">
   <div class="app__side">
     {side_controls}
 
@@ -350,23 +353,111 @@ def _app_html(aria_label, dz_title, side_controls):
     <div class="dropzone" data-dropzone>
       <div class="dropzone__text">
         <p class="dropzone__title">{dz_title}</p>
-        <p class="dropzone__hint">ou glissez-les ici</p>
+        <p class="dropzone__hint">{dz_hint}</p>
       </div>
-      <button type="button" class="btn btn--dark" data-pick-button>Choisir des fichiers</button>
-      <input type="file" data-file-input class="visually-hidden" multiple tabindex="-1" aria-label="Choisir des fichiers image à convertir" />
+      <button type="button" class="btn btn--dark" data-pick-button>{pick_label}</button>
+      <input type="file" data-file-input class="visually-hidden"{multi} tabindex="-1" aria-label="Choisir des fichiers image" />
     </div>
 
     <p class="tool-notice" data-tool-notice role="alert"></p>
-
+{main_extra}
     <div class="files" data-queue-card>
       <ul class="files__list" data-queue-list aria-label="Fichiers"></ul>
       <div class="files__foot">
         <span class="files__summary" data-queue-summary aria-live="polite"></span>
-        <button type="button" class="btn btn--dark" data-download-all>Tout télécharger (ZIP)</button>
+        <button type="button" class="btn btn--dark" data-download-all>{zip_label}</button>
       </div>
     </div>
   </div>
 </section>"""
+
+
+def select_field_html(label_text, data_attr, options, selected, aria, hint=""):
+    """A sidebar field with the same styled-select face as the format
+    picker. options: [(value, text)]."""
+    face = next((t for v, t in options if str(v) == str(selected)), options[0][1])
+    opts = "\n".join(
+        f'        <option value="{v}"{" selected" if str(v) == str(selected) else ""}>{t}</option>'
+        for v, t in options)
+    hint_html = f'<span class="fcard__hint">{hint}</span>' if hint else ""
+    return f"""<div class="picker__field">
+      <div class="side-label"><span>{label_text}</span></div>
+      <label class="fcard">
+        <span class="fcard__label" data-fcard-label>{face}</span>
+        {hint_html}
+        <span class="fcard__chevron">{icon("chevron", 16)}</span>
+        <select class="fcard__select" {data_attr} aria-label="{aria}">
+{opts}
+        </select>
+      </label>
+    </div>"""
+
+
+def weight_options(none_label="Aucun"):
+    return [("", none_label)] + [(b, t) for _s, b, t in TARGET_SIZES]
+
+
+def resize_tool_markup(*, width, height, output="jpg", target=None, keep_ratio=False, formats=("jpg", "png", "webp")):
+    """Exact-size tool: dimensions, output format, optional weight limit;
+    main pane gets a crop editor (drag to frame, zoom) above the file list.
+    With keep_ratio (generic /redimensionner-image/), only the width is
+    imposed and nothing is cropped."""
+    ratio_checked = " checked" if keep_ratio else ""
+    side = f"""<div class="picker__field">
+      <div class="side-label"><span>Dimensions (px)</span></div>
+      <div class="dims">
+        <label class="dims__box"><span class="visually-hidden">Largeur en pixels</span>
+          <input type="number" min="1" max="10000" inputmode="numeric" value="{width}" data-resize-width /></label>
+        <span class="dims__x" aria-hidden="true">×</span>
+        <label class="dims__box"><span class="visually-hidden">Hauteur en pixels</span>
+          <input type="number" min="1" max="10000" inputmode="numeric" value="{height or ''}" data-resize-height /></label>
+      </div>
+      <label class="check"><input type="checkbox" data-resize-keep{ratio_checked} /> Conserver les proportions (sans recadrage)</label>
+    </div>
+
+    {select_field_html("Format de sortie", "data-resize-format", [(f, label(f)) for f in formats], output, "Format de sortie")}
+
+    {select_field_html("Poids maximum", "data-resize-target", weight_options("Sans limite"), target or "", "Poids maximum par image")}"""
+    editor = """    <div class="editor" data-editor hidden>
+      <div class="editor__stage" data-editor-stage>
+        <canvas class="editor__canvas" data-editor-canvas aria-label="Aperçu du cadrage : faites glisser l'image pour la cadrer"></canvas>
+      </div>
+      <div class="editor__bar">
+        <label class="editor__zoom"><span>Zoom</span>
+          <input type="range" min="1" max="4" step="0.01" value="1" data-editor-zoom /></label>
+        <span class="editor__hint" data-editor-hint>Faites glisser l'image pour la cadrer</span>
+      </div>
+    </div>
+"""
+    return _app_html("Redimensionner", "Sélectionnez vos images", side, main_extra=editor, tool_class="app--resize")
+
+
+def pdf_tool_markup(*, target=None):
+    """Images -> PDF: page size, margins, optional weight limit; the file
+    list is reorderable (up/down) and one PDF is produced."""
+    side = f"""{select_field_html("Format des pages", "data-pdf-page", [("a4", "A4 portrait"), ("a4l", "A4 paysage"), ("fit", "Taille de chaque image")], "a4", "Format des pages")}
+
+    {select_field_html("Marges", "data-pdf-margin", [("10", "Petites (10 mm)"), ("0", "Aucune"), ("20", "Grandes (20 mm)")], "10", "Marges")}
+
+    {select_field_html("Poids maximum du PDF", "data-pdf-target", weight_options("Sans limite") + [(10_000_000, "10 Mo")], target or "", "Poids maximum du PDF")}"""
+    return _app_html("Images en PDF", "Sélectionnez vos images", side, tool_class="app--pdf",
+                     zip_label="Télécharger le PDF")
+
+
+def exif_tool_markup():
+    side = """<div class="picker__field">
+      <div class="side-label"><span>Ce qui est supprimé</span></div>
+      <ul class="side-list">
+        <li>Position GPS</li>
+        <li>Date et heure de prise de vue</li>
+        <li>Marque et modèle de l'appareil</li>
+        <li>Logiciel, auteur, copyright</li>
+        <li>Miniature intégrée</li>
+      </ul>
+      <p class="quality__note">JPG, PNG et WebP sont nettoyés sans réencodage : l'image reste identique au pixel près.</p>
+    </div>"""
+    return _app_html("Supprimer les métadonnées", "Sélectionnez vos photos", side, tool_class="app--exif",
+                     zip_label="Tout télécharger (ZIP)")
 
 
 # ---------------------------------------------------------------------------

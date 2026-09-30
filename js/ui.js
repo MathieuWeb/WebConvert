@@ -1,6 +1,7 @@
 import { FORMATS, acceptAttrFor, acceptAttrForAny } from "./formats-data.js";
 import { convertImage, compressToTarget, outputFileName, formatIdForFile, supportsEncoding } from "./conversion.js";
 import { downloadAsZip, triggerDownload } from "./zip.js";
+import { formatBytes, savingsLabel, debounce } from "./common.js";
 
 // Every page sets window.WC_CONFIG inline before this module loads:
 //   input: a format id ("png") or "any" (homepage)
@@ -23,36 +24,11 @@ function resolveConfig() {
   };
 }
 
-/** "3,4 Mo" / "612 Ko" — French thousand/decimal formatting to match the design. */
-export function formatBytes(bytes) {
-  if (bytes >= 1_000_000) {
-    return (bytes / 1_000_000).toFixed(1).replace(/\.0$/, "").replace(".", ",") + "\u00a0Mo";
-  }
-  return Math.max(1, Math.round(bytes / 1000)) + "\u00a0Ko";
-}
-
-// "−65 %" (true minus sign, non-breaking space before %, French typography).
-function savingsLabel(originalSize, newSize) {
-  const pct = Math.round((1 - newSize / originalSize) * 100);
-  if (pct === 0) return { pct, grew: false, text: "0\u00a0%" };
-  return pct > 0
-    ? { pct, grew: false, text: "\u2212" + pct + "\u00a0%" }
-    : { pct, grew: true, text: "+" + Math.abs(pct) + "\u00a0%" };
-}
-
 function qualityTier(q) {
   if (q < 60) return ["Très léger", "Compression forte, pour les vignettes."];
   if (q < 85) return ["Équilibré", "Réglage conseillé pour le web."];
   if (q < 96) return ["Haute fidélité", "Pour les textures fines et les aplats."];
   return ["Qualité maximale", "Perte minimale, pour l'archivage."];
-}
-
-function debounce(fn, delay) {
-  let handle;
-  return (...args) => {
-    clearTimeout(handle);
-    handle = setTimeout(() => fn(...args), delay);
-  };
 }
 
 export function initApp() {
@@ -456,18 +432,6 @@ export function initApp() {
       downloadAllBtn.disabled = false;
       downloadAllBtn.textContent = originalLabel;
     }
-  });
-
-  // ---------------- FAQ ----------------
-  document.querySelectorAll("[data-faq-item]").forEach((item) => {
-    const trigger = item.querySelector("[data-faq-trigger]");
-    const sign = item.querySelector("[data-faq-sign]");
-    trigger.addEventListener("click", () => {
-      const open = item.getAttribute("data-open") === "true";
-      item.setAttribute("data-open", String(!open));
-      trigger.setAttribute("aria-expanded", String(!open));
-      sign.textContent = open ? "+" : "–";
-    });
   });
 
   // ---------------- Format picker ----------------

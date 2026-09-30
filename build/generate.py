@@ -140,6 +140,9 @@ def build_homepage():
       <p>C'est la même approche que <a href="/guide/confidentialite-conversion-image-navigateur/">l'article sur la confidentialité</a> détaille plus en profondeur : à la différence d'un convertisseur classique, il n'y a structurellement rien à intercepter, puisqu'aucune requête réseau ne transporte vos images.</p>
     </div>"""
 
+    tools_teaser = (tools_catalog_html(full=False)
+                    + f'\n    <p><a class="link-arrow" href="{TOOLS_PAGE}">Voir tous les outils →</a></p>')
+
     body = f"""<main id="contenu">
 {t.intro_html(
         crumbs=[("Accueil", None)],
@@ -148,6 +151,8 @@ def build_homepage():
     )}
 {t.tool_markup(input_id="any", default_output=default_output)}
 
+{t.section_html("outils", "Tous les outils", tools_teaser,
+                intro="Convertir n'est qu'un début : compressez, redimensionnez, réunissez en PDF ou nettoyez vos photos, toujours sans envoi de fichier.", extra_class="catalog")}
 {t.format_catalog_html(catalog_pairs)}
 {t.section_html("compresser", "Compresser à une taille précise", compress_teaser_html(),
                 intro="Un site exige moins de 1 Mo ou de 200 Ko ? Choisissez la limite, l'outil trouve la meilleure qualité qui tient dessous.")}
@@ -528,6 +533,240 @@ def build_demarche_page(key):
 
 
 # ---------------------------------------------------------------------------
+# Tools beyond conversion: resize, images -> PDF, metadata, + the catalogue
+# ---------------------------------------------------------------------------
+
+RESIZE_HUB = "/redimensionner-image/"
+PDF_HUB = "/images-en-pdf/"
+EXIF_PAGE = "/supprimer-metadonnees-photo/"
+TOOLS_PAGE = "/outils/"
+
+# Platform size pages, filled from PLATFORM_PAGES in data.py (only values
+# confirmed by the platform's own documentation).
+try:
+    from data import PLATFORM_PAGES
+except ImportError:
+    PLATFORM_PAGES = []
+
+
+def build_tool_page(*, path, crumbs, h1, subtitle, title, meta, tool_html, wc_config, sections, faq_items,
+                    app_name, priority="0.8"):
+    body = f"""<main id="contenu">
+{t.intro_html(crumbs=crumbs, h1=h1, subtitle=subtitle)}
+{tool_html}
+
+{sections}
+{t.privacy_aside_html()}
+{related_guides_html(path)}
+{t.faq_html(faq_items)}
+</main>"""
+    crumb_ld = [(c, h if h else path) for c, h in crumbs]
+    json_ld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {"@type": "BreadcrumbList", "itemListElement": t.breadcrumb_json_ld(crumb_ld)},
+            {"@type": "WebApplication", "@id": BASE_ID(path.strip("/") + "/#app"), "name": app_name,
+             "url": t.BASE_URL + path, "applicationCategory": "MultimediaApplication",
+             "operatingSystem": "Tout navigateur web", "browserRequirements": "Navigateur compatible HTML5 Canvas",
+             "inLanguage": "fr-FR", "description": meta,
+             "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}},
+            t.faq_json_ld(faq_items),
+        ],
+    }
+    html = t.render_page(path=path, title=title + " | Webconvert.fr", meta_description=meta, body_html=body,
+                         json_ld=json_ld, include_js=True, wc_config=wc_config)
+    write_page(path, html)
+    register(path, "monthly", priority)
+
+
+def platform_links(exclude=None):
+    return [(p["crumb"], p["short"], p["path"]) for p in PLATFORM_PAGES if p["path"] != exclude]
+
+
+def build_resize_hub():
+    platform_section = ""
+    if PLATFORM_PAGES:
+        platform_section = t.section_html(
+            "plateformes", "Aux dimensions des réseaux sociaux", t.link_list_html(platform_links()),
+            intro="Bannières, photos de profil, miniatures : la taille exacte exigée par chaque plateforme, déjà réglée.") + "\n"
+    how = """    <div class="prose">
+      <p>Indiquez la largeur voulue en pixels : chaque image est redimensionnée en gardant ses proportions, sans rien couper. Pour imposer aussi la hauteur, décochez « Conserver les proportions » : l'image est alors recadrée pour remplir exactement le format, et vous choisissez la partie à garder en la faisant glisser dans l'aperçu.</p>
+      <p>Choisissez le format de sortie (JPG, PNG ou WebP) et, si un site impose un poids maximum, la limite : la qualité est ajustée pour la respecter sans toucher aux dimensions.</p>
+      <p>Tout se passe dans votre navigateur : vos images ne sont envoyées sur aucun serveur.</p>
+    </div>"""
+    sections = platform_section + t.section_html("comment-redimensionner", "Comment ça marche", how, tag="article")
+    faq = [
+        ("Comment redimensionner une image sans la déformer ?",
+         "Laissez « Conserver les proportions » coché et indiquez seulement la largeur : la hauteur est calculée "
+         "automatiquement. Pour un format imposé (par exemple 1200 × 630), décochez la case : l'image est recadrée, "
+         "jamais étirée."),
+        ("Puis-je agrandir une petite image ?",
+         "Oui, mais un agrandissement n'ajoute pas de détails : au-delà de 150 à 200 %, l'image paraîtra floue."),
+        ("Puis-je redimensionner plusieurs images d'un coup ?",
+         "Oui : déposez-les toutes, elles sont redimensionnées avec les mêmes réglages. Cliquez sur le nom d'une "
+         "image pour ajuster son cadrage, puis téléchargez le ZIP."),
+    ] + list(t.PRIVACY_FAQ[:1])
+    build_tool_page(
+        path=RESIZE_HUB,
+        crumbs=[("Accueil", "/"), ("Redimensionner une image", None)],
+        h1="Redimensionner une image en pixels",
+        subtitle="Choisissez la largeur, ou une taille exacte à recadrer. Par lot, en JPG, PNG ou WebP, sans envoi sur un serveur.",
+        title="Redimensionner une image en ligne (en pixels)",
+        meta=("Redimensionnez vos images en pixels, en gardant les proportions ou à une taille exacte avec "
+              "recadrage. Gratuit, par lot, sans envoi sur un serveur."),
+        tool_html=t.resize_tool_markup(width=1200, height=None, keep_ratio=True),
+        wc_config={"tool": "resize", "zipName": "images-redimensionnees.zip"},
+        sections=sections, faq_items=faq, app_name="Redimensionner une image", priority="0.9",
+    )
+
+
+def build_platform_page(p):
+    spec = p["spec_html"]
+    sections = (
+        t.section_html("dimensions", p["spec_heading"], spec, tag="article")
+        + "\n"
+        + t.section_html("plateformes", "Autres formats", t.link_list_html(platform_links(exclude=p["path"])))
+    )
+    build_tool_page(
+        path=p["path"],
+        crumbs=[("Accueil", "/"), ("Redimensionner une image", RESIZE_HUB), (p["crumb"], None)],
+        h1=p["h1"], subtitle=p["intro"], title=p["title"], meta=p["meta"],
+        tool_html=t.resize_tool_markup(width=p["width"], height=p["height"], output=p.get("output", "jpg"),
+                                       target=p.get("target"), formats=p.get("formats", ("jpg", "png", "webp"))),
+        wc_config={"tool": "resize", "zipName": p["path"].strip("/") + ".zip"},
+        sections=sections, faq_items=p["faq"], app_name=p["title"], priority="0.8",
+    )
+
+
+def build_pdf_hub():
+    how = """    <div class="prose">
+      <p>Déposez vos photos, scans ou captures d'écran : chacun devient une page du PDF. Réorganisez-les avec les flèches, choisissez le format des pages (A4 ou taille de l'image) et les marges : le PDF est recréé à chaque modification.</p>
+      <p>Si un site limite le poids des fichiers (1 Mo pour l'ANTS, par exemple), choisissez cette limite : chaque page est compressée juste assez pour que le PDF entier passe dessous.</p>
+      <p>Vos documents ne quittent jamais votre appareil : le PDF est fabriqué par votre navigateur.</p>
+    </div>"""
+    sections = (
+        t.section_html("comment-pdf", "Comment ça marche", how, tag="article")
+        + "\n"
+        + t.section_html("demarches", "Pour une démarche en ligne", t.link_list_html(demarche_links()),
+                         intro="Photos de justificatifs trop lourdes ? Ces pages règlent la bonne limite de poids.")
+    )
+    faq = [
+        ("Comment mettre plusieurs photos dans un seul PDF ?",
+         "Déposez-les toutes dans l'outil ci-dessus, remettez-les dans l'ordre avec les flèches, puis cliquez sur "
+         "« Télécharger le PDF »."),
+        ("Mon PDF est trop lourd pour le site, que faire ?",
+         "Choisissez une limite dans « Poids maximum du PDF » : les images sont compressées pour que le fichier "
+         "entier respecte cette limite, en gardant le texte lisible autant que possible."),
+        ("Quels formats d'image sont acceptés ?",
+         "JPG, PNG, WebP, HEIC (photos d'iPhone), AVIF, GIF, BMP, TIFF et SVG."),
+    ] + list(t.PRIVACY_FAQ[:1])
+    build_tool_page(
+        path=PDF_HUB,
+        crumbs=[("Accueil", "/"), ("Images en PDF", None)],
+        h1="Convertir des images en PDF",
+        subtitle="Photos, scans ou captures réunis en un seul PDF, dans l'ordre de votre choix. Rien n'est envoyé sur un serveur.",
+        title="Convertir des images en PDF (JPG, PNG, HEIC)",
+        meta=("Réunissez vos photos et scans en un seul PDF, dans l'ordre voulu, avec un poids maximum si besoin. "
+              "Gratuit, sans envoyer vos documents."),
+        tool_html=t.pdf_tool_markup(),
+        wc_config={"tool": "pdf", "pdfName": "images.pdf"},
+        sections=sections, faq_items=faq, app_name="Convertir des images en PDF", priority="0.9",
+    )
+
+
+def build_exif_page():
+    why = """    <div class="prose">
+      <p>Une photo prise au smartphone enregistre souvent bien plus que l'image : la position GPS exacte de la prise de vue, la date et l'heure, le modèle du téléphone, parfois le nom de l'auteur. Ces informations, appelées métadonnées EXIF, voyagent avec le fichier quand vous le publiez ou l'envoyez.</p>
+      <p>L'outil affiche ce que contient chaque photo, puis retire ces informations. Pour les JPG, PNG et WebP, seules les métadonnées sont supprimées : l'image elle-même n'est pas réencodée et reste identique au pixel près. Une photo de téléphone prise de biais est réenregistrée dans le bon sens, pour ne pas s'afficher couchée une fois l'orientation retirée.</p>
+      <p>La lecture et le nettoyage ont lieu dans votre navigateur : vos photos ne sont envoyées sur aucun serveur, ce qui serait un comble pour un outil de confidentialité.</p>
+    </div>"""
+    sections = t.section_html("pourquoi-exif", "Ce que révèlent vos photos", why, tag="article")
+    faq = [
+        ("Comment savoir si une photo contient sa position GPS ?",
+         "Déposez-la dans l'outil : s'il y en a une, la position GPS s'affiche sous le nom du fichier, avec un lien "
+         "pour la voir sur une carte."),
+        ("La qualité de la photo change-t-elle ?",
+         "Non pour les JPG, PNG et WebP : seules les métadonnées sont retirées du fichier. Les photos HEIC, AVIF et "
+         "TIFF, ainsi que les JPG pris de biais, sont réenregistrés en JPG en qualité 95."),
+        ("Les réseaux sociaux suppriment-ils déjà ces informations ?",
+         "Beaucoup le font à la publication, mais pas les e-mails, messageries, sites d'annonces ou envois de "
+         "fichiers : mieux vaut nettoyer la photo avant."),
+    ] + list(t.PRIVACY_FAQ[:1])
+    build_tool_page(
+        path=EXIF_PAGE,
+        crumbs=[("Accueil", "/"), ("Supprimer les métadonnées", None)],
+        h1="Supprimer les métadonnées d'une photo (EXIF, GPS)",
+        subtitle="Voyez ce que vos photos révèlent (position, appareil, date), puis retirez-le sans perte de qualité.",
+        title="Supprimer les métadonnées EXIF d'une photo (GPS)",
+        meta=("Affichez et supprimez les métadonnées EXIF de vos photos (position GPS, appareil, date), sans perte "
+              "de qualité et sans envoi sur un serveur."),
+        tool_html=t.exif_tool_markup(),
+        wc_config={"tool": "exif", "zipName": "photos-sans-metadonnees.zip"},
+        sections=sections, faq_items=faq, app_name="Supprimer les métadonnées d'une photo", priority="0.9",
+    )
+
+
+def tool_catalog(full):
+    """[(group, [(title, desc, href)])] — every tool of the site; `full` adds
+    the per-threshold / per-platform / per-démarche variants."""
+    convert = [("Convertisseur d'images", "JPG, PNG, WebP, AVIF, HEIC… dans le format de votre choix.", "/")]
+    convert += [(f"Convertisseur {t.label(i)}", FORMATS[i]["short"].capitalize() + ".", f"/convertisseur-{i}/")
+                for i in (INPUT_IDS if full else ["heic", "webp", "png"])]
+    compress = [("Compresser à une taille précise", "50 Ko, 200 Ko, 1 Mo… la meilleure qualité sous la limite.", COMPRESS_HUB)]
+    if full:
+        compress += threshold_links() + demarche_links()
+    resize = [("Redimensionner une image", "En pixels, avec ou sans recadrage, par lot.", RESIZE_HUB)]
+    if full:
+        resize += platform_links()
+    elif PLATFORM_PAGES:
+        resize += platform_links()[:3]
+    documents = [("Images en PDF", "Plusieurs photos ou scans en un seul PDF, avec un poids maximum.", PDF_HUB)]
+    privacy = [("Supprimer les métadonnées", "Position GPS, appareil, date : retirés sans perte de qualité.", EXIF_PAGE)]
+    return [("Convertir", convert), ("Compresser", compress), ("Redimensionner", resize),
+            ("Créer un PDF", documents), ("Confidentialité", privacy)]
+
+
+def tools_catalog_html(full):
+    groups = []
+    for name, items in tool_catalog(full):
+        groups.append(f"""    <div class="catalog__group">
+      <p class="catalog__label">{name}</p>
+{t.link_list_html(items)}
+    </div>""")
+    return "\n".join(groups)
+
+
+def build_tools_page():
+    body = f"""<main id="contenu">
+<div class="wrap page">
+  <div class="page-intro">
+    {t.breadcrumbs_nav([("Accueil", "/"), ("Tous les outils", None)])}
+    <h1>Tous les outils</h1>
+    <p>Convertir, compresser, redimensionner, créer un PDF, protéger vos photos : tous les outils de Webconvert.fr, gratuits et sans envoi de fichier.</p>
+  </div>
+</div>
+{t.section_html("outils", "Outils d'image", tools_catalog_html(full=True), extra_class="catalog")}
+</main>"""
+    json_ld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {"@type": "BreadcrumbList", "itemListElement": t.breadcrumb_json_ld([("Accueil", "/"), ("Tous les outils", TOOLS_PAGE)])},
+            {"@type": "ItemList", "name": "Outils Webconvert.fr",
+             "itemListElement": [
+                 {"@type": "ListItem", "position": n + 1, "name": title, "url": t.BASE_URL + href}
+                 for n, (title, _d, href) in enumerate(
+                     [it for _g, items in tool_catalog(full=False) for it in items])]},
+        ],
+    }
+    html = t.render_page(path=TOOLS_PAGE, title="Tous les outils d'image gratuits | Webconvert.fr",
+                         meta_description=("Tous les outils de Webconvert.fr : convertir, compresser, redimensionner, "
+                                           "créer un PDF, supprimer les métadonnées. Gratuits, sans envoi de fichier."),
+                         body_html=body, json_ld=json_ld)
+    write_page(TOOLS_PAGE, html)
+    register(TOOLS_PAGE, "weekly", "0.9")
+
+
+# ---------------------------------------------------------------------------
 # Guide
 # ---------------------------------------------------------------------------
 
@@ -847,11 +1086,17 @@ def main():
         build_hub_page(input_id)
     for i, o in PAIRS:
         build_pair_page(i, o)
+    build_resize_hub()
+    for p in PLATFORM_PAGES:
+        build_platform_page(p)
+    build_pdf_hub()
+    build_exif_page()
     build_compress_hub()
     for slug, target, text in TARGET_SIZES:
         build_threshold_page(slug, target, text)
     for key in DEMARCHES:
         build_demarche_page(key)
+    build_tools_page()
     build_guide_index()
     for article in ARTICLES:
         build_guide_article(article)

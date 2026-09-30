@@ -223,7 +223,7 @@ async function encodeIco(canvas) {
 
 const NATIVE_ENCODE_MIME = { jpg: "image/jpeg", png: "image/png", webp: "image/webp", avif: "image/avif" };
 
-async function encodeCanvas(canvas, outputFormatId, sliderQuality) {
+export async function encodeCanvas(canvas, outputFormatId, sliderQuality) {
   const quality = sliderToCanvasQuality(sliderQuality);
   if (outputFormatId in NATIVE_ENCODE_MIME) {
     return canvasToBlob(canvas, NATIVE_ENCODE_MIME[outputFormatId], quality);
@@ -238,7 +238,7 @@ async function encodeCanvas(canvas, outputFormatId, sliderQuality) {
 /** Decode `file` and draw it on a fresh canvas, flattened onto white when
  * the output has no alpha channel (JPG, BMP) so transparency doesn't turn
  * black. */
-async function decodeToCanvas(file, inputFormatId, outputFormatId) {
+export async function decodeToCanvas(file, inputFormatId, outputFormatId) {
   const source = await decodeSource(file, inputFormatId);
   const width = source.width ?? source.naturalWidth;
   const height = source.height ?? source.naturalHeight;
@@ -315,12 +315,18 @@ const TARGET_Q_MAX = 0.92;
  */
 export async function compressToTarget(file, inputFormatId, outputFormatId, targetBytes) {
   const canvas = await decodeToCanvas(file, inputFormatId, outputFormatId);
-  const lossy = !!FORMATS[outputFormatId].lossy;
-
   if (inputFormatId === outputFormatId && file.size <= targetBytes) {
     return { blob: file, width: canvas.width, height: canvas.height, quality: null, scale: 1, fits: true, untouched: true };
   }
+  return compressCanvasToTarget(canvas, outputFormatId, targetBytes);
+}
 
+/**
+ * Same search as compressToTarget, on an already drawn canvas (used by the
+ * resize and PDF tools, which crop or lay out the image first).
+ */
+export async function compressCanvasToTarget(canvas, outputFormatId, targetBytes, { allowResize = true } = {}) {
+  const lossy = !!FORMATS[outputFormatId].lossy;
   const flatten = outputFormatId === "jpg" || outputFormatId === "bmp";
 
   // Best encoding of `c` under the target: highest quality that fits (lossy),
@@ -360,7 +366,7 @@ export async function compressToTarget(file, inputFormatId, outputFormatId, targ
   let attempt = await bestUnderTarget(current);
   // Shrink until it fits: weight grows roughly with the pixel count, so aim
   // the next scale at sqrt(target / size), with a margin and a minimum step.
-  for (let round = 0; !attempt.fits && round < 8; round++) {
+  for (let round = 0; allowResize && !attempt.fits && round < 8; round++) {
     const ratio = Math.sqrt(targetBytes / attempt.blob.size) * 0.95;
     scale *= Math.min(0.9, Math.max(0.3, ratio));
     if (Math.round(canvas.width * scale) < 16 || Math.round(canvas.height * scale) < 16) break;
