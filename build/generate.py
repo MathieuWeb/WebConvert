@@ -634,6 +634,43 @@ def build_about():
     register("/a-propos/", "yearly", "0.3")
 
 
+def build_mentions_legales():
+    """Legal notice (LCEN, art. 6). The publisher is a private individual
+    with a non-professional site: under art. 6-III-2 he may publish only his
+    name and leave his personal details with the host. Once the site earns
+    money (ads), it becomes a professional activity and the full details
+    (address, phone or company number) will be required here."""
+    title = "Mentions légales | Webconvert.fr"
+    meta = "Mentions légales de Webconvert.fr : éditeur, hébergeur, propriété intellectuelle."
+    body = f"""<main id="contenu" class="wrap page">
+<article class="article doc">
+  {t.breadcrumbs_nav([("Accueil", "/"), ("Mentions légales", None)])}
+  <h1>Mentions légales</h1>
+
+  <h2>Éditeur du site</h2>
+  <p>Webconvert.fr est édité par {t.AUTHOR_NAME}, particulier, à titre non professionnel. Conformément à l'article 6-III-2 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, ses coordonnées personnelles ont été communiquées à l'hébergeur du site.</p>
+  <p>Directeur de la publication : {t.AUTHOR_NAME}.</p>
+  <p>Contact : via le site <a href="{t.AUTHOR_URL}">{t.AUTHOR_URL.replace("https://", "")}</a>.</p>
+
+  <h2>Hébergeur</h2>
+  <p>o2switch, SARL au capital de 7 500 €<br />
+  222-224 boulevard Gustave Flaubert, 63000 Clermont-Ferrand, France<br />
+  Téléphone : 04 44 44 60 40<br />
+  RCS Clermont-Ferrand, SIRET 510 909 807 00016<br />
+  Site : <a href="https://www.o2switch.fr">o2switch.fr</a></p>
+
+  <h2>Propriété intellectuelle</h2>
+  <p>Les textes, la charte graphique et le code du site sont la propriété de leur auteur, sauf mention contraire. Le code source est publié sur <a href="{t.REPO_URL}">GitHub</a>. La police Figtree est distribuée sous licence SIL Open Font License 1.1.</p>
+
+  <h2>Données personnelles et cookies</h2>
+  <p>Les images que vous convertissez ne quittent jamais votre appareil. La mesure d'audience, soumise à votre accord, et vos droits sont détaillés dans la <a href="/confidentialite/">politique de confidentialité</a>.</p>
+</article>
+</main>"""
+    html = t.render_page(path="/mentions-legales/", title=title, meta_description=meta, body_html=body)
+    write_page("/mentions-legales/", html)
+    register("/mentions-legales/", "yearly", "0.1")
+
+
 def build_404():
     """Served by Apache for any unknown URL (ErrorDocument in .htaccess).
     Written as /404.html, noindex, no canonical, not in the sitemap."""
@@ -820,6 +857,7 @@ def main():
         build_guide_article(article)
     build_confidentialite()
     build_about()
+    build_mentions_legales()
     build_404()
 
     build_sitemap()
