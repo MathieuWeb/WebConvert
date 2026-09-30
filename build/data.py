@@ -994,3 +994,32 @@ PLATFORM_PAGES = [
              ("Pourquoi Instagram recadre-t-il ma photo ?", "Parce que ses proportions sortent de la plage acceptée. Recadrée ici en 3:4, 1:1 ou 1,91:1, elle est publiée telle quelle.")],
     ),
 ]
+
+
+# Where each weight limit is actually required — only limits confirmed by an
+# official source (see DEMARCHES and PLATFORM_PAGES), linked to their page.
+# (path, what, detail)
+THRESHOLD_REQUIREMENTS = {
+    "100-ko": [
+        ("/sticker-whatsapp/", "Sticker WhatsApp", "100 Ko maximum, en WebP 512 × 512 px"),
+        ("/couverture-facebook/", "Couverture de Page Facebook", "moins de 100 Ko recommandé pour un affichage rapide"),
+    ],
+    "200-ko": [
+        ("/emoji-discord/", "Emoji Discord", "256 Ko maximum : 200 Ko garde une marge"),
+    ],
+    "500-ko": [
+        ("/sticker-discord/", "Sticker Discord", "512 Ko maximum, en PNG 320 × 320 px"),
+    ],
+    "1-mo": [
+        ("/compresser-photo-ants/", "ANTS (carte grise, carte d'identité, passeport)", "1 Mo par document"),
+        ("/emote-twitch/", "Emote Twitch", "1 Mo maximum"),
+    ],
+    "2-mo": [
+        ("/miniature-youtube/", "Miniature YouTube", "2 Mo depuis l'appli mobile"),
+        ("/banniere-twitter-x/", "Photo de profil X (Twitter)", "moins de 2 Mo"),
+        ("/compresser-photo-caf/", "CAF", "10 Mo par envoi, soit 2 Mo par document pour en envoyer cinq"),
+    ],
+    "5-mo": [
+        ("/compresser-document-france-travail/", "France Travail", "5 Mo par pièce jointe"),
+    ],
+}

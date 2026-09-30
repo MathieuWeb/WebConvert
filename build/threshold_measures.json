@@ -1,0 +1,491 @@
+{
+ "measured": "2026-09-30",
+ "engine": "compressCanvasToTarget (js/conversion.js), Chrome",
+ "sources": {
+  "photo": "Photo de smartphone réelle, 3024x4032, 5,7 Mo (Wikimedia Commons, 38 rue Barbet-de-Jouy)",
+  "scan": "Page A4 de texte générée à 300 dpi (2480x3508) avec grain de scanner",
+  "capture": "Capture d'interface générée 1920x1080"
+ },
+ "rows": [
+  {
+   "seuil": "50 Ko",
+   "type": "photo",
+   "fmt": "jpg",
+   "w": 509,
+   "h": 679,
+   "q": 39,
+   "size": 47853,
+   "fits": true
+  },
+  {
+   "seuil": "50 Ko",
+   "type": "photo",
+   "fmt": "webp",
+   "w": 508,
+   "h": 678,
+   "q": 39,
+   "size": 49278,
+   "fits": true
+  },
+  {
+   "seuil": "50 Ko",
+   "type": "scan",
+   "fmt": "jpg",
+   "w": 416,
+   "h": 588,
+   "q": 39,
+   "size": 49213,
+   "fits": true
+  },
+  {
+   "seuil": "50 Ko",
+   "type": "scan",
+   "fmt": "webp",
+   "w": 462,
+   "h": 654,
+   "q": 42,
+   "size": 48858,
+   "fits": true
+  },
+  {
+   "seuil": "50 Ko",
+   "type": "capture",
+   "fmt": "jpg",
+   "w": 1437,
+   "h": 808,
+   "q": 37,
+   "size": 49284,
+   "fits": true
+  },
+  {
+   "seuil": "50 Ko",
+   "type": "capture",
+   "fmt": "webp",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 41936,
+   "fits": true
+  },
+  {
+   "seuil": "100 Ko",
+   "type": "photo",
+   "fmt": "jpg",
+   "w": 800,
+   "h": 1066,
+   "q": 37,
+   "size": 97237,
+   "fits": true
+  },
+  {
+   "seuil": "100 Ko",
+   "type": "photo",
+   "fmt": "webp",
+   "w": 827,
+   "h": 1103,
+   "q": 35,
+   "size": 99892,
+   "fits": true
+  },
+  {
+   "seuil": "100 Ko",
+   "type": "scan",
+   "fmt": "jpg",
+   "w": 698,
+   "h": 987,
+   "q": 37,
+   "size": 98667,
+   "fits": true
+  },
+  {
+   "seuil": "100 Ko",
+   "type": "scan",
+   "fmt": "webp",
+   "w": 740,
+   "h": 1046,
+   "q": 39,
+   "size": 98752,
+   "fits": true
+  },
+  {
+   "seuil": "100 Ko",
+   "type": "capture",
+   "fmt": "jpg",
+   "w": 1920,
+   "h": 1080,
+   "q": 78,
+   "size": 97284,
+   "fits": true
+  },
+  {
+   "seuil": "100 Ko",
+   "type": "capture",
+   "fmt": "webp",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 41936,
+   "fits": true
+  },
+  {
+   "seuil": "200 Ko",
+   "type": "photo",
+   "fmt": "jpg",
+   "w": 1155,
+   "h": 1540,
+   "q": 42,
+   "size": 199398,
+   "fits": true
+  },
+  {
+   "seuil": "200 Ko",
+   "type": "photo",
+   "fmt": "webp",
+   "w": 1302,
+   "h": 1736,
+   "q": 35,
+   "size": 198256,
+   "fits": true
+  },
+  {
+   "seuil": "200 Ko",
+   "type": "scan",
+   "fmt": "jpg",
+   "w": 1004,
+   "h": 1420,
+   "q": 42,
+   "size": 193769,
+   "fits": true
+  },
+  {
+   "seuil": "200 Ko",
+   "type": "scan",
+   "fmt": "webp",
+   "w": 1241,
+   "h": 1755,
+   "q": 39,
+   "size": 193690,
+   "fits": true
+  },
+  {
+   "seuil": "200 Ko",
+   "type": "capture",
+   "fmt": "jpg",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 131072,
+   "fits": true
+  },
+  {
+   "seuil": "200 Ko",
+   "type": "capture",
+   "fmt": "webp",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 41936,
+   "fits": true
+  },
+  {
+   "seuil": "300 Ko",
+   "type": "photo",
+   "fmt": "jpg",
+   "w": 1571,
+   "h": 2095,
+   "q": 35,
+   "size": 294461,
+   "fits": true
+  },
+  {
+   "seuil": "300 Ko",
+   "type": "photo",
+   "fmt": "webp",
+   "w": 1640,
+   "h": 2187,
+   "q": 39,
+   "size": 296424,
+   "fits": true
+  },
+  {
+   "seuil": "300 Ko",
+   "type": "scan",
+   "fmt": "jpg",
+   "w": 1452,
+   "h": 2055,
+   "q": 39,
+   "size": 297781,
+   "fits": true
+  },
+  {
+   "seuil": "300 Ko",
+   "type": "scan",
+   "fmt": "webp",
+   "w": 1802,
+   "h": 2549,
+   "q": 42,
+   "size": 299404,
+   "fits": true
+  },
+  {
+   "seuil": "300 Ko",
+   "type": "capture",
+   "fmt": "jpg",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 131072,
+   "fits": true
+  },
+  {
+   "seuil": "300 Ko",
+   "type": "capture",
+   "fmt": "webp",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 41936,
+   "fits": true
+  },
+  {
+   "seuil": "500 Ko",
+   "type": "photo",
+   "fmt": "jpg",
+   "w": 2029,
+   "h": 2705,
+   "q": 39,
+   "size": 497063,
+   "fits": true
+  },
+  {
+   "seuil": "500 Ko",
+   "type": "photo",
+   "fmt": "webp",
+   "w": 2353,
+   "h": 3137,
+   "q": 39,
+   "size": 469384,
+   "fits": true
+  },
+  {
+   "seuil": "500 Ko",
+   "type": "scan",
+   "fmt": "jpg",
+   "w": 2083,
+   "h": 2947,
+   "q": 42,
+   "size": 499001,
+   "fits": true
+  },
+  {
+   "seuil": "500 Ko",
+   "type": "scan",
+   "fmt": "webp",
+   "w": 2480,
+   "h": 3508,
+   "q": 49,
+   "size": 495188,
+   "fits": true
+  },
+  {
+   "seuil": "500 Ko",
+   "type": "capture",
+   "fmt": "jpg",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 131072,
+   "fits": true
+  },
+  {
+   "seuil": "500 Ko",
+   "type": "capture",
+   "fmt": "webp",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 41936,
+   "fits": true
+  },
+  {
+   "seuil": "1 Mo",
+   "type": "photo",
+   "fmt": "jpg",
+   "w": 2722,
+   "h": 3629,
+   "q": 49,
+   "size": 989205,
+   "fits": true
+  },
+  {
+   "seuil": "1 Mo",
+   "type": "photo",
+   "fmt": "webp",
+   "w": 3024,
+   "h": 4032,
+   "q": 49,
+   "size": 989832,
+   "fits": true
+  },
+  {
+   "seuil": "1 Mo",
+   "type": "scan",
+   "fmt": "jpg",
+   "w": 2480,
+   "h": 3508,
+   "q": 60,
+   "size": 955902,
+   "fits": true
+  },
+  {
+   "seuil": "1 Mo",
+   "type": "scan",
+   "fmt": "webp",
+   "w": 2480,
+   "h": 3508,
+   "q": 78,
+   "size": 931312,
+   "fits": true
+  },
+  {
+   "seuil": "1 Mo",
+   "type": "capture",
+   "fmt": "jpg",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 131072,
+   "fits": true
+  },
+  {
+   "seuil": "1 Mo",
+   "type": "capture",
+   "fmt": "webp",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 41936,
+   "fits": true
+  },
+  {
+   "seuil": "2 Mo",
+   "type": "photo",
+   "fmt": "jpg",
+   "w": 3024,
+   "h": 4032,
+   "q": 71,
+   "size": 1904604,
+   "fits": true
+  },
+  {
+   "seuil": "2 Mo",
+   "type": "photo",
+   "fmt": "webp",
+   "w": 3024,
+   "h": 4032,
+   "q": 80,
+   "size": 1968096,
+   "fits": true
+  },
+  {
+   "seuil": "2 Mo",
+   "type": "scan",
+   "fmt": "jpg",
+   "w": 2480,
+   "h": 3508,
+   "q": 85,
+   "size": 1870701,
+   "fits": true
+  },
+  {
+   "seuil": "2 Mo",
+   "type": "scan",
+   "fmt": "webp",
+   "w": 2480,
+   "h": 3508,
+   "q": 88,
+   "size": 1936612,
+   "fits": true
+  },
+  {
+   "seuil": "2 Mo",
+   "type": "capture",
+   "fmt": "jpg",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 131072,
+   "fits": true
+  },
+  {
+   "seuil": "2 Mo",
+   "type": "capture",
+   "fmt": "webp",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 41936,
+   "fits": true
+  },
+  {
+   "seuil": "5 Mo",
+   "type": "photo",
+   "fmt": "jpg",
+   "w": 3024,
+   "h": 4032,
+   "q": 92,
+   "size": 4019184,
+   "fits": true
+  },
+  {
+   "seuil": "5 Mo",
+   "type": "photo",
+   "fmt": "webp",
+   "w": 3024,
+   "h": 4032,
+   "q": 92,
+   "size": 3653264,
+   "fits": true
+  },
+  {
+   "seuil": "5 Mo",
+   "type": "scan",
+   "fmt": "jpg",
+   "w": 2480,
+   "h": 3508,
+   "q": 92,
+   "size": 2819360,
+   "fits": true
+  },
+  {
+   "seuil": "5 Mo",
+   "type": "scan",
+   "fmt": "webp",
+   "w": 2480,
+   "h": 3508,
+   "q": 92,
+   "size": 2606292,
+   "fits": true
+  },
+  {
+   "seuil": "5 Mo",
+   "type": "capture",
+   "fmt": "jpg",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 131072,
+   "fits": true
+  },
+  {
+   "seuil": "5 Mo",
+   "type": "capture",
+   "fmt": "webp",
+   "w": 1920,
+   "h": 1080,
+   "q": 92,
+   "size": 41936,
+   "fits": true
+  }
+ ]
+}

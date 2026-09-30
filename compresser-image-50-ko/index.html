@@ -33,7 +33,7 @@
 <meta name="twitter:description" content="Réduisez une photo à moins de 50 Ko avec la meilleure qualité possible. Gratuit, par lot, sans envoyer vos fichiers sur un serveur." />
 <meta name="twitter:image" content="https://webconvert.fr/assets/og-image.jpg" />
 
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://webconvert.fr/"}, {"@type": "ListItem", "position": 2, "name": "Compresser une image", "item": "https://webconvert.fr/compresser-image/"}, {"@type": "ListItem", "position": 3, "name": "Moins de 50 Ko", "item": "https://webconvert.fr/compresser-image-50-ko/"}]}, {"@type": "WebApplication", "@id": "https://webconvert.fr/compresser-image-50-ko/#app", "name": "Compresser une image à moins de 50 Ko", "url": "https://webconvert.fr/compresser-image-50-ko/", "applicationCategory": "MultimediaApplication", "operatingSystem": "Tout navigateur web", "browserRequirements": "Navigateur compatible HTML5 Canvas", "inLanguage": "fr-FR", "description": "Réduisez une photo à moins de 50 Ko avec la meilleure qualité possible. Gratuit, par lot, sans envoyer vos fichiers sur un serveur.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Comment réduire une photo à moins de 50 Ko ?", "acceptedAnswer": {"@type": "Answer", "text": "Déposez-la dans l'outil ci-dessus avec la limite « 50 Ko » : elle est recompressée automatiquement avec la meilleure qualité possible sous cette limite, puis vous la téléchargez."}}, {"@type": "Question", "name": "La qualité de l'image va-t-elle baisser ?", "acceptedAnswer": {"@type": "Answer", "text": "Le moins possible : la qualité n'est abaissée que jusqu'au point nécessaire, et les dimensions ne sont réduites que si la qualité seule ne suffit pas. Le détail est indiqué pour chaque fichier."}}, {"@type": "Question", "name": "Quelle différence entre Ko et Mo ?", "acceptedAnswer": {"@type": "Answer", "text": "1 Mo vaut 1 000 Ko. L'outil compte 1 Ko = 1 000 octets, ce qui garantit aussi le respect des sites qui comptent 1 Ko = 1 024 octets."}}, {"@type": "Question", "name": "Mes images sont-elles envoyées quelque part ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. Tout le traitement se déroule dans votre navigateur grâce à l'API Canvas. Aucun fichier ni aucune miniature ne quitte votre machine pendant la conversion."}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://webconvert.fr/"}, {"@type": "ListItem", "position": 2, "name": "Compresser une image", "item": "https://webconvert.fr/compresser-image/"}, {"@type": "ListItem", "position": 3, "name": "Moins de 50 Ko", "item": "https://webconvert.fr/compresser-image-50-ko/"}]}, {"@type": "WebApplication", "@id": "https://webconvert.fr/compresser-image-50-ko/#app", "name": "Compresser une image à moins de 50 Ko", "url": "https://webconvert.fr/compresser-image-50-ko/", "applicationCategory": "MultimediaApplication", "operatingSystem": "Tout navigateur web", "browserRequirements": "Navigateur compatible HTML5 Canvas", "inLanguage": "fr-FR", "description": "Réduisez une photo à moins de 50 Ko avec la meilleure qualité possible. Gratuit, par lot, sans envoyer vos fichiers sur un serveur.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Une photo de smartphone peut-elle passer sous 50 Ko ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui. Dans notre mesure, une photo de 12 Mpx (5,7 Mo) passe sous 50 Ko en JPG en gardant 509 × 679 pixels (qualité 39) : correct pour un aperçu ou une vignette, pas pour un agrandissement."}}, {"@type": "Question", "name": "Quel format garde la meilleure qualité sous 50 Ko ?", "acceptedAnswer": {"@type": "Answer", "text": "Pour une photo, le JPG ou le WebP, à peu près à égalité : sous 50 Ko, le WebP conserve 508 × 678 px contre 509 × 679 px en JPG. Choisissez le JPG si le site de destination n'accepte pas le WebP."}}, {"@type": "Question", "name": "Un document scanné reste-t-il lisible sous 50 Ko ?", "acceptedAnswer": {"@type": "Answer", "text": "Une page A4 scannée à 300 dpi descend à environ 50 dpi pour tenir sous 50 Ko en JPG : petits caractères difficiles à lire, mieux vaut une limite plus haute."}}, {"@type": "Question", "name": "Mes images sont-elles envoyées quelque part ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. Tout le traitement se déroule dans votre navigateur grâce à l'API Canvas. Aucun fichier ni aucune miniature ne quitte votre machine pendant la conversion."}}]}]}</script>
 
 <link rel="preload" href="/assets/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/css/styles.css" />
@@ -143,21 +143,28 @@
   </div>
 </section>
 
-<article class="sec wrap" aria-labelledby="comment-compresser">
+<article class="sec wrap" aria-labelledby="mesures">
   <div class="sec__head">
-    <h2 id="comment-compresser">Réduire une image à moins de 50 Ko</h2>
+    <h2 id="mesures">Ce que devient une image sous 50 Ko</h2>
   </div>
   <div class="sec__body">
+    <table class="measures">
+      <thead><tr><th scope="col">Image d'origine</th><th scope="col">En JPG</th><th scope="col">En WebP</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Photo de smartphone (12 Mpx, 5,7 Mo)</th><td>509 × 679 px, qualité 39</td><td>508 × 678 px, qualité 39</td></tr><tr><th scope="row">Document A4 scanné à 300 dpi</th><td>416 × 588 px, qualité 39</td><td>462 × 654 px, qualité 42</td></tr><tr><th scope="row">Capture d'écran Full HD</th><td>1437 × 808 px, qualité 37</td><td>1920 × 1080 px, qualité 92</td></tr>
+      </tbody>
+    </table>
     <div class="prose">
-      <p>Pour chaque image, l'outil cherche la meilleure qualité d'encodage dont le résultat pèse moins de 50 Ko : il essaie plusieurs réglages et garde le plus élevé qui respecte la limite. Vous n'avez rien à régler à la main.</p>
-      <p>Si même une qualité basse ne suffit pas (photo très grande, ou format sans perte comme le PNG), l'image est réduite en dimensions, par petites étapes, jusqu'à passer sous la limite. Le détail est affiché pour chaque fichier : qualité retenue et, le cas échéant, nouvelles dimensions.</p>
-      <p>Une image déjà assez légère et déjà au bon format est rendue telle quelle, sans perte. Tout se passe dans votre navigateur : vos fichiers ne sont envoyés sur aucun serveur.</p>
+      <p><strong>Photo :</strong> sous 50 Ko, une photo de smartphone de 12 Mpx garde 509 × 679 px en JPG, correct pour un aperçu ou une vignette, pas pour un agrandissement. Ici, le WebP n'apporte presque rien de plus que le JPG.</p>
+      <p><strong>Document scanné :</strong> une page A4 passe à 416 × 588 px, soit environ 50 dpi : petits caractères difficiles à lire, mieux vaut une limite plus haute.</p>
+      <p class="measures__note">Mesures réalisées avec l'outil de cette page, sur une vraie photo de smartphone, une page A4 de texte scannée à 300 dpi et une capture d'écran 1920 × 1080. Les résultats varient selon le contenu de l'image : une photo très détaillée perd plus de pixels qu'un ciel uni.</p>
     </div>
   </div>
 </article>
 <section class="sec wrap" aria-labelledby="seuils">
   <div class="sec__head">
     <h2 id="seuils">Autres limites</h2>
+    <p class="sec__intro">L'outil cherche la meilleure qualité sous 50 Ko, puis réduit les dimensions si besoin. <a href="/compresser-image/">Comment fonctionne la compression →</a></p>
   </div>
   <div class="sec__body">
     <ul class="pair-list pair-list--stack pair-list--cols">
@@ -168,21 +175,6 @@
       <li><a href="/compresser-image-1-mo/"><span class="pair">Moins de 1 Mo</span><span class="pair__desc">La plupart des téléservices administratifs (dont l'ANTS) et les pièces jointes.</span></a></li>
       <li><a href="/compresser-image-2-mo/"><span class="pair">Moins de 2 Mo</span><span class="pair__desc">Les dossiers en ligne, les formulaires de recrutement et les envois groupés.</span></a></li>
       <li><a href="/compresser-image-5-mo/"><span class="pair">Moins de 5 Mo</span><span class="pair__desc">Les photos haute définition à envoyer par e-mail ou sur une plateforme.</span></a></li>
-    </ul>
-  </div>
-</section>
-<section class="sec wrap" aria-labelledby="demarches">
-  <div class="sec__head">
-    <h2 id="demarches">Pour une démarche précise</h2>
-  </div>
-  <div class="sec__body">
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/compresser-photo-ants/"><span class="pair">Pour l'ANTS</span><span class="pair__desc">Carte grise, carte d'identité, passeport : chaque pièce jointe doit peser moins de 1 Mo.</span></a></li>
-      <li><a href="/compresser-photo-caf/"><span class="pair">Pour la CAF</span><span class="pair__desc">Un envoi de documents à la CAF ne doit pas dépasser 10 Mo au total.</span></a></li>
-      <li><a href="/compresser-photo-pour-mail/"><span class="pair">Pour un e-mail</span><span class="pair__desc">Les messageries limitent le poids des pièces jointes.</span></a></li>
-      <li><a href="/compresser-document-retraite/"><span class="pair">Pour la retraite (CNAV)</span><span class="pair__desc">L'Assurance retraite limite chaque fichier à 4 Mo, en PDF ou JPG.</span></a></li>
-      <li><a href="/compresser-document-france-travail/"><span class="pair">Pour France Travail</span><span class="pair__desc">Une pièce jointe envoyée à votre conseiller France Travail ne doit pas dépasser 5 Mo.</span></a></li>
-      <li><a href="/compresser-image-pour-site-web/"><span class="pair">Pour un site web</span><span class="pair__desc">Des images légères accélèrent l'affichage de vos pages.</span></a></li>
     </ul>
   </div>
 </section>
@@ -208,24 +200,24 @@
   <div class="sec__body">
     <div class="faq-item" data-faq-item data-open="false">
       <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
-        <span>Comment réduire une photo à moins de 50 Ko ?</span>
+        <span>Une photo de smartphone peut-elle passer sous 50 Ko ?</span>
         <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
       </button></h3>
-      <p class="faq-item__answer">Déposez-la dans l'outil ci-dessus avec la limite « 50 Ko » : elle est recompressée automatiquement avec la meilleure qualité possible sous cette limite, puis vous la téléchargez.</p>
+      <p class="faq-item__answer">Oui. Dans notre mesure, une photo de 12 Mpx (5,7 Mo) passe sous 50 Ko en JPG en gardant 509 × 679 pixels (qualité 39) : correct pour un aperçu ou une vignette, pas pour un agrandissement.</p>
     </div>
     <div class="faq-item" data-faq-item data-open="false">
       <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
-        <span>La qualité de l'image va-t-elle baisser ?</span>
+        <span>Quel format garde la meilleure qualité sous 50 Ko ?</span>
         <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
       </button></h3>
-      <p class="faq-item__answer">Le moins possible : la qualité n'est abaissée que jusqu'au point nécessaire, et les dimensions ne sont réduites que si la qualité seule ne suffit pas. Le détail est indiqué pour chaque fichier.</p>
+      <p class="faq-item__answer">Pour une photo, le JPG ou le WebP, à peu près à égalité : sous 50 Ko, le WebP conserve 508 × 678 px contre 509 × 679 px en JPG. Choisissez le JPG si le site de destination n'accepte pas le WebP.</p>
     </div>
     <div class="faq-item" data-faq-item data-open="false">
       <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">
-        <span>Quelle différence entre Ko et Mo ?</span>
+        <span>Un document scanné reste-t-il lisible sous 50 Ko ?</span>
         <span class="faq-item__sign" data-faq-sign aria-hidden="true">+</span>
       </button></h3>
-      <p class="faq-item__answer">1 Mo vaut 1 000 Ko. L'outil compte 1 Ko = 1 000 octets, ce qui garantit aussi le respect des sites qui comptent 1 Ko = 1 024 octets.</p>
+      <p class="faq-item__answer">Une page A4 scannée à 300 dpi descend à environ 50 dpi pour tenir sous 50 Ko en JPG : petits caractères difficiles à lire, mieux vaut une limite plus haute.</p>
     </div>
     <div class="faq-item" data-faq-item data-open="false">
       <h3><button type="button" class="faq-item__trigger" data-faq-trigger aria-expanded="false">

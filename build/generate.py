@@ -496,15 +496,125 @@ def build_compress_hub():
     )
 
 
+# Measured with the site's own engine (compressCanvasToTarget) on three
+# reference images: a real 12 Mpx smartphone photo (3024 × 4032, 5,7 Mo), an
+# A4 page scanned at 300 dpi (2480 × 3508) and a Full HD screenshot. See
+# build/threshold_measures.json and README ("Pages de seuils").
+MEASURES_FILE = os.path.join(os.path.dirname(__file__), "threshold_measures.json")
+with open(MEASURES_FILE, encoding="utf-8") as _f:
+    MEASURES = json.load(_f)
+
+SOURCE_LABELS = {
+    "photo": "Photo de smartphone (12 Mpx, 5,7 Mo)",
+    "scan": "Document A4 scanné à 300 dpi",
+    "capture": "Capture d'écran Full HD",
+}
+
+
+def fr_int(n):
+    return f"{n:,}".replace(",", "\u202f")
+
+
+def measure(threshold_label, kind, fmt):
+    return next(m for m in MEASURES["rows"]
+                if m["seuil"] == threshold_label and m["type"] == kind and m["fmt"] == fmt)
+
+
+def photo_verdict(w, h):
+    long_side = max(w, h)
+    if long_side >= 4032:
+        return "la définition d'origine, sans aucune réduction"
+    if long_side >= 2500:
+        return "presque la définition d'origine : de quoi imprimer en 13 × 18 cm"
+    if long_side >= 1920:
+        return "assez pour un écran Full HD, et même une impression 10 × 15 cm"
+    if long_side >= 1080:
+        return "adapté à un smartphone ou à une publication sur les réseaux sociaux"
+    if long_side >= 600:
+        return "correct pour un aperçu ou une vignette, pas pour un agrandissement"
+    return "une petite image, adaptée à un avatar ou une miniature"
+
+
+def scan_verdict(w):
+    dpi = round(w / 8.27)  # A4 = 8,27 pouces de large
+    if dpi >= 200:
+        return dpi, "texte net, y compris à l'impression"
+    if dpi >= 120:
+        return dpi, "texte bien lisible à l'écran"
+    if dpi >= 80:
+        return dpi, "lisible à l'écran en zoomant, les petits caractères souffrent"
+    return dpi, "petits caractères difficiles à lire, mieux vaut une limite plus haute"
+
+
+def threshold_data_html(text):
+    rows = []
+    for kind in ("photo", "scan", "capture"):
+        cells = []
+        for fmt in ("jpg", "webp"):
+            m = measure(text, kind, fmt)
+            same = f'{m["w"]} × {m["h"]} px'
+            q = f', qualité {m["q"]}' if m["q"] else ""
+            cells.append(f"<td>{same}{q}</td>")
+        rows.append(f'<tr><th scope="row">{SOURCE_LABELS[kind]}</th>{"".join(cells)}</tr>')
+    p = measure(text, "photo", "jpg")
+    pw = measure(text, "photo", "webp")
+    s = measure(text, "scan", "jpg")
+    dpi, scan_note = scan_verdict(s["w"])
+    if s["w"] >= 2480:
+        scan_sentence = f"une page A4 garde sa pleine résolution de 300 dpi : {scan_note}."
+    else:
+        scan_sentence = f"une page A4 passe à {s['w']} × {s['h']} px, soit environ {dpi} dpi : {scan_note}."
+    gain = round((pw["w"] * pw["h"]) / (p["w"] * p["h"]) * 100 - 100)
+    webp_line = (f"En WebP, la même photo garde {gain} % de pixels en plus pour le même poids."
+                 if gain >= 5 else "Ici, le WebP n'apporte presque rien de plus que le JPG.")
+    return f"""    <table class="measures">
+      <thead><tr><th scope="col">Image d'origine</th><th scope="col">En JPG</th><th scope="col">En WebP</th></tr></thead>
+      <tbody>
+        {"".join(rows)}
+      </tbody>
+    </table>
+    <div class="prose">
+      <p><strong>Photo :</strong> sous {text}, une photo de smartphone de 12 Mpx garde {p["w"]} × {p["h"]} px en JPG, {photo_verdict(p["w"], p["h"])}. {webp_line}</p>
+      <p><strong>Document scanné :</strong> {scan_sentence}</p>
+      <p class="measures__note">Mesures réalisées avec l'outil de cette page, sur une vraie photo de smartphone, une page A4 de texte scannée à 300 dpi et une capture d'écran 1920 × 1080. Les résultats varient selon le contenu de l'image : une photo très détaillée perd plus de pixels qu'un ciel uni.</p>
+    </div>"""
+
+
+def threshold_faq(text):
+    p = measure(text, "photo", "jpg")
+    pw = measure(text, "photo", "webp")
+    s = measure(text, "scan", "jpg")
+    dpi, scan_note = scan_verdict(s["w"])
+    better = "le WebP" if pw["w"] * pw["h"] > p["w"] * p["h"] * 1.05 else "le JPG ou le WebP, à peu près à égalité"
+    return [
+        (f"Une photo de smartphone peut-elle passer sous {text} ?",
+         f"Oui. Dans notre mesure, une photo de 12 Mpx (5,7 Mo) passe sous {text} en JPG en gardant "
+         f"{p['w']} × {p['h']} pixels (qualité {p['q']}) : {photo_verdict(p['w'], p['h'])}."),
+        (f"Quel format garde la meilleure qualité sous {text} ?",
+         f"Pour une photo, {better} : sous {text}, le WebP conserve {pw['w']} × {pw['h']} px contre "
+         f"{p['w']} × {p['h']} px en JPG. Choisissez le JPG si le site de destination n'accepte pas le WebP."),
+        (f"Un document scanné reste-t-il lisible sous {text} ?",
+         (f"Oui : une page A4 scannée à 300 dpi tient sous {text} en JPG sans perdre de résolution ({scan_note})."
+          if s["w"] >= 2480 else
+          f"Une page A4 scannée à 300 dpi descend à environ {dpi} dpi pour tenir sous {text} en JPG : {scan_note}.")),
+    ] + list(t.PRIVACY_FAQ[:1])
+
+
 def build_threshold_page(slug, target, text):
     uses = TARGET_USES[slug]
+    reqs = THRESHOLD_REQUIREMENTS.get(slug, [])
+    req_section = ""
+    if reqs:
+        req_section = t.section_html(
+            "exige", f"Où la limite de {text} est exigée",
+            t.link_list_html([(what, ucfirst(detail) + ".", path) for path, what, detail in reqs]),
+            intro="Limites confirmées par les sites eux-mêmes ; chaque page règle l'outil pour vous.") + "\n"
     sections = (
-        t.section_html("comment-compresser", f"Réduire une image à moins de {text}", compress_how_html(text),
-                       tag="article")
-        + "\n"
-        + t.section_html("seuils", "Autres limites", t.link_list_html(threshold_links(exclude=slug)))
-        + "\n"
-        + t.section_html("demarches", "Pour une démarche précise", t.link_list_html(demarche_links()))
+        t.section_html("mesures", f"Ce que devient une image sous {text}", threshold_data_html(text), tag="article")
+        + "\n" + req_section
+        + t.section_html("seuils", "Autres limites", t.link_list_html(threshold_links(exclude=slug)),
+                         intro=f'L\'outil cherche la meilleure qualité sous {text}, puis réduit les dimensions si besoin. '
+                               f'<a href="{COMPRESS_HUB}">Comment fonctionne la compression →</a>')
     )
     build_compress_page(
         path=f"/compresser-image-{slug}/",
@@ -514,7 +624,7 @@ def build_threshold_page(slug, target, text):
         title=f"Compresser une image à moins de {text}",
         meta=(f"Réduisez une photo à moins de {text} avec la meilleure qualité possible. Gratuit, par lot, sans "
               f"envoyer vos fichiers sur un serveur."),
-        target=target, output="jpg", sections=sections, faq_items=compress_faq(text),
+        target=target, output="jpg", sections=sections, faq_items=threshold_faq(text),
         app_name=f"Compresser une image à moins de {text}", priority="0.8",
     )
 
@@ -554,7 +664,7 @@ TOOLS_PAGE = "/outils/"
 
 # Platform size pages, filled from PLATFORM_PAGES in data.py (only values
 # confirmed by the platform's own documentation).
-from data import PLATFORM_PAGES, SPECS_CHECKED
+from data import PLATFORM_PAGES, SPECS_CHECKED, THRESHOLD_REQUIREMENTS
 
 
 def build_tool_page(*, path, crumbs, h1, subtitle, title, meta, tool_html, wc_config, sections, faq_items,

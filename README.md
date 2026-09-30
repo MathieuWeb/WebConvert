@@ -95,6 +95,16 @@ pour le PNG, sans perte). Un fichier déjà sous la limite et déjà au bon form
 Les limites des démarches ne sont écrites comme des faits que si une source officielle les confirme (ANTS :
 1 Mo par document ; CAF : 10 Mo par envoi) ; chaque page invite quand même à vérifier la limite affichée.
 
+## Pages de seuils : données mesurées
+
+Chaque page `/compresser-image-{seuil}/` affiche ce que devient une image sous la limite, mesuré avec le
+moteur du site (`compressCanvasToTarget`) sur 3 images de référence : une vraie photo de smartphone
+(3024 × 4032, 5,7 Mo), une page A4 de texte à 300 dpi, une capture 1920 × 1080, en JPG et en WebP.
+Résultats dans `build/threshold_measures.json` (48 mesures, 30/09/2026) ; les phrases d'interprétation
+et la FAQ en sont tirées automatiquement. **Si le moteur de compression change, refaire les mesures.**
+`THRESHOLD_REQUIREMENTS` (`build/data.py`) liste les démarches et plateformes vérifiées qui imposent
+chaque limite.
+
 ## Autres outils (redimensionner, PDF, métadonnées)
 
 `js/main.js` lance l'outil indiqué par `WC_CONFIG.tool` (absent = convertisseur / compresseur `js/ui.js`) ;

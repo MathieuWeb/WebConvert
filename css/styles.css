@@ -778,6 +778,29 @@ button, input, select { font: inherit; color: inherit; }
 .tool-group__head .sec__intro { flex: 1 1 360px; margin: 0; }
 .cat-tab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
+/* Measured results on threshold pages */
+.measures {
+  width: 100%;
+  margin: 0 0 18px;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.measures th,
+.measures td {
+  padding: 10px 12px 10px 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+.measures thead th { font-size: 13px; font-weight: 600; color: var(--muted); }
+.measures tbody th { font-weight: 600; color: var(--text); }
+.measures td { font-variant-numeric: tabular-nums; color: var(--ink); }
+.measures__note { font-size: 14px; color: var(--muted); }
+@media (max-width: 639px) {
+  .measures { font-size: 13.5px; }
+  .measures th, .measures td { padding-right: 8px; }
+}
+
 /* Official spec table on platform pages */
 .spec {
   width: 100%;
