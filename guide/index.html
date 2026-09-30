@@ -45,7 +45,25 @@
   <a href="/" class="brand"><span class="brand__mark" aria-hidden="true"></span>Webconvert</a>
   <nav class="site-nav" aria-label="Navigation principale">
     <a href="/#formats">Formats</a>
-    <a href="/outils/">Outils</a>
+    <details class="nav-menu" data-nav-menu>
+      <summary>Outils <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="nav-menu__panel">
+        <div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#convertir">Convertir</a>
+          <ul><li><a href="/">Convertisseur d'images</a></li><li><a href="/heic-en-jpg/">HEIC en JPG</a></li><li><a href="/png-en-webp/">PNG en WebP</a></li></ul>
+        </div><div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#compresser">Compresser</a>
+          <ul><li><a href="/compresser-image/">À une taille précise</a></li><li><a href="/compresser-photo-ants/">Photo pour l'ANTS</a></li><li><a href="/compresser-photo-pour-mail/">Photo pour un e-mail</a></li></ul>
+        </div><div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#redimensionner">Redimensionner</a>
+          <ul><li><a href="/redimensionner-image/">Redimensionner une image</a></li><li><a href="/banniere-linkedin/">Bannière LinkedIn</a></li><li><a href="/miniature-youtube/">Miniature YouTube</a></li><li><a href="/sticker-whatsapp/">Sticker WhatsApp</a></li></ul>
+        </div><div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#pdf">PDF et confidentialité</a>
+          <ul><li><a href="/images-en-pdf/">Images en PDF</a></li><li><a href="/supprimer-metadonnees-photo/">Supprimer les métadonnées</a></li></ul>
+        </div>
+        <a class="nav-menu__all link-arrow" href="/outils/">Voir tous les outils →</a>
+      </div>
+    </details>
     <a href="/guide/" aria-current="page">Guides</a>
     <a href="/#questions">FAQ</a>
   </nav>
@@ -109,5 +127,6 @@
     </nav>
   </div>
 </footer>
+<script src="/js/nav.js" defer></script>
 </body>
 </html>

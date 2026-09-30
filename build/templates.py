@@ -63,6 +63,19 @@ def icon(name, size=18):
         "chevron": '<path d="m6 9 6 6 6-6"/>',
         "lock": '<rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',
         "download": '<path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/>',
+        # Tool cards (outils): simple stroke pictograms, no brand logos.
+        "convert": '<path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/>',
+        "phone": '<rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/>',
+        "compress": '<path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/>',
+        "doc": '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14 2 2 4-4"/>',
+        "resize": '<path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/>',
+        "banner": '<rect x="2.5" y="7" width="19" height="10" rx="2"/><path d="m6 14 3-3 3 3 2-2 3 3"/>',
+        "portrait": '<rect x="4" y="3" width="16" height="18" rx="2.5"/><circle cx="12" cy="10" r="3"/><path d="M7 18a5 5 0 0 1 10 0"/>',
+        "play": '<rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m10 9 5 3-5 3z"/>',
+        "smile": '<circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01"/>',
+        "pdf": '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/>',
+        "pin-off": '<path d="M12 21s-6-5.5-6-11a6 6 0 0 1 10.3-4.2"/><path d="M18 10c0 2.2-1 4.4-2.3 6.3"/><path d="m3 3 18 18"/>',
+        "image": '<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-9 9"/>',
     }
     return (f'<svg class="icon" width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
             f'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
@@ -74,7 +87,7 @@ def icon(name, size=18):
 # ---------------------------------------------------------------------------
 
 def render_page(*, path, title, meta_description, body_html, json_ld=None,
-                 include_js=False, wc_config=None, og_alt=None, robots=None, canonical=True):
+                 include_js=False, wc_config=None, og_alt=None, robots=None, canonical=True, extra_scripts=""):
     robots = robots or "index, follow, max-image-preview:large"
     # Google cuts titles around 60 characters: keep the brand suffix only
     # when the whole title still fits (Google usually shows the site name anyway).
@@ -145,9 +158,45 @@ def render_page(*, path, title, meta_description, body_html, json_ld=None,
 {body_html}
 
 {site_footer()}
-{app_js_html}</body>
+{app_js_html}{extra_scripts}<script src="/js/nav.js" defer></script>
+</body>
 </html>
 """
+
+
+# Header "Outils" menu: a few tools per category + link to each category of
+# /outils/ (the #hash preselects its filter tab).
+NAV_MENU = [
+    ("Convertir", "convertir", [("Convertisseur d'images", "/"), ("HEIC en JPG", "/heic-en-jpg/"),
+                                ("PNG en WebP", "/png-en-webp/")]),
+    ("Compresser", "compresser", [("À une taille précise", "/compresser-image/"),
+                                  ("Photo pour l'ANTS", "/compresser-photo-ants/"),
+                                  ("Photo pour un e-mail", "/compresser-photo-pour-mail/")]),
+    ("Redimensionner", "redimensionner", [("Redimensionner une image", "/redimensionner-image/"),
+                                          ("Bannière LinkedIn", "/banniere-linkedin/"),
+                                          ("Miniature YouTube", "/miniature-youtube/"),
+                                          ("Sticker WhatsApp", "/sticker-whatsapp/")]),
+    ("PDF et confidentialité", "pdf", [("Images en PDF", "/images-en-pdf/"),
+                                       ("Supprimer les métadonnées", "/supprimer-metadonnees-photo/")]),
+]
+
+
+def nav_menu_html(current_path):
+    cols = []
+    for name, cat, links in NAV_MENU:
+        items = "".join(f'<li><a href="{href}">{text}</a></li>' for text, href in links)
+        cols.append(f"""<div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#{cat}">{name}</a>
+          <ul>{items}</ul>
+        </div>""")
+    current = ' aria-current="page"' if current_path.startswith("/outils") else ""
+    return f"""<details class="nav-menu" data-nav-menu>
+      <summary{current}>Outils {icon("chevron", 14)}</summary>
+      <div class="nav-menu__panel">
+        {"".join(cols)}
+        <a class="nav-menu__all link-arrow" href="/outils/">Voir tous les outils →</a>
+      </div>
+    </details>"""
 
 
 def site_header(current_path):
@@ -157,7 +206,7 @@ def site_header(current_path):
   <a href="/" class="brand"><span class="brand__mark" aria-hidden="true"></span>Webconvert</a>
   <nav class="site-nav" aria-label="Navigation principale">
     <a href="/#formats">Formats</a>
-    <a href="/outils/"{cur('/outils')}>Outils</a>
+    {nav_menu_html(current_path)}
     <a href="/guide/"{cur('/guide')}>Guides</a>
     <a href="/#questions">FAQ</a>
   </nav>
@@ -560,6 +609,21 @@ def link_list_html(items, cls="pair-list--cols"):
     return f"""    <ul class="pair-list pair-list--stack{extra}">
 {rows}
     </ul>"""
+
+
+def tool_cards_html(cards):
+    """cards: [dict(title, desc, href, cat, icon)] — the iLoveIMG-style grid
+    (homepage and /outils/). data-cat drives the category filter."""
+    items = "\n".join(
+        f"""    <li data-cat="{c['cat']}"><a class="tool-card" href="{c['href']}">
+      <span class="tool-card__icon">{icon(c['icon'], 26)}</span>
+      <span class="tool-card__title">{c['title']}</span>
+      <span class="tool-card__desc">{c['desc']}</span>
+    </a></li>"""
+        for c in cards)
+    return f"""<ul class="tool-cards">
+{items}
+  </ul>"""
 
 
 def pair_list_section_html(heading_id, heading, pairs, intro=None):

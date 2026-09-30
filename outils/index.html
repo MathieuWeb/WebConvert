@@ -46,7 +46,25 @@
   <a href="/" class="brand"><span class="brand__mark" aria-hidden="true"></span>Webconvert</a>
   <nav class="site-nav" aria-label="Navigation principale">
     <a href="/#formats">Formats</a>
-    <a href="/outils/" aria-current="page">Outils</a>
+    <details class="nav-menu" data-nav-menu>
+      <summary aria-current="page">Outils <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="nav-menu__panel">
+        <div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#convertir">Convertir</a>
+          <ul><li><a href="/">Convertisseur d'images</a></li><li><a href="/heic-en-jpg/">HEIC en JPG</a></li><li><a href="/png-en-webp/">PNG en WebP</a></li></ul>
+        </div><div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#compresser">Compresser</a>
+          <ul><li><a href="/compresser-image/">À une taille précise</a></li><li><a href="/compresser-photo-ants/">Photo pour l'ANTS</a></li><li><a href="/compresser-photo-pour-mail/">Photo pour un e-mail</a></li></ul>
+        </div><div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#redimensionner">Redimensionner</a>
+          <ul><li><a href="/redimensionner-image/">Redimensionner une image</a></li><li><a href="/banniere-linkedin/">Bannière LinkedIn</a></li><li><a href="/miniature-youtube/">Miniature YouTube</a></li><li><a href="/sticker-whatsapp/">Sticker WhatsApp</a></li></ul>
+        </div><div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#pdf">PDF et confidentialité</a>
+          <ul><li><a href="/images-en-pdf/">Images en PDF</a></li><li><a href="/supprimer-metadonnees-photo/">Supprimer les métadonnées</a></li></ul>
+        </div>
+        <a class="nav-menu__all link-arrow" href="/outils/">Voir tous les outils →</a>
+      </div>
+    </details>
     <a href="/guide/">Guides</a>
     <a href="/#questions">FAQ</a>
   </nav>
@@ -59,100 +77,237 @@
     <h1>Tous les outils</h1>
     <p>Convertir, compresser, redimensionner, créer un PDF, protéger vos photos : tous les outils de Webconvert.fr, gratuits et sans envoi de fichier.</p>
   </div>
+  <div class="cat-tabs" role="group" aria-label="Filtrer par catégorie" data-cat-tabs hidden>
+      <button type="button" class="cat-tab" data-cat-tab="" aria-pressed="true">Tous</button>
+      <button type="button" class="cat-tab" data-cat-tab="convertir" aria-pressed="false">Convertir</button>
+      <button type="button" class="cat-tab" data-cat-tab="compresser" aria-pressed="false">Compresser</button>
+      <button type="button" class="cat-tab" data-cat-tab="redimensionner" aria-pressed="false">Redimensionner</button>
+      <button type="button" class="cat-tab" data-cat-tab="pdf" aria-pressed="false">PDF</button>
+      <button type="button" class="cat-tab" data-cat-tab="confidentialite" aria-pressed="false">Confidentialité</button>
+  </div>
+  <ul class="tool-cards">
+    <li data-cat="convertir"><a class="tool-card" href="/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertir des images</span>
+      <span class="tool-card__desc">JPG, PNG, WebP, AVIF, HEIC… dans le format de votre choix.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/heic-en-jpg/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+      <span class="tool-card__title">HEIC en JPG</span>
+      <span class="tool-card__desc">Les photos d'iPhone lisibles partout.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Compresser une image</span>
+      <span class="tool-card__desc">Sous 50 Ko, 200 Ko, 1 Mo… avec la meilleure qualité.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-photo-ants/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14 2 2 4-4"/></svg></span>
+      <span class="tool-card__title">Photo pour l'ANTS</span>
+      <span class="tool-card__desc">Justificatifs sous 1 Mo, sans les envoyer nulle part.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/redimensionner-image/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Redimensionner</span>
+      <span class="tool-card__desc">En pixels, avec ou sans recadrage, par lot.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/banniere-linkedin/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="7" width="19" height="10" rx="2"/><path d="m6 14 3-3 3 3 2-2 3 3"/></svg></span>
+      <span class="tool-card__title">Bannière LinkedIn</span>
+      <span class="tool-card__desc">1584 × 396 px, l'image de fond du profil.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/miniature-youtube/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m10 9 5 3-5 3z"/></svg></span>
+      <span class="tool-card__title">Miniature YouTube</span>
+      <span class="tool-card__desc">3840 × 2160 px (16:9), moins de 2 Mo.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/sticker-whatsapp/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></span>
+      <span class="tool-card__title">Sticker WhatsApp</span>
+      <span class="tool-card__desc">512 × 512 px, WebP, moins de 100 Ko.</span>
+    </a></li>
+    <li data-cat="pdf"><a class="tool-card" href="/images-en-pdf/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>
+      <span class="tool-card__title">Images en PDF</span>
+      <span class="tool-card__desc">Photos et scans réunis en un seul PDF.</span>
+    </a></li>
+    <li data-cat="confidentialite"><a class="tool-card" href="/supprimer-metadonnees-photo/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 10.3-4.2"/><path d="M18 10c0 2.2-1 4.4-2.3 6.3"/><path d="m3 3 18 18"/></svg></span>
+      <span class="tool-card__title">Supprimer les métadonnées</span>
+      <span class="tool-card__desc">Position GPS, appareil, date : retirés sans perte.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/convertisseur-jpg/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertisseur JPG</span>
+      <span class="tool-card__desc">Photographies et images avec dégradés.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/convertisseur-png/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertisseur PNG</span>
+      <span class="tool-card__desc">Logos, captures d'écran et images avec transparence.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/convertisseur-webp/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertisseur WebP</span>
+      <span class="tool-card__desc">Images de sites web optimisées.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/convertisseur-avif/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertisseur AVIF</span>
+      <span class="tool-card__desc">Images ultra-compressées pour le web.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/convertisseur-gif/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertisseur GIF</span>
+      <span class="tool-card__desc">Animations courtes et images à palette réduite.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/convertisseur-bmp/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertisseur BMP</span>
+      <span class="tool-card__desc">Images matricielles non compressées.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/convertisseur-ico/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertisseur ICO</span>
+      <span class="tool-card__desc">Favicons et icônes d'application.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/convertisseur-svg/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertisseur SVG</span>
+      <span class="tool-card__desc">Logos et icônes vectoriels.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/convertisseur-tiff/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertisseur TIFF</span>
+      <span class="tool-card__desc">Images professionnelles et scans.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/convertisseur-heic/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+      <span class="tool-card__title">Convertisseur HEIC</span>
+      <span class="tool-card__desc">Photos iPhone et iPad.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image-50-ko/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Moins de 50 Ko</span>
+      <span class="tool-card__desc">Les formulaires les plus stricts, les avatars et les signatures d'e-mail.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image-100-ko/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Moins de 100 Ko</span>
+      <span class="tool-card__desc">Les photos de profil, les miniatures et certains formulaires en ligne.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image-200-ko/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Moins de 200 Ko</span>
+      <span class="tool-card__desc">Les formulaires de candidature, les photos de CV et les images de blog.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image-300-ko/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Moins de 300 Ko</span>
+      <span class="tool-card__desc">Les images de site web et les pièces jointes légères.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image-500-ko/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Moins de 500 Ko</span>
+      <span class="tool-card__desc">Les illustrations de site web et les annonces en ligne.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image-1-mo/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Moins de 1 Mo</span>
+      <span class="tool-card__desc">La plupart des téléservices administratifs (dont l'ANTS) et les pièces jointes.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image-2-mo/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Moins de 2 Mo</span>
+      <span class="tool-card__desc">Les dossiers en ligne, les formulaires de recrutement et les envois groupés.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image-5-mo/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Moins de 5 Mo</span>
+      <span class="tool-card__desc">Les photos haute définition à envoyer par e-mail ou sur une plateforme.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-photo-caf/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14 2 2 4-4"/></svg></span>
+      <span class="tool-card__title">Pour la CAF</span>
+      <span class="tool-card__desc">Un envoi de documents à la CAF ne doit pas dépasser 10 Mo au total.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-photo-pour-mail/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14 2 2 4-4"/></svg></span>
+      <span class="tool-card__title">Pour un e-mail</span>
+      <span class="tool-card__desc">Les messageries limitent le poids des pièces jointes.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-document-retraite/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14 2 2 4-4"/></svg></span>
+      <span class="tool-card__title">Pour la retraite (CNAV)</span>
+      <span class="tool-card__desc">L'Assurance retraite limite chaque fichier à 4 Mo, en PDF ou JPG.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-document-france-travail/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14 2 2 4-4"/></svg></span>
+      <span class="tool-card__title">Pour France Travail</span>
+      <span class="tool-card__desc">Une pièce jointe envoyée à votre conseiller France Travail ne doit pas dépasser 5 Mo.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image-pour-site-web/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14 2 2 4-4"/></svg></span>
+      <span class="tool-card__title">Pour un site web</span>
+      <span class="tool-card__desc">Des images légères accélèrent l'affichage de vos pages.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/banniere-linkedin-entreprise/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="7" width="19" height="10" rx="2"/><path d="m6 14 3-3 3 3 2-2 3 3"/></svg></span>
+      <span class="tool-card__title">Bannière LinkedIn entreprise</span>
+      <span class="tool-card__desc">1512 × 256 px, la couverture d'une Page.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/photo-profil-linkedin/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="3" width="16" height="18" rx="2.5"/><circle cx="12" cy="10" r="3"/><path d="M7 18a5 5 0 0 1 10 0"/></svg></span>
+      <span class="tool-card__title">Photo de profil LinkedIn</span>
+      <span class="tool-card__desc">400 × 400 px, carrée.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/banniere-youtube/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="7" width="19" height="10" rx="2"/><path d="m6 14 3-3 3 3 2-2 3 3"/></svg></span>
+      <span class="tool-card__title">Bannière YouTube</span>
+      <span class="tool-card__desc">2560 × 1440 px, moins de 6 Mo.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/banniere-discord/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="7" width="19" height="10" rx="2"/><path d="m6 14 3-3 3 3 2-2 3 3"/></svg></span>
+      <span class="tool-card__title">Bannière Discord</span>
+      <span class="tool-card__desc">960 × 540 px (16:9), bannière de serveur.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/emoji-discord/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></span>
+      <span class="tool-card__title">Emoji Discord</span>
+      <span class="tool-card__desc">128 × 128 px, moins de 256 Ko.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/sticker-discord/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></span>
+      <span class="tool-card__title">Sticker Discord</span>
+      <span class="tool-card__desc">320 × 320 px, PNG, moins de 512 Ko.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/emote-twitch/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></span>
+      <span class="tool-card__title">Emote Twitch</span>
+      <span class="tool-card__desc">112 × 112 px, PNG, moins de 1 Mo.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/banniere-twitch/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="7" width="19" height="10" rx="2"/><path d="m6 14 3-3 3 3 2-2 3 3"/></svg></span>
+      <span class="tool-card__title">Bannière Twitch</span>
+      <span class="tool-card__desc">1200 × 480 px, moins de 10 Mo.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/couverture-facebook/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="7" width="19" height="10" rx="2"/><path d="m6 14 3-3 3 3 2-2 3 3"/></svg></span>
+      <span class="tool-card__title">Couverture Facebook</span>
+      <span class="tool-card__desc">851 × 315 px, idéalement moins de 100 Ko.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/banniere-twitter-x/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="7" width="19" height="10" rx="2"/><path d="m6 14 3-3 3 3 2-2 3 3"/></svg></span>
+      <span class="tool-card__title">Bannière X (Twitter)</span>
+      <span class="tool-card__desc">1500 × 500 px, l'en-tête du profil.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/photo-instagram/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-9 9"/></svg></span>
+      <span class="tool-card__title">Photo Instagram</span>
+      <span class="tool-card__desc">1080 px de large, du paysage 1,91:1 au portrait 3:4.</span>
+    </a></li>
+  </ul>
 </div>
-<section class="sec wrap" aria-labelledby="outils-convertir">
-  <div class="sec__head">
-    <h2 id="outils-convertir">Convertir</h2>
-    <p class="sec__intro">Passez vos images d'un format à l'autre : JPG, PNG, WebP, AVIF, HEIC, GIF, BMP, ICO, SVG, TIFF.</p>
-  </div>
-  <div class="sec__body">
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/"><span class="pair">Convertisseur d'images</span><span class="pair__desc">JPG, PNG, WebP, AVIF, HEIC… dans le format de votre choix.</span></a></li>
-      <li><a href="/convertisseur-jpg/"><span class="pair">Convertisseur JPG</span><span class="pair__desc">Photographies et images avec dégradés.</span></a></li>
-      <li><a href="/convertisseur-png/"><span class="pair">Convertisseur PNG</span><span class="pair__desc">Logos, captures d'écran et images avec transparence.</span></a></li>
-      <li><a href="/convertisseur-webp/"><span class="pair">Convertisseur WebP</span><span class="pair__desc">Images de sites web optimisées.</span></a></li>
-      <li><a href="/convertisseur-avif/"><span class="pair">Convertisseur AVIF</span><span class="pair__desc">Images ultra-compressées pour le web.</span></a></li>
-      <li><a href="/convertisseur-gif/"><span class="pair">Convertisseur GIF</span><span class="pair__desc">Animations courtes et images à palette réduite.</span></a></li>
-      <li><a href="/convertisseur-bmp/"><span class="pair">Convertisseur BMP</span><span class="pair__desc">Images matricielles non compressées.</span></a></li>
-      <li><a href="/convertisseur-ico/"><span class="pair">Convertisseur ICO</span><span class="pair__desc">Favicons et icônes d'application.</span></a></li>
-      <li><a href="/convertisseur-svg/"><span class="pair">Convertisseur SVG</span><span class="pair__desc">Logos et icônes vectoriels.</span></a></li>
-      <li><a href="/convertisseur-tiff/"><span class="pair">Convertisseur TIFF</span><span class="pair__desc">Images professionnelles et scans.</span></a></li>
-      <li><a href="/convertisseur-heic/"><span class="pair">Convertisseur HEIC</span><span class="pair__desc">Photos iPhone et iPad.</span></a></li>
-    </ul>
-  </div>
-</section>
-<section class="sec wrap" aria-labelledby="outils-compresser">
-  <div class="sec__head">
-    <h2 id="outils-compresser">Compresser</h2>
-    <p class="sec__intro">Réduisez le poids sous une limite précise, ou celle exigée par une démarche en ligne.</p>
-  </div>
-  <div class="sec__body">
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/compresser-image/"><span class="pair">Compresser à une taille précise</span><span class="pair__desc">50 Ko, 200 Ko, 1 Mo… la meilleure qualité sous la limite.</span></a></li>
-      <li><a href="/compresser-image-50-ko/"><span class="pair">Moins de 50 Ko</span><span class="pair__desc">Les formulaires les plus stricts, les avatars et les signatures d'e-mail.</span></a></li>
-      <li><a href="/compresser-image-100-ko/"><span class="pair">Moins de 100 Ko</span><span class="pair__desc">Les photos de profil, les miniatures et certains formulaires en ligne.</span></a></li>
-      <li><a href="/compresser-image-200-ko/"><span class="pair">Moins de 200 Ko</span><span class="pair__desc">Les formulaires de candidature, les photos de CV et les images de blog.</span></a></li>
-      <li><a href="/compresser-image-300-ko/"><span class="pair">Moins de 300 Ko</span><span class="pair__desc">Les images de site web et les pièces jointes légères.</span></a></li>
-      <li><a href="/compresser-image-500-ko/"><span class="pair">Moins de 500 Ko</span><span class="pair__desc">Les illustrations de site web et les annonces en ligne.</span></a></li>
-      <li><a href="/compresser-image-1-mo/"><span class="pair">Moins de 1 Mo</span><span class="pair__desc">La plupart des téléservices administratifs (dont l'ANTS) et les pièces jointes.</span></a></li>
-      <li><a href="/compresser-image-2-mo/"><span class="pair">Moins de 2 Mo</span><span class="pair__desc">Les dossiers en ligne, les formulaires de recrutement et les envois groupés.</span></a></li>
-      <li><a href="/compresser-image-5-mo/"><span class="pair">Moins de 5 Mo</span><span class="pair__desc">Les photos haute définition à envoyer par e-mail ou sur une plateforme.</span></a></li>
-      <li><a href="/compresser-photo-ants/"><span class="pair">Pour l'ANTS</span><span class="pair__desc">Carte grise, carte d'identité, passeport : chaque pièce jointe doit peser moins de 1 Mo.</span></a></li>
-      <li><a href="/compresser-photo-caf/"><span class="pair">Pour la CAF</span><span class="pair__desc">Un envoi de documents à la CAF ne doit pas dépasser 10 Mo au total.</span></a></li>
-      <li><a href="/compresser-photo-pour-mail/"><span class="pair">Pour un e-mail</span><span class="pair__desc">Les messageries limitent le poids des pièces jointes.</span></a></li>
-      <li><a href="/compresser-document-retraite/"><span class="pair">Pour la retraite (CNAV)</span><span class="pair__desc">L'Assurance retraite limite chaque fichier à 4 Mo, en PDF ou JPG.</span></a></li>
-      <li><a href="/compresser-document-france-travail/"><span class="pair">Pour France Travail</span><span class="pair__desc">Une pièce jointe envoyée à votre conseiller France Travail ne doit pas dépasser 5 Mo.</span></a></li>
-      <li><a href="/compresser-image-pour-site-web/"><span class="pair">Pour un site web</span><span class="pair__desc">Des images légères accélèrent l'affichage de vos pages.</span></a></li>
-    </ul>
-  </div>
-</section>
-<section class="sec wrap" aria-labelledby="outils-redimensionner">
-  <div class="sec__head">
-    <h2 id="outils-redimensionner">Redimensionner</h2>
-    <p class="sec__intro">Aux pixels près, ou aux dimensions exactes exigées par chaque réseau social.</p>
-  </div>
-  <div class="sec__body">
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/redimensionner-image/"><span class="pair">Redimensionner une image</span><span class="pair__desc">En pixels, avec ou sans recadrage, par lot.</span></a></li>
-      <li><a href="/banniere-linkedin/"><span class="pair">Bannière LinkedIn</span><span class="pair__desc">1584 × 396 px, l'image de fond du profil.</span></a></li>
-      <li><a href="/banniere-linkedin-entreprise/"><span class="pair">Bannière LinkedIn entreprise</span><span class="pair__desc">1512 × 256 px, la couverture d'une Page.</span></a></li>
-      <li><a href="/photo-profil-linkedin/"><span class="pair">Photo de profil LinkedIn</span><span class="pair__desc">400 × 400 px, carrée.</span></a></li>
-      <li><a href="/miniature-youtube/"><span class="pair">Miniature YouTube</span><span class="pair__desc">3840 × 2160 px (16:9), moins de 2 Mo.</span></a></li>
-      <li><a href="/banniere-youtube/"><span class="pair">Bannière YouTube</span><span class="pair__desc">2560 × 1440 px, moins de 6 Mo.</span></a></li>
-      <li><a href="/banniere-discord/"><span class="pair">Bannière Discord</span><span class="pair__desc">960 × 540 px (16:9), bannière de serveur.</span></a></li>
-      <li><a href="/emoji-discord/"><span class="pair">Emoji Discord</span><span class="pair__desc">128 × 128 px, moins de 256 Ko.</span></a></li>
-      <li><a href="/sticker-discord/"><span class="pair">Sticker Discord</span><span class="pair__desc">320 × 320 px, PNG, moins de 512 Ko.</span></a></li>
-      <li><a href="/emote-twitch/"><span class="pair">Emote Twitch</span><span class="pair__desc">112 × 112 px, PNG, moins de 1 Mo.</span></a></li>
-      <li><a href="/banniere-twitch/"><span class="pair">Bannière Twitch</span><span class="pair__desc">1200 × 480 px, moins de 10 Mo.</span></a></li>
-      <li><a href="/sticker-whatsapp/"><span class="pair">Sticker WhatsApp</span><span class="pair__desc">512 × 512 px, WebP, moins de 100 Ko.</span></a></li>
-      <li><a href="/couverture-facebook/"><span class="pair">Couverture Facebook</span><span class="pair__desc">851 × 315 px, idéalement moins de 100 Ko.</span></a></li>
-      <li><a href="/banniere-twitter-x/"><span class="pair">Bannière X (Twitter)</span><span class="pair__desc">1500 × 500 px, l'en-tête du profil.</span></a></li>
-      <li><a href="/photo-instagram/"><span class="pair">Photo Instagram</span><span class="pair__desc">1080 px de large, du paysage 1,91:1 au portrait 3:4.</span></a></li>
-    </ul>
-  </div>
-</section>
-<section class="sec wrap" aria-labelledby="outils-creer-un-pdf">
-  <div class="sec__head">
-    <h2 id="outils-creer-un-pdf">Créer un PDF</h2>
-    <p class="sec__intro">Réunissez photos et scans en un seul PDF, sous le poids maximum de votre choix.</p>
-  </div>
-  <div class="sec__body">
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/images-en-pdf/"><span class="pair">Images en PDF</span><span class="pair__desc">Plusieurs photos ou scans en un seul PDF, avec un poids maximum.</span></a></li>
-    </ul>
-  </div>
-</section>
-<section class="sec wrap" aria-labelledby="outils-confidentialite">
-  <div class="sec__head">
-    <h2 id="outils-confidentialite">Confidentialité</h2>
-    <p class="sec__intro">Retirez ce que vos photos révèlent avant de les partager.</p>
-  </div>
-  <div class="sec__body">
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/supprimer-metadonnees-photo/"><span class="pair">Supprimer les métadonnées</span><span class="pair__desc">Position GPS, appareil, date : retirés sans perte de qualité.</span></a></li>
-    </ul>
-  </div>
-</section>
 </main>
 
 <footer role="contentinfo" class="site-footer">
@@ -167,5 +322,7 @@
     </nav>
   </div>
 </footer>
+<script type="module" src="/js/catalog.js"></script>
+<script src="/js/nav.js" defer></script>
 </body>
 </html>

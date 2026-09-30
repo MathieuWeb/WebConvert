@@ -199,6 +199,63 @@ button, input, select { font: inherit; color: inherit; }
 .site-nav a:hover,
 .site-nav a[aria-current="page"] { background: rgba(35, 34, 31, 0.07); }
 
+/* "Outils" menu (native <details>, closed on outside click by js/nav.js) */
+.nav-menu { position: relative; }
+.nav-menu summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  list-style: none;
+}
+.nav-menu summary::-webkit-details-marker { display: none; }
+.nav-menu summary .icon { transition: transform 0.15s ease; }
+.nav-menu[open] summary .icon { transform: rotate(180deg); }
+.nav-menu summary:hover,
+.nav-menu[open] summary,
+.nav-menu summary[aria-current="page"] { background: rgba(35, 34, 31, 0.07); }
+.nav-menu summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.nav-menu__panel {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 8px);
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 20px 28px;
+  width: min(760px, calc(100vw - 32px));
+  padding: 22px 24px 18px;
+  background: var(--win);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-box);
+  box-shadow: var(--shadow-win);
+}
+.nav-menu__panel ul { margin: 8px 0 0; padding: 0; list-style: none; }
+.site-nav .nav-menu__panel a {
+  display: block;
+  min-height: 0;
+  padding: 5px 0;
+  border-radius: 0;
+  font-size: 14.5px;
+  color: var(--text);
+}
+.site-nav .nav-menu__panel a:hover { background: none; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.site-nav .nav-menu__panel .nav-menu__cat {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.site-nav .nav-menu__panel .nav-menu__all {
+  grid-column: 1 / -1;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-weight: 600;
+  color: var(--ok);
+}
+
 /* ---------- Breadcrumbs ---------- */
 
 .breadcrumbs {
@@ -636,6 +693,72 @@ button, input, select { font: inherit; color: inherit; }
   .file__gain { grid-area: gain; }
   .file__dl, .file__dl-slot { grid-area: dl; }
 }
+
+/* ---------- Tool cards (homepage + /outils/) ---------- */
+.sec-wide {
+  padding: 48px 0;
+  border-top: 1px solid var(--line);
+}
+.app + .sec-wide { margin-top: 8px; border-top: 0; }
+.sec-wide__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 24px;
+  margin-bottom: 24px;
+}
+.sec-wide__head h2 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+.sec-wide__head .sec__intro { flex: 1 1 360px; margin: 0; }
+.tool-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tool-cards li[hidden] { display: none; }
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 18px 18px 20px;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--win);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-box);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.tool-card:hover { border-color: var(--ink); transform: translateY(-1px); }
+.tool-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.tool-card__icon { display: flex; margin-bottom: 8px; color: var(--ink); }
+.tool-card__title { font-size: 16px; font-weight: 700; line-height: 1.25; }
+.tool-card__desc { font-size: 14px; line-height: 1.45; color: var(--muted); }
+
+.cat-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+.cat-tabs[hidden] { display: none; }
+.cat-tab {
+  min-height: 40px;
+  padding: 0 16px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--win);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.cat-tab:hover { border-color: var(--ink); }
+.cat-tab[aria-pressed="true"] { color: var(--white); background: var(--ink); border-color: var(--ink); }
+.cat-tab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* Official spec table on platform pages */
 .spec {
@@ -1356,7 +1479,7 @@ code {
 }
 
 @media (max-width: 639px) {
-  .site-header { height: 60px; gap: 8px; }
+  .site-header { position: relative; height: 60px; gap: 8px; }
   .brand { font-size: 18px; gap: 8px; }
   .brand__mark { width: 24px; height: 24px; }
   .brand__mark::after { inset: 6px; }
@@ -1366,6 +1489,20 @@ code {
      own pages; Formats and FAQ are anchors of the homepage, reachable from it. */
   .site-nav a[href="/#formats"],
   .site-nav a[href="/#questions"] { display: none; }
+  .nav-menu summary { padding: 0 9px; }
+  .nav-menu { position: static; }
+  .nav-menu__panel {
+    position: absolute;
+    top: 60px;
+    left: 16px;
+    right: 16px;
+    width: auto;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 20px;
+  }
+  .sec-wide__head h2 { font-size: 22px; }
+  .tool-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tool-card { padding: 14px 14px 16px; }
 
   .intro { padding: 8px 0 20px; }
   .intro h1 { font-size: 32px; line-height: 1.1; letter-spacing: -0.025em; }

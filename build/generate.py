@@ -146,8 +146,7 @@ def build_homepage():
       <p>C'est la même approche que <a href="/guide/confidentialite-conversion-image-navigateur/">l'article sur la confidentialité</a> détaille plus en profondeur : à la différence d'un convertisseur classique, il n'y a structurellement rien à intercepter, puisqu'aucune requête réseau ne transporte vos images.</p>
     </div>"""
 
-    tools_teaser = (tools_catalog_html(full=False)
-                    + f'\n    <p><a class="link-arrow" href="{TOOLS_PAGE}">Voir tous les outils →</a></p>')
+    tools_teaser = t.tool_cards_html(main_cards())
 
     body = f"""<main id="contenu">
 {t.intro_html(
@@ -157,8 +156,14 @@ def build_homepage():
     )}
 {t.tool_markup(input_id="any", default_output=default_output)}
 
-{t.section_html("outils", "Tous les outils", tools_teaser,
-                intro="Convertir n'est qu'un début : compressez, redimensionnez, réunissez en PDF ou nettoyez vos photos, toujours sans envoi de fichier.", extra_class="catalog")}
+<section class="sec-wide wrap" aria-labelledby="outils">
+  <div class="sec-wide__head">
+    <h2 id="outils">Tous les outils</h2>
+    <p class="sec__intro">Convertir n'est qu'un début : compressez, redimensionnez, réunissez en PDF ou nettoyez vos photos, toujours sans envoi de fichier.</p>
+    <a class="link-arrow" href="{TOOLS_PAGE}">Voir tous les outils →</a>
+  </div>
+  {tools_teaser}
+</section>
 {t.format_catalog_html(catalog_pairs)}
 {t.section_html("compresser", "Compresser à une taille précise", compress_teaser_html(),
                 intro="Un site exige moins de 1 Mo ou de 200 Ko ? Choisissez la limite, l'outil trouve la meilleure qualité qui tient dessous.")}
@@ -762,11 +767,64 @@ TOOL_GROUP_INTROS = {
 }
 
 
+CATEGORIES = [("convertir", "Convertir"), ("compresser", "Compresser"), ("redimensionner", "Redimensionner"),
+              ("pdf", "PDF"), ("confidentialite", "Confidentialité")]
+
+
+def platform_icon(path):
+    if "miniature" in path:
+        return "play"
+    if any(k in path for k in ("emoji", "sticker", "emote")):
+        return "smile"
+    if "profil" in path:
+        return "portrait"
+    if "instagram" in path:
+        return "image"
+    return "banner"
+
+
+def card(title, desc, href, cat, icon_name):
+    return dict(title=title, desc=desc, href=href, cat=cat, icon=icon_name)
+
+
+def main_cards():
+    """The ~10 tools shown on the homepage (and first on /outils/)."""
+    by_path = {p["path"]: p for p in PLATFORM_PAGES}
+    ants = DEMARCHES["ants"]
+    return [
+        card("Convertir des images", "JPG, PNG, WebP, AVIF, HEIC… dans le format de votre choix.", "/", "convertir", "convert"),
+        card("HEIC en JPG", "Les photos d'iPhone lisibles partout.", "/heic-en-jpg/", "convertir", "phone"),
+        card("Compresser une image", "Sous 50 Ko, 200 Ko, 1 Mo… avec la meilleure qualité.", COMPRESS_HUB, "compresser", "compress"),
+        card("Photo pour l'ANTS", "Justificatifs sous 1 Mo, sans les envoyer nulle part.", ants["path"], "compresser", "doc"),
+        card("Redimensionner", "En pixels, avec ou sans recadrage, par lot.", RESIZE_HUB, "redimensionner", "resize"),
+        card(by_path["/banniere-linkedin/"]["crumb"], by_path["/banniere-linkedin/"]["short"], "/banniere-linkedin/", "redimensionner", "banner"),
+        card(by_path["/miniature-youtube/"]["crumb"], by_path["/miniature-youtube/"]["short"], "/miniature-youtube/", "redimensionner", "play"),
+        card(by_path["/sticker-whatsapp/"]["crumb"], by_path["/sticker-whatsapp/"]["short"], "/sticker-whatsapp/", "redimensionner", "smile"),
+        card("Images en PDF", "Photos et scans réunis en un seul PDF.", PDF_HUB, "pdf", "pdf"),
+        card("Supprimer les métadonnées", "Position GPS, appareil, date : retirés sans perte.", EXIF_PAGE, "confidentialite", "pin-off"),
+    ]
+
+
+def all_cards():
+    cards = main_cards()
+    seen = {c["href"] for c in cards}
+    extra = []
+    extra += [card(f"Convertisseur {t.label(i)}", ucfirst(FORMATS[i]["short"]) + ".", f"/convertisseur-{i}/",
+                   "convertir", "phone" if i == "heic" else "convert") for i in INPUT_IDS]
+    extra += [card(title, desc, href, "compresser", "compress") for title, desc, href in threshold_links()]
+    extra += [card(title, desc, href, "compresser", "doc") for title, desc, href in demarche_links()]
+    extra += [card(p["crumb"], p["short"], p["path"], "redimensionner", platform_icon(p["path"])) for p in PLATFORM_PAGES]
+    for c in extra:
+        if c["href"] not in seen:
+            cards.append(c)
+            seen.add(c["href"])
+    return cards
+
+
 def build_tools_page():
-    groups = "\n".join(
-        t.section_html("outils-" + name.lower().replace(" ", "-").replace("é", "e"), name, t.link_list_html(items),
-                       intro=TOOL_GROUP_INTROS.get(name))
-        for name, items in tool_catalog(full=True))
+    tabs = "\n".join(
+        f'      <button type="button" class="cat-tab" data-cat-tab="{key}" aria-pressed="false">{name}</button>'
+        for key, name in CATEGORIES)
     body = f"""<main id="contenu">
 <div class="wrap page">
   <div class="page-intro">
@@ -774,8 +832,12 @@ def build_tools_page():
     <h1>Tous les outils</h1>
     <p>Convertir, compresser, redimensionner, créer un PDF, protéger vos photos : tous les outils de Webconvert.fr, gratuits et sans envoi de fichier.</p>
   </div>
+  <div class="cat-tabs" role="group" aria-label="Filtrer par catégorie" data-cat-tabs hidden>
+      <button type="button" class="cat-tab" data-cat-tab="" aria-pressed="true">Tous</button>
+{tabs}
+  </div>
+  {t.tool_cards_html(all_cards())}
 </div>
-{groups}
 </main>"""
     json_ld = {
         "@context": "https://schema.org",
@@ -791,7 +853,8 @@ def build_tools_page():
     html = t.render_page(path=TOOLS_PAGE, title="Tous les outils d'image gratuits | Webconvert.fr",
                          meta_description=("Tous les outils de Webconvert.fr : convertir, compresser, redimensionner, "
                                            "créer un PDF, supprimer les métadonnées. Gratuits, sans envoi de fichier."),
-                         body_html=body, json_ld=json_ld)
+                         body_html=body, json_ld=json_ld,
+                         extra_scripts='<script type="module" src="/js/catalog.js"></script>\n')
     write_page(TOOLS_PAGE, html)
     register(TOOLS_PAGE, "weekly", "0.9")
 

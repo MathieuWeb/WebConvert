@@ -46,7 +46,25 @@
   <a href="/" class="brand"><span class="brand__mark" aria-hidden="true"></span>Webconvert</a>
   <nav class="site-nav" aria-label="Navigation principale">
     <a href="/#formats">Formats</a>
-    <a href="/outils/">Outils</a>
+    <details class="nav-menu" data-nav-menu>
+      <summary>Outils <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="nav-menu__panel">
+        <div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#convertir">Convertir</a>
+          <ul><li><a href="/">Convertisseur d'images</a></li><li><a href="/heic-en-jpg/">HEIC en JPG</a></li><li><a href="/png-en-webp/">PNG en WebP</a></li></ul>
+        </div><div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#compresser">Compresser</a>
+          <ul><li><a href="/compresser-image/">À une taille précise</a></li><li><a href="/compresser-photo-ants/">Photo pour l'ANTS</a></li><li><a href="/compresser-photo-pour-mail/">Photo pour un e-mail</a></li></ul>
+        </div><div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#redimensionner">Redimensionner</a>
+          <ul><li><a href="/redimensionner-image/">Redimensionner une image</a></li><li><a href="/banniere-linkedin/">Bannière LinkedIn</a></li><li><a href="/miniature-youtube/">Miniature YouTube</a></li><li><a href="/sticker-whatsapp/">Sticker WhatsApp</a></li></ul>
+        </div><div class="nav-menu__col">
+          <a class="nav-menu__cat" href="/outils/#pdf">PDF et confidentialité</a>
+          <ul><li><a href="/images-en-pdf/">Images en PDF</a></li><li><a href="/supprimer-metadonnees-photo/">Supprimer les métadonnées</a></li></ul>
+        </div>
+        <a class="nav-menu__all link-arrow" href="/outils/">Voir tous les outils →</a>
+      </div>
+    </details>
     <a href="/guide/">Guides</a>
     <a href="/#questions">FAQ</a>
   </nav>
@@ -143,50 +161,64 @@
   </div>
 </section>
 
-<section class="sec wrap catalog" aria-labelledby="outils">
-  <div class="sec__head">
+<section class="sec-wide wrap" aria-labelledby="outils">
+  <div class="sec-wide__head">
     <h2 id="outils">Tous les outils</h2>
     <p class="sec__intro">Convertir n'est qu'un début : compressez, redimensionnez, réunissez en PDF ou nettoyez vos photos, toujours sans envoi de fichier.</p>
+    <a class="link-arrow" href="/outils/">Voir tous les outils →</a>
   </div>
-  <div class="sec__body">
-    <div class="catalog__group">
-      <p class="catalog__label">Convertir</p>
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/"><span class="pair">Convertisseur d'images</span><span class="pair__desc">JPG, PNG, WebP, AVIF, HEIC… dans le format de votre choix.</span></a></li>
-      <li><a href="/convertisseur-heic/"><span class="pair">Convertisseur HEIC</span><span class="pair__desc">Photos iPhone et iPad.</span></a></li>
-      <li><a href="/convertisseur-webp/"><span class="pair">Convertisseur WebP</span><span class="pair__desc">Images de sites web optimisées.</span></a></li>
-      <li><a href="/convertisseur-png/"><span class="pair">Convertisseur PNG</span><span class="pair__desc">Logos, captures d'écran et images avec transparence.</span></a></li>
-    </ul>
-    </div>
-    <div class="catalog__group">
-      <p class="catalog__label">Compresser</p>
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/compresser-image/"><span class="pair">Compresser à une taille précise</span><span class="pair__desc">50 Ko, 200 Ko, 1 Mo… la meilleure qualité sous la limite.</span></a></li>
-    </ul>
-    </div>
-    <div class="catalog__group">
-      <p class="catalog__label">Redimensionner</p>
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/redimensionner-image/"><span class="pair">Redimensionner une image</span><span class="pair__desc">En pixels, avec ou sans recadrage, par lot.</span></a></li>
-      <li><a href="/banniere-linkedin/"><span class="pair">Bannière LinkedIn</span><span class="pair__desc">1584 × 396 px, l'image de fond du profil.</span></a></li>
-      <li><a href="/miniature-youtube/"><span class="pair">Miniature YouTube</span><span class="pair__desc">3840 × 2160 px (16:9), moins de 2 Mo.</span></a></li>
-      <li><a href="/sticker-whatsapp/"><span class="pair">Sticker WhatsApp</span><span class="pair__desc">512 × 512 px, WebP, moins de 100 Ko.</span></a></li>
-    </ul>
-    </div>
-    <div class="catalog__group">
-      <p class="catalog__label">Créer un PDF</p>
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/images-en-pdf/"><span class="pair">Images en PDF</span><span class="pair__desc">Plusieurs photos ou scans en un seul PDF, avec un poids maximum.</span></a></li>
-    </ul>
-    </div>
-    <div class="catalog__group">
-      <p class="catalog__label">Confidentialité</p>
-    <ul class="pair-list pair-list--stack pair-list--cols">
-      <li><a href="/supprimer-metadonnees-photo/"><span class="pair">Supprimer les métadonnées</span><span class="pair__desc">Position GPS, appareil, date : retirés sans perte de qualité.</span></a></li>
-    </ul>
-    </div>
-    <p><a class="link-arrow" href="/outils/">Voir tous les outils →</a></p>
-  </div>
+  <ul class="tool-cards">
+    <li data-cat="convertir"><a class="tool-card" href="/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></svg></span>
+      <span class="tool-card__title">Convertir des images</span>
+      <span class="tool-card__desc">JPG, PNG, WebP, AVIF, HEIC… dans le format de votre choix.</span>
+    </a></li>
+    <li data-cat="convertir"><a class="tool-card" href="/heic-en-jpg/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+      <span class="tool-card__title">HEIC en JPG</span>
+      <span class="tool-card__desc">Les photos d'iPhone lisibles partout.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-image/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Compresser une image</span>
+      <span class="tool-card__desc">Sous 50 Ko, 200 Ko, 1 Mo… avec la meilleure qualité.</span>
+    </a></li>
+    <li data-cat="compresser"><a class="tool-card" href="/compresser-photo-ants/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14 2 2 4-4"/></svg></span>
+      <span class="tool-card__title">Photo pour l'ANTS</span>
+      <span class="tool-card__desc">Justificatifs sous 1 Mo, sans les envoyer nulle part.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/redimensionner-image/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/></svg></span>
+      <span class="tool-card__title">Redimensionner</span>
+      <span class="tool-card__desc">En pixels, avec ou sans recadrage, par lot.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/banniere-linkedin/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="7" width="19" height="10" rx="2"/><path d="m6 14 3-3 3 3 2-2 3 3"/></svg></span>
+      <span class="tool-card__title">Bannière LinkedIn</span>
+      <span class="tool-card__desc">1584 × 396 px, l'image de fond du profil.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/miniature-youtube/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m10 9 5 3-5 3z"/></svg></span>
+      <span class="tool-card__title">Miniature YouTube</span>
+      <span class="tool-card__desc">3840 × 2160 px (16:9), moins de 2 Mo.</span>
+    </a></li>
+    <li data-cat="redimensionner"><a class="tool-card" href="/sticker-whatsapp/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></span>
+      <span class="tool-card__title">Sticker WhatsApp</span>
+      <span class="tool-card__desc">512 × 512 px, WebP, moins de 100 Ko.</span>
+    </a></li>
+    <li data-cat="pdf"><a class="tool-card" href="/images-en-pdf/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>
+      <span class="tool-card__title">Images en PDF</span>
+      <span class="tool-card__desc">Photos et scans réunis en un seul PDF.</span>
+    </a></li>
+    <li data-cat="confidentialite"><a class="tool-card" href="/supprimer-metadonnees-photo/">
+      <span class="tool-card__icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 10.3-4.2"/><path d="M18 10c0 2.2-1 4.4-2.3 6.3"/><path d="m3 3 18 18"/></svg></span>
+      <span class="tool-card__title">Supprimer les métadonnées</span>
+      <span class="tool-card__desc">Position GPS, appareil, date : retirés sans perte.</span>
+    </a></li>
+  </ul>
 </section>
 <section class="sec wrap catalog" aria-labelledby="formats">
   <div class="sec__head">
@@ -375,5 +407,6 @@
 window.WC_CONFIG = {"input": "any", "output": "webp", "zipName": "webconvert.zip"};
 </script>
 <script type="module" src="/js/main.js"></script>
+<script src="/js/nav.js" defer></script>
 </body>
 </html>

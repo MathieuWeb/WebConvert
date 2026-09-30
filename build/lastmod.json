@@ -1,294 +1,294 @@
 {
  "/": {
   "date": "2026-09-30",
-  "hash": "f9cbb7964f4741059f90787e51160ac0ae7b1c6fc286a6063f57ca9d5e4f918b"
+  "hash": "0add9182438b3a75b5ae2843dddce8cbf7bde572457eb04ab2df8e51579581cc"
  },
  "/a-propos/": {
   "date": "2026-09-30",
-  "hash": "d86363a677d76dfcf6c8394238ce9ee5a2841946f53df3bebb33bcd5db2633ce"
+  "hash": "46d95ae4786ac58bcc7586224776d8775da23b30d13d1e0c73188da3974736b7"
  },
  "/avif-en-jpg/": {
   "date": "2026-09-30",
-  "hash": "7023cba5ed23174e4962361ff4806437f61b7b0dd43a1ac5ca372108e9930c20"
+  "hash": "d3aeecfd992180f542bbc9b465833d53b6d3f90628e2f29220ac5db51713ff73"
  },
  "/avif-en-png/": {
   "date": "2026-09-30",
-  "hash": "9800b64a3fcc7a056314c718686f509634beef7c300beee1481a7476e4f77067"
+  "hash": "60722fa7a24e1c7a1f340ddb761195b58d0770e98dfb328073f1b669c1f42351"
  },
  "/banniere-discord/": {
   "date": "2026-09-30",
-  "hash": "22a7d9233f986226f52e6b8192a2058c8fbbd5b4d51dba9cc703a57254485e46"
+  "hash": "9b38dc4f1783d7ee5ea5de0b6cfc9073f50e2997a6f314be6d729d6c9cd76d6b"
  },
  "/banniere-linkedin-entreprise/": {
   "date": "2026-09-30",
-  "hash": "224a4531da19c1a439fcf30b3b8352f80743dd12da5eab8e0c6720779e8732a6"
+  "hash": "ee6d0c98d3298a476529a0b914bc23c5b7fe00b94c46a1a0d9c37905494ed261"
  },
  "/banniere-linkedin/": {
   "date": "2026-09-30",
-  "hash": "3b1630f8697236d0e6f0ca34fa3d9d10b552776c34c493ba884023221a9bd383"
+  "hash": "20cc4d195717538bf2d6996a5da8c85f5950a9e574fb98006ea364369bd0c103"
  },
  "/banniere-twitch/": {
   "date": "2026-09-30",
-  "hash": "863fc3131edad2e90af81f584d6fc3939210d4f40a84a20e71ec1139525ec701"
+  "hash": "1c2dde3c0d3f35be8e8d94a63be9ffaf0259fc8aa99193ea7f85a130e40be81d"
  },
  "/banniere-twitter-x/": {
   "date": "2026-09-30",
-  "hash": "efffed6acd0b049876e80b8357ec296a2f0bcce5118b916d56646a6cd02a5e20"
+  "hash": "7549c1456dfd4c57fd3e7fee9f4791a16c4f4faef8e447177cccbd9a041a23ae"
  },
  "/banniere-youtube/": {
   "date": "2026-09-30",
-  "hash": "715d3a69f161b78af750693ea10a2c778f02634a587229776f91c5021fa4dcc2"
+  "hash": "d0f98a6566e5a6b95ef74c63e9f8b50bc295c4ac96c47b283aeff65932a2231a"
  },
  "/bmp-en-jpg/": {
   "date": "2026-09-30",
-  "hash": "cadeb438cd96ffebafde8a21fa3887332515dfd66981c105f952e827a176602d"
+  "hash": "025db3fbdbcbde629ed1afeeeb9cfb104082c93b69113a53f053577b171a39f3"
  },
  "/compresser-document-france-travail/": {
   "date": "2026-09-30",
-  "hash": "3c647733366c01d8c69f6a6a439ee760b41c820a57f429555cc8cb17a4d5c9a5"
+  "hash": "d22b80affff131e76f88e0bf5a4a5293a69db9106cace02901d8e4a967c49da5"
  },
  "/compresser-document-retraite/": {
   "date": "2026-09-30",
-  "hash": "d894286b78a4e028b2d424309e460a0347a45b5ee7d4752b08a28411324ca167"
+  "hash": "15a94655c26600be8c415cf619675adffb1b207bbec1bfb0532659dcdcfd891f"
  },
  "/compresser-image-1-mo/": {
   "date": "2026-09-30",
-  "hash": "89b0096eed7261270d52d720273169b2f3c71ab979e9cc001b3227c6ea835d90"
+  "hash": "315ed55a77f60a795bf527dde2b834d616a5974ceccedd938157e87f87e6970f"
  },
  "/compresser-image-100-ko/": {
   "date": "2026-09-30",
-  "hash": "3c71b59d09b64ff467aa5fed3206e569b99e4d702a9e7b0f4b6034e893694d60"
+  "hash": "9e7e258441bbf025c5d9928f1d71faef50277b793230833b65b830795d9b1c2d"
  },
  "/compresser-image-2-mo/": {
   "date": "2026-09-30",
-  "hash": "3f5e35a9b01e9724ba3b2ae11c92b32f0916605da074534330e578bf83a53bc4"
+  "hash": "7cb73dfc44be82b93e5eb7f9ca75da9426dd913f7cba65c1760e9ff069eb81d9"
  },
  "/compresser-image-200-ko/": {
   "date": "2026-09-30",
-  "hash": "be6168d6cd1ab0f5f6b8c79cf77418eb46fd1213f0fc2fd08f04c3bafc253e6b"
+  "hash": "19f22a8d3add3cc1f14ddd74ae49d31efd44c0bb8ba080a38e01229576111097"
  },
  "/compresser-image-300-ko/": {
   "date": "2026-09-30",
-  "hash": "af6caac6e7fb4a85269d00a29bd90a2ecf12d909a97cb6cd8b6a4b196dfd17ed"
+  "hash": "ba7f5788c4868f215d1f6c84c8bfdcf2168b8c0397a2d435e2c4705cd8bc5c01"
  },
  "/compresser-image-5-mo/": {
   "date": "2026-09-30",
-  "hash": "21d426f8017b8a70e6690f41c945b732bcb66f8f25cf207510a39af543bd5b4c"
+  "hash": "eb4e4a2e9918b48932304f0c90ecc1e1a2551148cbc251eb9de0253720697041"
  },
  "/compresser-image-50-ko/": {
   "date": "2026-09-30",
-  "hash": "5f23659f5c87e5b0f618c84bab31d9b3b5aa8c1e92ab309b8b7fc0e1d462d5d3"
+  "hash": "d8794a933ac164ee46ec692ac06187738da4c2e835f15a410a938f9689ae3c94"
  },
  "/compresser-image-500-ko/": {
   "date": "2026-09-30",
-  "hash": "c4202c20ca125e0bbc51166f4594a58c1555d48dae03a767854693a48bdb9dba"
+  "hash": "9cb86725b55e652fed75cfc9df25aa077930e4d4a189ff99fa0f6eb2bbd3f482"
  },
  "/compresser-image-pour-site-web/": {
   "date": "2026-09-30",
-  "hash": "54dc790dff3423125de2c34757c379d1a10386ddd05f445c2c80d50c10bbff5b"
+  "hash": "dddec5b5ef6034320b709b9657269698cdddea51e1f5ea17fa0d9c827c6a44e3"
  },
  "/compresser-image/": {
   "date": "2026-09-30",
-  "hash": "3546f4c2a15c79bdf2564130b82cacfa479d8383cd0d368ebb20b735460a5d6d"
+  "hash": "01822f7e490918e2a7d78485af90afcbe7fcd98646cdb770c5d233055d643705"
  },
  "/compresser-photo-ants/": {
   "date": "2026-09-30",
-  "hash": "9571f5383c45b99d63c808715cff9512a0794c4138a874d61536c9a6f3e4a805"
+  "hash": "0cd4a6f83ad737550e771a8aaa23dd1693be6831b60174e8aafa8bd5a1123456"
  },
  "/compresser-photo-caf/": {
   "date": "2026-09-30",
-  "hash": "ec0f669190ebd101df1bad709c3962c50a930b06092cae9795846f2a41ad0155"
+  "hash": "601e8c2aed1c9f2fd797357bb8938f120f91d20c7277c15aad20470681bd9dda"
  },
  "/compresser-photo-pour-mail/": {
   "date": "2026-09-30",
-  "hash": "f3aac940860d6e33858bc59fdfff6bebabc199f3c98aacb1625521111879e538"
+  "hash": "adca08a5a5a22ca911d914d871abed5ce3baeff2edf2b1f0e9f0ceaba9574b44"
  },
  "/confidentialite/": {
   "date": "2026-09-30",
-  "hash": "e591be176883922d118a77294042237f12d80794eab8c1a29c5fe15633aaca4a"
+  "hash": "539065a82cad46b1f0d6a831f100f1b29a54ced8bdcec72561776fc6ee3f1ae3"
  },
  "/convertisseur-avif/": {
   "date": "2026-09-30",
-  "hash": "0426714748050e23d90207828492613956a126f036e3f39ba6768ad555629652"
+  "hash": "200836f3a2e942c01cbf1f9759873836750cb27852e19afa63e746c6588888cd"
  },
  "/convertisseur-bmp/": {
   "date": "2026-09-30",
-  "hash": "67a722992440d69cf6292d4370cc7ed193942c3e171fa405734a5dbe6142b039"
+  "hash": "43801f69904e2711fd2886192d56abae8bd884f998aba293fc1972b2179b2df0"
  },
  "/convertisseur-gif/": {
   "date": "2026-09-30",
-  "hash": "788f2ce6bacb7a349e1a0ccf52b483890d9ef00afd0429d9dd1117b723ac01de"
+  "hash": "ed32aec845e275c7bf6a14b16c9be0d8eda7065b5bdca5aad51c639dcfcd7d93"
  },
  "/convertisseur-heic/": {
   "date": "2026-09-30",
-  "hash": "ae2b35c8772768948b3d3155b7e46e6247086d5cec008508272cbb408472924a"
+  "hash": "3e6711df6e0f454e08a9ff54a0ac9f0346ec070befe6b970063f33842f6ec0b4"
  },
  "/convertisseur-ico/": {
   "date": "2026-09-30",
-  "hash": "eeffdfaa6d6de6dc9692b3c5b1f0c3a623382a373fe9e0e833c6fc411c8c439e"
+  "hash": "158b4db6e82695eb34ca9ac76218f82b0c8cd4fa2d2ed9dfe2c6f24897d451ea"
  },
  "/convertisseur-jpg/": {
   "date": "2026-09-30",
-  "hash": "56fe203b1352bf8cc5593d67722475b016e7c1bea1c562721d45cd85d659bc7a"
+  "hash": "dc57bafee6c6fe2a32d9f7a347d72a377c8b0014b3e6a633f1583104d42b2345"
  },
  "/convertisseur-png/": {
   "date": "2026-09-30",
-  "hash": "799f26adf0ba754efae3a6db6248e0d1a97459a6532591a7d50deb8a6452de45"
+  "hash": "0bc84b33e149d67fd686c8df93f272e8f6000f7cf8b13b7f197d4cfa6d5eccee"
  },
  "/convertisseur-svg/": {
   "date": "2026-09-30",
-  "hash": "58d2f928bdcfec00dcf144544a4b02bd70d3dfafcf2a509ff06f1936e42bdf6d"
+  "hash": "bcdb43af15cdd48a4980908112921586a212d06cc0514b02df4f622427d48238"
  },
  "/convertisseur-tiff/": {
   "date": "2026-09-30",
-  "hash": "b62cec1696560dd4a79ad92249b8fd95acfe15ccfbf3a66259045861587228fd"
+  "hash": "e896f55fdc236fd2a6cd81f9dffc374e951e93e0e1cadb361f51130ab6648fa2"
  },
  "/convertisseur-webp/": {
   "date": "2026-09-30",
-  "hash": "390f03cdf1ce5837af92afe079af269fff7385a99745fce57ebcafb037a801a7"
+  "hash": "89792d587ab6750b72a72b0d3f6480bb7cd9b1274f4d73746e99277c526c91f9"
  },
  "/couverture-facebook/": {
   "date": "2026-09-30",
-  "hash": "05ca8c2dbe26130ea9ad822524ca36d05c65dd95c944025db87d8e59f0496574"
+  "hash": "7fdb4ae1025ffe52c0e4c97a3738a8eb86dd35e2da3cd86b24f5cb0a94b96f64"
  },
  "/emoji-discord/": {
   "date": "2026-09-30",
-  "hash": "c0ea2951d53ad70ee7a794d0837c5cc8218e58fca69cacb0c509f15d45de015a"
+  "hash": "bdacd15d0cf83b91b2c88f00527dfdf6af941cffc450772bb8e0d7c5b715fe17"
  },
  "/emote-twitch/": {
   "date": "2026-09-30",
-  "hash": "a8087f1cacf805d87d996512b8d3f75d60f888aafa09a20ea6ae16a6930a2d22"
+  "hash": "b2bb53d22d2eb57cbcdee4e1a28b1080f04f7d560304cab54baf6ea0995459fd"
  },
  "/gif-en-jpg/": {
   "date": "2026-09-30",
-  "hash": "3dd7bafd542560620b9a79d34cf67b36fc4f5b51b436b9fa8e93e033545aa754"
+  "hash": "dacd6a941a61319c4f3bca0bda20aea7545e22b61d9547fe15a01ae5ba1f5efb"
  },
  "/gif-en-webp/": {
   "date": "2026-09-30",
-  "hash": "17b62d12c84d7e50bb7611bfc5f14b4291b63aba223169a84056d475ef596cf0"
+  "hash": "356616e4b55c41d04108ef60fcd400ff4a9dcc690deb244910b1626ecff9e032"
  },
  "/guide/": {
   "date": "2026-09-30",
-  "hash": "e659c7a734e2fc6538b098a4678f13747690a85465e4bede5776318946c75d4a"
+  "hash": "41181b9f109e46450a595b0bddf000d0d93d478ec620885915aff0ce42a23177"
  },
  "/guide/confidentialite-conversion-image-navigateur/": {
   "date": "2026-09-30",
-  "hash": "e96cf5dcaf9234b0b4640ea4df33d467fca7617a78cfd21e67d96f691225c03e"
+  "hash": "3467d3f639e8baba04df2e713b3bab56fc553c3b61566b75c318d90427112391"
  },
  "/guide/convertir-heic-iphone/": {
   "date": "2026-09-30",
-  "hash": "22716f04f791b1a203f460690f2c10500532e31152d82b6d29ad04b6bc150ee1"
+  "hash": "5b9b86281c516e48e2af25f0a915d5558a9f52b545b39f25266bcba760f9345f"
  },
  "/guide/creer-favicon-ico/": {
   "date": "2026-09-30",
-  "hash": "9b8193d5a0e167a06c51a955df50b672411b5cbc7c87599704e311d1c144f8c1"
+  "hash": "3570024195efff374d0257c6a72573499c911f9385165bb5a8d11d9349e8b982"
  },
  "/guide/png-vs-jpg/": {
   "date": "2026-09-30",
-  "hash": "694f10e1769fe963a159f18bffbbc3e5d64e709b6277631bc0bf90fbb79837c0"
+  "hash": "ed8fe85c1d0de0dffb31048898071ef426a1f5598e84919080b0e9c2945ef4a2"
  },
  "/guide/quest-ce-que-avif/": {
   "date": "2026-09-30",
-  "hash": "43a7cd1f95d81143ab438c93cd9fde00908ce1966a86eb4b86820e35c90a199d"
+  "hash": "5b20fd21527951f54bbf6341b918980561723e344d11fe196b2e50edc0040460"
  },
  "/guide/reduire-poids-images-site-web/": {
   "date": "2026-09-30",
-  "hash": "47bf405254201212d69c4e76b96a0a5dbf8461d7c47c9b14e6a85bd104c5893d"
+  "hash": "be4c497fad08cd0a9446a5d6816c2570e8dfe8969611a795ea969cfdfb3965ad"
  },
  "/guide/webp-avif-png-jpg-quel-format-choisir/": {
   "date": "2026-09-30",
-  "hash": "6a3fd3ba865092d70b925ad0366a968928b73e00f81dfa2d6226573739293491"
+  "hash": "f856ac2f36594b5ad35aec06e276fbb1ba83bf08e894b6fcde6304d80bd9b03b"
  },
  "/heic-en-jpg/": {
   "date": "2026-09-30",
-  "hash": "eef5f7acf99143671469bb54973e9fe02931e88ea7b2415776ac46edb37f7184"
+  "hash": "7201c89c1fb1c0b9cbc77b97a12374bd7b1dfa1098b5843372f6edcf406aaf49"
  },
  "/heic-en-png/": {
   "date": "2026-09-30",
-  "hash": "72c4fd5c5fbfbc86be2ce1a6a1ed90cd41f97d03ac0abc93d9ed7083db390ea9"
+  "hash": "098d0406a6eb34ff04044ac1cc191cb8df95cd9d6248463ca45d3fb1ac3d68c8"
  },
  "/ico-en-png/": {
   "date": "2026-09-30",
-  "hash": "36ebb3305ba828cd03673423d174112e479c5142e36f0d671ace43abc24688e3"
+  "hash": "8b9f37663a3377e0bdf9bd4574e6c656e4e0ba43f30c1b369f0c0f313c6379ee"
  },
  "/images-en-pdf/": {
   "date": "2026-09-30",
-  "hash": "6f9c0cca8f6019dc673926bd0113fec3f9a9cf64f61d7bff7ad757ba354e639c"
+  "hash": "98150f28cf16c717e4f6d77833ad9a57efd5580fbb368dd27766e1588a364082"
  },
  "/jpg-en-png/": {
   "date": "2026-09-30",
-  "hash": "94e85ab2bd8f8b80886ef2498549909cc0d70e80777513d2535fc3d4be33fa33"
+  "hash": "e3df0cef1e53f70ceac44011c9e6729c682a5f04ddbb29edeab254f632e2fcc6"
  },
  "/jpg-en-webp/": {
   "date": "2026-09-30",
-  "hash": "d2548bf7cb207bd6746c837cf155e5328dd98593f58ca0542192164353d1885b"
+  "hash": "35e79fe21221e8487bd64e6fe051f4ff45274a8e7a7606cafc0d4ce46ec31590"
  },
  "/mentions-legales/": {
   "date": "2026-09-30",
-  "hash": "35a49954cae658b84b111b2109fa0fc5b11396210eeb0bba0a34d512d7503dd4"
+  "hash": "c5d209c7bae9fe7f1d7e5a17d9c1a45c1cfda7ca1af6ea3d41b68e50ab732998"
  },
  "/miniature-youtube/": {
   "date": "2026-09-30",
-  "hash": "a9cd96b3271257b1d28826b15b4bc371136a11d81423fe940a7e8030b6a27ecb"
+  "hash": "7b2b7ac77d38ec01961a73000500b8cbf9ad518b7b0784cb42a5c66f2c5b92d2"
  },
  "/outils/": {
   "date": "2026-09-30",
-  "hash": "d1fb1259613d0f0875f9536aa3e6a98f8f6d83ba8e59343d475ffcc41b120881"
+  "hash": "39d3abbd94c08f7b60263546e4392c2d88092e825a5dfca55dc8810ef0dee88f"
  },
  "/photo-instagram/": {
   "date": "2026-09-30",
-  "hash": "23644aeb82124c7f1500e6f6b326a92237eee1ea7368910e5515e564e6c8e8f8"
+  "hash": "abfa77d0041622642da76455ee236cb96bfdfee29512ba3a3732f8e458134aa3"
  },
  "/photo-profil-linkedin/": {
   "date": "2026-09-30",
-  "hash": "709a37e0dcecf9064c8d1c74490b971f782ed09421c14a9bb271db085e8352c6"
+  "hash": "13f35b03267d51651f7c18b80fd56b12ea1056d704c83804721037e58684de94"
  },
  "/png-en-ico/": {
   "date": "2026-09-30",
-  "hash": "745696a992f4c3066297d6dfa827f009df7ee1a68cbc9fe074905063932463dd"
+  "hash": "01ba055f1bf8d139a504a1bf63aceec300a932201bd3cc32cf2dd857b7f1632c"
  },
  "/png-en-jpg/": {
   "date": "2026-09-30",
-  "hash": "7b9dbf227336ca44bd0050db176219e7253cfc5c43570deeed8dadec432e0ddd"
+  "hash": "bd57a5b036122e7003fcf175b051e90dc865261d19c5c15128372da21646bbf1"
  },
  "/png-en-webp/": {
   "date": "2026-09-30",
-  "hash": "e489266ec0c347b92ebacc89193ec74a042de0fdeedf12112fae946774aa5f9b"
+  "hash": "c54dad8ef70d9c3aed722b92ad4b0d854e536664eea718af42ee7540c5de9554"
  },
  "/redimensionner-image/": {
   "date": "2026-09-30",
-  "hash": "b54a10c2c440e902dac61f9ada2efd4de2157392a91a6b859ee852e50ad49cef"
+  "hash": "5818e45bb63099b9789fc166799881491cbd849a00167097d2f898c46d5c32c2"
  },
  "/sticker-discord/": {
   "date": "2026-09-30",
-  "hash": "1b590a55e01e69b77a7e4e67e58a6f1dc9fe04ecb398c1afb100b82beb31237f"
+  "hash": "23fc2b96ad712af577aedfa34b294bdc1d6cd5d318b3e44b12fc678e67d4d3bd"
  },
  "/sticker-whatsapp/": {
   "date": "2026-09-30",
-  "hash": "f96d33e115bffe35049df9429e0b6a6b6ba9905983b4f854f495af1ed8cc0937"
+  "hash": "8fead42c0eddec87a92a87f57961b532dc1907438282c5c64020c67a93ad1b3b"
  },
  "/supprimer-metadonnees-photo/": {
   "date": "2026-09-30",
-  "hash": "daca36529408a1921e3b10cddc4417a7e84641653ee3d341c4910517f0068bcb"
+  "hash": "afaed94cd7693c488ba5024959b48f98cf983b1719621b4b3bc1207a89427d71"
  },
  "/svg-en-jpg/": {
   "date": "2026-09-30",
-  "hash": "da2744822e40f6422acb677fe9625edc1555d15967051ad0d529084f0a3353dd"
+  "hash": "6aa7efc6ec35d98f7dcade2c2390aaf0df24b6c1c4be5a17bed5875384e734db"
  },
  "/svg-en-png/": {
   "date": "2026-09-30",
-  "hash": "367efa965b6961909e491bc2819568f3e46e926fff37ffdc2887779201f96ff6"
+  "hash": "f8ff336073267dc9bc0d6cf0b7d6dc310ab8c9f9846224e21341928b338972db"
  },
  "/tiff-en-jpg/": {
   "date": "2026-09-30",
-  "hash": "0717dab4b64c70f29c303fb855fa75419ffe7da9499b126809b9ba7608e514c1"
+  "hash": "f3fd138592ddeafa5b62fff45cbd5204e335a7a83802f4e979f3c79d420bc5bb"
  },
  "/webp-en-jpg/": {
   "date": "2026-09-30",
-  "hash": "8e82d53110f630c86bb5b2067308d818715c9c6d399c3ee324ec7b36c3a81f6a"
+  "hash": "4bbb2fee9dffb22857211400152826dc782bd6857a569a669b2d41d7f9889d4c"
  },
  "/webp-en-png/": {
   "date": "2026-09-30",
-  "hash": "78b695f34b58a24b6faa1592e8d252aaad1f444285a3e67c7015583a1f3d8fb6"
+  "hash": "42374660e431e3dca28409227b59a08e901c814c3cf449be55922b2ba51f53c4"
  }
 }
