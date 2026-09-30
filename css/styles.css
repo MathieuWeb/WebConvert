@@ -757,7 +757,25 @@ button, input, select { font: inherit; color: inherit; }
   cursor: pointer;
 }
 .cat-tab:hover { border-color: var(--ink); }
-.cat-tab[aria-pressed="true"] { color: var(--white); background: var(--ink); border-color: var(--ink); }
+.cat-tab {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.tool-group {
+  padding: 32px 0 8px;
+  scroll-margin-top: 16px;
+}
+.tool-group + .tool-group { border-top: 1px solid var(--line); }
+.tool-group__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 20px;
+  margin-bottom: 18px;
+}
+.tool-group__head h2 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+.tool-group__head .sec__intro { flex: 1 1 360px; margin: 0; }
 .cat-tab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* Official spec table on platform pages */

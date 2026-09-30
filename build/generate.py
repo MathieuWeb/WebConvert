@@ -748,22 +748,12 @@ def tool_catalog(full):
             ("Créer un PDF", documents), ("Confidentialité", privacy)]
 
 
-def tools_catalog_html(full):
-    groups = []
-    for name, items in tool_catalog(full):
-        groups.append(f"""    <div class="catalog__group">
-      <p class="catalog__label">{name}</p>
-{t.link_list_html(items)}
-    </div>""")
-    return "\n".join(groups)
-
-
 TOOL_GROUP_INTROS = {
-    "Convertir": "Passez vos images d'un format à l'autre : JPG, PNG, WebP, AVIF, HEIC, GIF, BMP, ICO, SVG, TIFF.",
-    "Compresser": "Réduisez le poids sous une limite précise, ou celle exigée par une démarche en ligne.",
-    "Redimensionner": "Aux pixels près, ou aux dimensions exactes exigées par chaque réseau social.",
-    "Créer un PDF": "Réunissez photos et scans en un seul PDF, sous le poids maximum de votre choix.",
-    "Confidentialité": "Retirez ce que vos photos révèlent avant de les partager.",
+    "convertir": "Passez vos images d'un format à l'autre : JPG, PNG, WebP, AVIF, HEIC, GIF, BMP, ICO, SVG, TIFF.",
+    "compresser": "Réduisez le poids sous une limite précise, ou sous celle exigée par une démarche en ligne.",
+    "redimensionner": "Aux pixels près, ou aux dimensions exactes exigées par chaque réseau social.",
+    "pdf": "Réunissez photos et scans en un seul PDF, sous le poids maximum de votre choix.",
+    "confidentialite": "Retirez ce que vos photos révèlent avant de les partager.",
 }
 
 
@@ -822,9 +812,15 @@ def all_cards():
 
 
 def build_tools_page():
-    tabs = "\n".join(
-        f'      <button type="button" class="cat-tab" data-cat-tab="{key}" aria-pressed="false">{name}</button>'
-        for key, name in CATEGORIES)
+    cards = all_cards()
+    jump = "\n".join(f'      <a class="cat-tab" href="#{key}">{name}</a>' for key, name in CATEGORIES)
+    sections = "\n".join(f"""  <section class="tool-group" id="{key}" aria-labelledby="titre-{key}">
+    <div class="tool-group__head">
+      <h2 id="titre-{key}">{name}</h2>
+      <p class="sec__intro">{TOOL_GROUP_INTROS[key]}</p>
+    </div>
+    {t.tool_cards_html([c for c in cards if c["cat"] == key])}
+  </section>""" for key, name in CATEGORIES)
     body = f"""<main id="contenu">
 <div class="wrap page">
   <div class="page-intro">
@@ -832,11 +828,10 @@ def build_tools_page():
     <h1>Tous les outils</h1>
     <p>Convertir, compresser, redimensionner, créer un PDF, protéger vos photos : tous les outils de Webconvert.fr, gratuits et sans envoi de fichier.</p>
   </div>
-  <div class="cat-tabs" role="group" aria-label="Filtrer par catégorie" data-cat-tabs hidden>
-      <button type="button" class="cat-tab" data-cat-tab="" aria-pressed="true">Tous</button>
-{tabs}
-  </div>
-  {t.tool_cards_html(all_cards())}
+  <nav class="cat-tabs" aria-label="Catégories d'outils">
+{jump}
+  </nav>
+{sections}
 </div>
 </main>"""
     json_ld = {
@@ -853,8 +848,7 @@ def build_tools_page():
     html = t.render_page(path=TOOLS_PAGE, title="Tous les outils d'image gratuits | Webconvert.fr",
                          meta_description=("Tous les outils de Webconvert.fr : convertir, compresser, redimensionner, "
                                            "créer un PDF, supprimer les métadonnées. Gratuits, sans envoi de fichier."),
-                         body_html=body, json_ld=json_ld,
-                         extra_scripts='<script type="module" src="/js/catalog.js"></script>\n')
+                         body_html=body, json_ld=json_ld)
     write_page(TOOLS_PAGE, html)
     register(TOOLS_PAGE, "weekly", "0.9")
 
