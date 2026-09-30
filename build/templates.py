@@ -18,11 +18,16 @@ THEME_COLOR = "#e7e4dd"
 # the consent banner (js/consent.js); set to "" to remove analytics entirely.
 GA_ID = "G-99CDZX4JZD"
 
+AUTHOR_NAME = "Mathieu Perez"
+AUTHOR_URL = "https://mathieu-perez.fr"
+REPO_URL = "https://github.com/MathieuWeb/WebConvert"
+AUTHOR_LD = {"@type": "Person", "name": AUTHOR_NAME, "url": AUTHOR_URL}
+
+# Figtree is self-hosted (css/styles.css @font-face); preload the latin
+# subset, needed by every page, so text doesn't flash in the fallback font.
 FONTS_LINK = (
-    '<link rel="preconnect" href="https://fonts.googleapis.com" />\n'
-    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n'
-    '<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" '
-    'rel="stylesheet" />'
+    '<link rel="preload" href="/assets/fonts/figtree-latin-wght-normal.woff2" as="font" '
+    'type="font/woff2" crossorigin />'
 )
 
 ICON_LINKS = (
@@ -69,8 +74,15 @@ def icon(name, size=18):
 # ---------------------------------------------------------------------------
 
 def render_page(*, path, title, meta_description, body_html, json_ld=None,
-                 include_js=False, wc_config=None, og_alt=None, robots="index, follow, max-image-preview:large"):
-    canonical = BASE_URL + path
+                 include_js=False, wc_config=None, og_alt=None, robots=None, canonical=True):
+    robots = robots or "index, follow, max-image-preview:large"
+    # Google cuts titles around 60 characters: keep the brand suffix only
+    # when the whole title still fits (Google usually shows the site name anyway).
+    suffix = " | " + SITE_NAME
+    if title.endswith(suffix) and len(title) > 60:
+        title = title[: -len(suffix)]
+    canonical_url = BASE_URL + path
+    canonical_html = f'<link rel="canonical" href="{canonical_url}" />\n' if canonical else ""
     og_image_alt = og_alt or (SITE_NAME + " — convertisseur d'images gratuit et local")
 
     json_ld_html = ""
@@ -102,15 +114,13 @@ def render_page(*, path, title, meta_description, body_html, json_ld=None,
 <meta name="theme-color" content="{THEME_COLOR}" />
 <meta name="format-detection" content="telephone=no" />
 <meta name="apple-mobile-web-app-title" content="Webconvert" />
-<link rel="canonical" href="{canonical}" />
-<link rel="alternate" hreflang="fr" href="{canonical}" />
-
+{canonical_html}
 {ICON_LINKS}
 
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="fr_FR" />
 <meta property="og:site_name" content="{SITE_NAME}" />
-<meta property="og:url" content="{canonical}" />
+<meta property="og:url" content="{canonical_url}" />
 <meta property="og:title" content="{title}" />
 <meta property="og:description" content="{meta_description}" />
 <meta property="og:image" content="{BASE_URL}/assets/og-image.jpg" />
@@ -161,7 +171,7 @@ def site_footer():
     <nav class="site-footer__links" aria-label="Liens de pied de page">
       <a href="/confidentialite/" title="Politique de confidentialité de Webconvert.fr">Confidentialité</a>
       <a href="/guide/" title="Guides Webconvert.fr">Guides</a>
-      <a href="https://mathieu-perez.fr" title="Portfolio de Mathieu Perez, créateur de Webconvert.fr">À propos</a>
+      <a href="/a-propos/">À propos</a>
       <a href="/confidentialite/#cookies" data-consent-open>Gérer les cookies</a>
     </nav>
   </div>

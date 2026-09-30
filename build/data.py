@@ -402,6 +402,115 @@ PAIR_OVERRIDES = {
              "plus lourd qu'un JPEG équivalent, surtout sur une photographie."),
         ],
     ),
+    ("avif", "png"): dict(
+        title="Convertir AVIF en PNG sans perte",
+        meta="Convertissez vos images AVIF en PNG pour les ouvrir dans n'importe quel logiciel, transparence "
+             "comprise. Gratuit, 100% dans le navigateur.",
+        intro="Pour retoucher ou réutiliser une image AVIF dans un logiciel qui ne lit pas encore ce format.",
+        paragraphs=[
+            "Les images AVIF téléchargées depuis un site web s'ouvrent dans le navigateur, mais beaucoup de "
+            "logiciels de retouche, de mise en page ou de bureautique ne les reconnaissent pas encore. Le PNG, "
+            "lui, est lu partout.",
+            "Le PNG est sans perte : l'image est enregistrée exactement telle que l'AVIF l'affiche, et la "
+            "transparence est conservée. C'est le bon choix pour retoucher l'image ensuite ; pour simplement la "
+            "partager, le JPG sera bien plus léger.",
+        ],
+        faq=[
+            ("Pourquoi le PNG est-il beaucoup plus lourd que l'AVIF ?", "L'AVIF est l'un des formats les plus "
+             "compressés qui existent, le PNG ne compresse pas du tout avec perte. Un PNG de 5 à 10 fois plus "
+             "lourd est normal ; choisissez JPG si le poids compte."),
+            ("La transparence est-elle conservée ?", "Oui, le PNG gère la transparence comme l'AVIF."),
+        ],
+    ),
+    ("svg", "jpg"): dict(
+        title="Convertir SVG en JPG",
+        meta="Transformez un fichier SVG en image JPG, lisible partout (e-mail, traitement de texte, réseaux "
+             "sociaux). Gratuit, sans envoi sur un serveur.",
+        intro="Pour utiliser un logo ou une illustration SVG là où seules les images classiques sont acceptées.",
+        paragraphs=[
+            "Le SVG est un format vectoriel : parfait pour un site web, mais refusé par de nombreux formulaires, "
+            "messageries, réseaux sociaux et logiciels de bureautique. Le JPG est accepté partout.",
+            "Le JPG ne gère pas la transparence : les zones transparentes du SVG deviennent blanches. Pour "
+            "garder un fond transparent, convertissez plutôt en PNG.",
+        ],
+        faq=[
+            ("À quelle taille le SVG est-il converti ?", "À la taille définie par ses attributs width et height "
+             "(ou son viewBox). Un SVG sans dimension explicite est rendu en 300×150 px."),
+            ("Pourquoi le fond de mon image est-il devenu blanc ?", "Le JPG n'a pas de transparence : le fond "
+             "transparent est remplacé par du blanc. Utilisez la conversion SVG en PNG pour le conserver."),
+        ],
+    ),
+    ("gif", "jpg"): dict(
+        title="Convertir GIF en JPG",
+        meta="Convertissez un GIF en image JPG fixe, compatible avec tous les logiciels et formulaires. "
+             "Gratuit, par lot, sans envoi sur un serveur.",
+        intro="Pour obtenir une image fixe, lisible partout, à partir d'un GIF.",
+        paragraphs=[
+            "Le GIF est limité à 256 couleurs, ce qui dégrade les photos et les dégradés. Le JPG affiche des "
+            "millions de couleurs et est accepté par tous les logiciels, formulaires et plateformes.",
+            "Un GIF animé est converti à partir de sa toute première image : le résultat est une image fixe. Le "
+            "JPG ne gère pas la transparence, les zones transparentes deviennent blanches.",
+        ],
+        faq=[
+            ("Et si mon GIF est animé ?", "Seule la première image est convertie : le JPG ne peut contenir "
+             "qu'une image fixe."),
+            ("La qualité va-t-elle s'améliorer ?", "Non : les couleurs perdues par le GIF ne peuvent pas être "
+             "retrouvées. Le JPG sera en revanche plus facile à utiliser et souvent plus léger."),
+        ],
+    ),
+    ("bmp", "jpg"): dict(
+        title="Convertir BMP en JPG",
+        meta="Réduisez le poids de vos images BMP en les convertissant en JPG, lisible partout. Gratuit, "
+             "par lot, 100% dans votre navigateur.",
+        intro="Des fichiers BMP souvent énormes deviennent des JPG légers, faciles à envoyer et à publier.",
+        paragraphs=[
+            "Le BMP ne compresse pas les images : une simple capture ou un scan peut peser plusieurs dizaines de "
+            "mégaoctets. Converti en JPG, le même fichier pèse souvent 10 à 20 fois moins lourd, sans différence "
+            "visible sur une photo.",
+            "Le JPG est le format le plus universel : e-mail, formulaires en ligne, réseaux sociaux, "
+            "impression. Réglez la qualité pour trouver le bon compromis entre poids et netteté.",
+        ],
+        faq=[
+            ("Pourquoi mon fichier BMP est-il si lourd ?", "Le BMP stocke chaque pixel sans aucune compression. "
+             "Le JPG compresse l'image en exploitant les limites de la vision humaine."),
+            ("Vais-je perdre en qualité ?", "Très peu à la qualité par défaut (80). Pour un logo ou du texte "
+             "net, préférez la conversion BMP en PNG, sans perte."),
+        ],
+    ),
+    ("tiff", "jpg"): dict(
+        title="Convertir TIFF en JPG",
+        meta="Convertissez vos fichiers TIFF (scans, photos professionnelles) en JPG légers et lisibles "
+             "partout. Gratuit, sans envoi sur un serveur.",
+        intro="Pour partager des scans ou des photos TIFF, trop lourds et illisibles dans la plupart des applications.",
+        paragraphs=[
+            "Le TIFF est le format des scanners et de la photographie professionnelle : fidèle, mais très lourd "
+            "et impossible à afficher dans un navigateur ou sur la plupart des téléphones. Le JPG s'ouvre partout "
+            "et pèse une fraction du poids d'origine.",
+            "Scans de documents, factures, photos d'archives : ces fichiers sont souvent confidentiels. Ici, ils "
+            "sont convertis dans votre navigateur et ne sont envoyés sur aucun serveur.",
+        ],
+        faq=[
+            ("Tous les TIFF sont-ils pris en charge ?", "Les TIFF non compressés, LZW et Deflate/ZIP le sont ; "
+             "certaines variantes rares (JPEG dans TIFF, CCITT des fax) peuvent échouer."),
+            ("Mon TIFF contient plusieurs pages, que se passe-t-il ?", "Seule la première page est convertie."),
+        ],
+    ),
+    ("ico", "png"): dict(
+        title="Convertir ICO en PNG",
+        meta="Extrayez l'image d'un fichier .ico (favicon, icône Windows) en PNG avec sa transparence. "
+             "Gratuit, sans envoi sur un serveur.",
+        intro="Pour récupérer une favicon ou une icône Windows sous forme d'image PNG, transparence comprise.",
+        paragraphs=[
+            "Un fichier .ico est un conteneur d'icônes, utilisé pour les favicons de sites web et les icônes de "
+            "Windows. Peu de logiciels savent l'ouvrir ou le modifier ; le PNG, lui, s'édite partout.",
+            "Le PNG conserve la transparence de l'icône, sans aucune perte de qualité.",
+        ],
+        faq=[
+            ("Mon ICO contient plusieurs tailles, laquelle est convertie ?", "Celle que le navigateur choisit en "
+             "décodant le fichier, en général la plus grande disponible."),
+            ("La transparence est-elle conservée ?", "Oui, le PNG gère la transparence comme l'ICO."),
+        ],
+    ),
 }
 
 # ---------------------------------------------------------------------------
@@ -422,6 +531,16 @@ HUB_OVERRIDES = {
         intro="Transformez vos logos et icônes vectoriels en images matricielles classiques.",
     ),
 }
+
+
+# Pair pages worth indexing: the featured pairs plus those with confirmed
+# search demand (Google autocomplete, 2026-09). Every one has hand-written
+# copy in PAIR_OVERRIDES. The other pairs stay generated and reachable from
+# the format picker, but are noindex and left out of the sitemap, so ~40
+# near-identical template pages don't weigh on the site's perceived quality.
+INDEXED_PAIRS = FEATURED_PAIRS + [
+    ("avif", "png"), ("svg", "jpg"), ("gif", "jpg"), ("bmp", "jpg"), ("tiff", "jpg"), ("ico", "png"),
+]
 
 
 def get_pair_copy(input_id, output_id):
@@ -469,10 +588,10 @@ DEMARCHES = {
     "ants": dict(
         path="/compresser-photo-ants/",
         crumb="Pour l'ANTS",
-        title="Compresser une photo ou un justificatif pour l'ANTS (moins de 1 Mo)",
+        title="Compresser une photo pour l'ANTS (moins de 1 Mo)",
         h1="Photo trop lourde pour l'ANTS ? Passez-la sous 1 Mo",
-        meta=("Justificatif refusé car trop volumineux sur le site de l'ANTS ? Compressez vos photos et scans "
-              "sous 1 Mo en JPG, directement dans votre navigateur, sans envoyer vos documents."),
+        meta=("Justificatif refusé car trop lourd sur le site de l'ANTS ? Passez vos photos et scans sous 1 Mo "
+              "en JPG, sans envoyer vos documents."),
         intro="Carte grise, carte d'identité, passeport : chaque pièce jointe doit peser moins de 1 Mo. Vos documents restent sur votre appareil.",
         target=1_000_000,
         output="jpg",
@@ -502,7 +621,7 @@ DEMARCHES = {
     "caf": dict(
         path="/compresser-photo-caf/",
         crumb="Pour la CAF",
-        title="Compresser un justificatif pour la CAF (envoi de 10 Mo maximum)",
+        title="Justificatif trop lourd pour la CAF : le compresser",
         h1="Justificatif trop lourd pour la CAF ? Allégez vos photos",
         meta=("Vos justificatifs dépassent la limite d'envoi de la CAF ? Compressez vos photos de documents en JPG "
               "dans votre navigateur, sans les envoyer sur un serveur."),
@@ -532,10 +651,10 @@ DEMARCHES = {
     "mail": dict(
         path="/compresser-photo-pour-mail/",
         crumb="Pour un e-mail",
-        title="Photo trop lourde pour un mail : compresser ses photos avant l'envoi",
+        title="Photo trop lourde pour un mail : comment la compresser",
         h1="Photo trop lourde pour un mail ? Compressez-la avant l'envoi",
         meta=("Photos trop lourdes pour une pièce jointe ? Compressez-les en quelques secondes pour les envoyer "
-              "par mail, gratuitement et sans les téléverser sur un serveur."),
+              "par mail, sans les téléverser."),
         intro="Les messageries limitent le poids des pièces jointes. Réduisez vos photos à 1 Mo chacune pour en envoyer plusieurs dans un seul mail.",
         target=1_000_000,
         output="jpg",

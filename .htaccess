@@ -1,7 +1,24 @@
+# One canonical origin: https://webconvert.fr (no www, no plain http).
+# Two rules so the http check also honours X-Forwarded-Proto: behind a TLS
+# proxy %{HTTPS} is always off, and a lone HTTPS test would loop forever.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^ https://webconvert.fr%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://webconvert.fr%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
 # Cache static assets: HTML re-validates every visit, everything else is
 # fingerprint-free but changes rarely, so a moderate cache is a fair trade-off.
+AddType font/woff2 .woff2
+
 <IfModule mod_expires.c>
   ExpiresActive On
+  ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType text/html "access plus 0 seconds"
   ExpiresByType text/css "access plus 0 seconds"
   ExpiresByType application/javascript "access plus 0 seconds"
@@ -19,7 +36,7 @@
   <FilesMatch "\.(css|js)$">
     Header set Cache-Control "public, no-cache"
   </FilesMatch>
-  <FilesMatch "\.(jpg|jpeg|png|webp|gif|ico|webmanifest)$">
+  <FilesMatch "\.(jpg|jpeg|png|webp|gif|ico|webmanifest|woff2)$">
     Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
   <FilesMatch "\.html$">

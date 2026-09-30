@@ -10,7 +10,6 @@
 <meta name="format-detection" content="telephone=no" />
 <meta name="apple-mobile-web-app-title" content="Webconvert" />
 <link rel="canonical" href="https://webconvert.fr/png-en-jpg/" />
-<link rel="alternate" hreflang="fr" href="https://webconvert.fr/png-en-jpg/" />
 
 <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico" />
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png" />
@@ -36,9 +35,7 @@
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://webconvert.fr/"}, {"@type": "ListItem", "position": 2, "name": "Convertisseur PNG", "item": "https://webconvert.fr/convertisseur-png/"}, {"@type": "ListItem", "position": 3, "name": "PNG en JPG", "item": "https://webconvert.fr/png-en-jpg/"}]}, {"@type": "WebApplication", "@id": "https://webconvert.fr/png-en-jpg/#app", "name": "Convertisseur PNG vers JPG", "url": "https://webconvert.fr/png-en-jpg/", "applicationCategory": "MultimediaApplication", "operatingSystem": "Tout navigateur web", "browserRequirements": "Navigateur compatible HTML5 Canvas", "inLanguage": "fr-FR", "description": "Convertissez vos PNG en JPG, fond blanc automatique pour la transparence. 100% dans le navigateur, sans upload.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Que devient la transparence ?", "acceptedAnswer": {"@type": "Answer", "text": "Les zones transparentes sont remplies en blanc, le JPEG ne pouvant pas encoder de canal alpha."}}, {"@type": "Question", "name": "Dans quel cas garder le PNG plutôt que convertir ?", "acceptedAnswer": {"@type": "Answer", "text": "Si l'image est un logo en aplats de couleurs ou nécessite la transparence, gardez le PNG : le gain de poids en JPEG y est minime."}}]}]}</script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="preload" href="/assets/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/css/styles.css" />
 <script src="/js/consent.js" data-ga-id="G-99CDZX4JZD" defer></script>
 </head>
@@ -196,6 +193,17 @@
     </ul>
   </div>
 </section>
+<section class="sec wrap" aria-labelledby="guides-associes">
+  <div class="sec__head">
+    <h2 id="guides-associes">Guide associé</h2>
+  </div>
+  <div class="sec__body">
+    <ul class="guide-rows">
+      <li><a href="/guide/png-vs-jpg/"><span class="guide-row__title">PNG vs JPG : bien choisir pour ne pas perdre en qualité</span><span class="guide-row__desc">Le choix entre PNG et JPG semble anodin, mais il détermine directement la netteté et le poids final de votre image.</span></a></li>
+    </ul>
+    <p><a class="link-arrow" href="/guide/">Tous les guides →</a></p>
+  </div>
+</section>
 <section class="sec wrap faq" aria-labelledby="questions">
   <div class="sec__head">
     <h2 id="questions">Questions fréquentes</h2>
@@ -225,7 +233,7 @@
     <nav class="site-footer__links" aria-label="Liens de pied de page">
       <a href="/confidentialite/" title="Politique de confidentialité de Webconvert.fr">Confidentialité</a>
       <a href="/guide/" title="Guides Webconvert.fr">Guides</a>
-      <a href="https://mathieu-perez.fr" title="Portfolio de Mathieu Perez, créateur de Webconvert.fr">À propos</a>
+      <a href="/a-propos/">À propos</a>
       <a href="/confidentialite/#cookies" data-consent-open>Gérer les cookies</a>
     </nav>
   </div>

@@ -53,7 +53,7 @@ Fond minéral doux, titre centré, outil présenté comme une fenêtre d'applica
 | Filets et bordures | `--line` | `#dcd8cf` |
 | Gain de poids (barres, pourcentages) | `--ok` | `#2f6b3b` |
 
-- **Police** : Figtree (Google Fonts), graisses 400/500/600/700/800. Titres en 800, interlettrage négatif.
+- **Police** : Figtree, auto-hébergée dans `assets/fonts/` (variable 300–900, licence SIL OFL), graisses utilisées 400 à 800. Titres en 800, interlettrage négatif.
 - **Formes** : fenêtre en rayon 18 px, zone de dépôt et encadrés 14 px, champs et boutons 10 px, puces de
   format en pilule. Ombres quasi nulles (1 px), filets `--line` pour séparer.
 - **Pages outil** (accueil, `/convertisseur-x/`, `/x-en-y/`) : bloc d'intro à hauteur fixe sur ordinateur
@@ -124,9 +124,8 @@ Pull or Deploy pour récupérer les derniers commits.
 - **JSZip** 3.10.1 — archive ZIP groupée, chargée au clic sur « Tout télécharger ».
 - **UTIF.js** 3.1.0 + **pako** 2.1.0 — décodage TIFF, chargés au premier fichier `.tiff`/`.tif` déposé.
 - **heic2any** 0.0.4 — décodage HEIC (libheif en WebAssembly), chargé au premier fichier `.heic`/`.heif`.
-- **Google Fonts** — Figtree (400 à 800), seule police du site.
 
-Toutes chargées depuis cdn.jsdelivr.net (ou fonts.googleapis.com), jamais appelées avec les images de
+Toutes chargées depuis cdn.jsdelivr.net, jamais appelées avec les images de
 l'utilisateur : ce sont de simples fichiers de code. Aucun backend, aucune API.
 
 ## Mesure d'audience (Google Analytics)

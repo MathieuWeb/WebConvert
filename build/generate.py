@@ -9,13 +9,16 @@ trailing .html by any static file server that resolves directory indexes:
 python3 -m http.server, Apache with mod_dir, etc). Also (re)writes
 sitemap.xml, robots.txt and site.webmanifest from the same page list.
 """
+import datetime
+import hashlib
+import json
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 
-from data import (FORMATS, INPUT_IDS, OUTPUT_IDS, PAIRS, FEATURED_PAIRS, TARGET_SIZES, TARGET_USES, DEMARCHES,
-                  get_pair_copy, get_hub_copy)
+from data import (FORMATS, INPUT_IDS, OUTPUT_IDS, PAIRS, FEATURED_PAIRS, INDEXED_PAIRS, TARGET_SIZES,
+                  TARGET_USES, DEMARCHES, get_pair_copy, get_hub_copy)
 from articles import ARTICLES
 import templates as t
 
@@ -32,10 +35,54 @@ def write_page(path, html):
     out_file = os.path.join(ROOT, "index.html") if path == "/" else os.path.join(out_dir, "index.html")
     with open(out_file, "w", encoding="utf-8") as f:
         f.write(html)
+    PAGE_HASHES[path] = hashlib.sha256(html.encode("utf-8")).hexdigest()
 
 
-def register(path, changefreq, priority):
+PAGE_HASHES = {}  # path -> sha256 of the generated HTML, for <lastmod>
+
+
+def register(path, changefreq=None, priority=None):
+    """Add a page to the sitemap. changefreq/priority are kept in the calls
+    for readability but no longer written: Google ignores both."""
     SITEMAP_URLS.append((path, changefreq, priority))
+
+
+# ---------------------------------------------------------------------------
+# Guides <-> tools cross-links: each guide lists the tools it is about, and
+# each of those tool pages links back to the guide.
+# ---------------------------------------------------------------------------
+GUIDE_TOOLS = {
+    "webp-avif-png-jpg-quel-format-choisir": ["/jpg-en-webp/", "/png-en-webp/", "/avif-en-jpg/"],
+    "confidentialite-conversion-image-navigateur": ["/compresser-photo-ants/", "/compresser-photo-caf/"],
+    "convertir-heic-iphone": ["/heic-en-jpg/", "/heic-en-png/"],
+    "quest-ce-que-avif": ["/avif-en-jpg/", "/avif-en-png/"],
+    "png-vs-jpg": ["/png-en-jpg/", "/jpg-en-png/"],
+    "reduire-poids-images-site-web": ["/compresser-image-pour-site-web/", "/jpg-en-webp/", "/png-en-webp/"],
+    "creer-favicon-ico": ["/png-en-ico/", "/ico-en-png/"],
+}
+
+
+def guides_for(path):
+    return [a for a in ARTICLES if path in GUIDE_TOOLS.get(a["slug"], [])]
+
+
+def related_guides_html(path):
+    guides = guides_for(path)
+    if not guides:
+        return ""
+    heading = "Guide associé" if len(guides) == 1 else "Guides associés"
+    return t.guide_grid_html(guides, heading_id="guides-associes", heading=heading)
+
+
+def tool_link_item(path):
+    """(title, desc, href) for a tool page path, for the guides' link lists."""
+    for d in DEMARCHES.values():
+        if d["path"] == path:
+            return (d["crumb"].replace("Pour ", "Compresser pour "), d["intro"].split(".")[0] + ".", path)
+    i, o = path.strip("/").split("-en-")
+    copy = get_pair_copy(i, o)
+    desc = copy["intro"] if copy else f"Convertir vos fichiers {t.label(i)} en {t.label(o)}."
+    return (f"{t.label(i)} → {t.label(o)}", desc, path)
 
 
 # ---------------------------------------------------------------------------
@@ -58,9 +105,9 @@ def compress_teaser_html():
 
 
 def build_homepage():
-    title = "Convertisseur d'images en ligne gratuit et privé (JPG, PNG, WebP, AVIF, HEIC...) | Webconvert.fr"
-    meta = ("Convertissez vos images en ligne entre JPG, PNG, WebP, AVIF, GIF, BMP, ICO, SVG, TIFF et HEIC. "
-            "100% dans votre navigateur : aucun fichier envoyé sur un serveur. Gratuit, sans compte.")
+    title = "Convertisseur d'images gratuit et privé | Webconvert.fr"
+    meta = ("Convertissez vos images entre JPG, PNG, WebP, AVIF, HEIC et plus, dans votre navigateur : aucun "
+            "fichier envoyé sur un serveur. Gratuit, sans compte.")
 
     faq_items = [
         ("Mes images sont-elles envoyées quelque part ?",
@@ -299,6 +346,7 @@ def build_pair_page(i, o):
 {t.section_html("a-propos-conversion", f"Pourquoi convertir {fi['label']} en {fo['label']}", why_body, tag="article")}
 {t.privacy_aside_html()}
 {t.pair_list_section_html("hub-autres", "Voir aussi", see_also)}
+{related_guides_html(f"/{i}-en-{o}/")}
 {t.faq_html(faq_items)}
 </main>"""
 
@@ -318,14 +366,19 @@ def build_pair_page(i, o):
         ],
     }
 
+    indexed = (i, o) in INDEXED_PAIRS
     html = t.render_page(
         path=f"/{i}-en-{o}/", title=page_title, meta_description=meta, body_html=body,
         json_ld=json_ld, include_js=True,
         wc_config={"input": i, "output": o, "zipName": f"{i}-en-{o}.zip"},
+        # Low-demand pairs: still reachable from the picker, links still
+        # followed, but kept out of the index and the sitemap (see
+        # INDEXED_PAIRS in data.py).
+        robots=None if indexed else "noindex, follow",
     )
     write_page(f"/{i}-en-{o}/", html)
-    priority = "0.9" if (i, o) in FEATURED_PAIRS else "0.6"
-    register(f"/{i}-en-{o}/", "monthly", priority)
+    if indexed:
+        register(f"/{i}-en-{o}/", "monthly", "0.9" if (i, o) in FEATURED_PAIRS else "0.7")
 
 
 # ---------------------------------------------------------------------------
@@ -376,6 +429,7 @@ def build_compress_page(*, path, crumbs, h1, subtitle, title, meta, target, outp
 
 {sections}
 {t.privacy_aside_html()}
+{related_guides_html(path)}
 {t.faq_html(faq_items)}
 </main>"""
     crumb_ld = [(c, h if h else path) for c, h in crumbs]
@@ -417,9 +471,9 @@ def build_compress_hub():
         crumbs=[("Accueil", "/"), ("Compresser une image", None)],
         h1="Compresser une image à une taille précise",
         subtitle="Choisissez un poids maximum : chaque image est compressée avec la meilleure qualité qui tient dessous. Rien n'est envoyé sur un serveur.",
-        title="Compresser une image à une taille précise (Ko ou Mo), gratuit",
-        meta=("Réduisez le poids de vos images sous une limite précise (50 Ko, 200 Ko, 1 Mo, 2 Mo…) avec la "
-              "meilleure qualité possible. Gratuit, par lot, 100% dans votre navigateur."),
+        title="Compresser une image à une taille précise (Ko ou Mo)",
+        meta=("Réduisez vos images sous une limite précise (50 Ko, 200 Ko, 1 Mo…) avec la meilleure qualité "
+              "possible. Gratuit, par lot, dans votre navigateur."),
         target=1_000_000, output="jpg", sections=sections,
         faq_items=compress_faq("la limite choisie"),
         app_name="Compresseur d'images à taille cible", priority="0.9",
@@ -441,9 +495,9 @@ def build_threshold_page(slug, target, text):
         crumbs=[("Accueil", "/"), ("Compresser une image", COMPRESS_HUB), (f"Moins de {text}", None)],
         h1=f"Compresser une image à moins de {text}",
         subtitle=f"Pour {uses}. Meilleure qualité possible sous {text}, sans envoi sur un serveur.",
-        title=f"Compresser une image à moins de {text} (JPG, PNG, WebP)",
-        meta=(f"Réduisez une photo ou une image à moins de {text} en quelques secondes, avec la meilleure qualité "
-              f"possible. Gratuit, par lot, sans envoyer vos fichiers sur un serveur."),
+        title=f"Compresser une image à moins de {text}",
+        meta=(f"Réduisez une photo à moins de {text} avec la meilleure qualité possible. Gratuit, par lot, sans "
+              f"envoyer vos fichiers sur un serveur."),
         target=target, output="jpg", sections=sections, faq_items=compress_faq(text),
         app_name=f"Compresser une image à moins de {text}", priority="0.8",
     )
@@ -496,11 +550,13 @@ def build_guide_index():
 
 
 def build_guide_article(article):
-    page_title = article["title"] + " | Webconvert.fr"
+    page_title = article.get("seo_title", article["title"]) + " | Webconvert.fr"
+    tools = GUIDE_TOOLS.get(article["slug"], [])
+    tools_html = t.link_list_html([tool_link_item(p) for p in tools], cls="") if tools else ""
     body = f"""<main id="contenu" class="wrap page">
   <article class="article">
     {t.breadcrumbs_nav([("Accueil", "/"), ("Guides", "/guide/"), (article["title"], None)])}
-    <p class="article__meta">{article['tag']} · {article['published']} · {article['reading_time']} de lecture</p>
+    <p class="article__meta">{article['tag']} · {article['published']} · {article['reading_time']} de lecture · par <a href="/a-propos/">{t.AUTHOR_NAME}</a></p>
     <h1>{article['title']}</h1>
     <p class="lede">{article['lede']}</p>
     {article['body_html']}
@@ -508,6 +564,7 @@ def build_guide_article(article):
     <div class="article-footer-cta">
       <h2>Convertissez vos images maintenant</h2>
       <p>Le convertisseur Webconvert.fr traite vos fichiers directement dans votre navigateur, gratuitement et sans limite.</p>
+{tools_html}
       <p><a class="btn btn--dark" href="/">Ouvrir le convertisseur →</a></p>
     </div>
   </article>
@@ -521,7 +578,7 @@ def build_guide_article(article):
             ])},
             {"@type": "Article", "headline": article["title"], "description": article["meta"],
              "datePublished": article["published"], "inLanguage": "fr-FR",
-             "author": {"@type": "Organization", "name": t.SITE_NAME},
+             "author": t.AUTHOR_LD,
              "publisher": {"@type": "Organization", "name": t.SITE_NAME, "logo": {"@type": "ImageObject", "url": t.BASE_URL + "/assets/logo-square.png"}},
              "mainEntityOfPage": t.BASE_URL + f"/guide/{article['slug']}/"},
         ],
@@ -539,10 +596,68 @@ def build_guide_article(article):
 # Static pages
 # ---------------------------------------------------------------------------
 
+def build_about():
+    title = "À propos de Webconvert.fr"
+    meta = ("Webconvert.fr est un convertisseur d'images indépendant, conçu et développé par Mathieu Perez, "
+            "qui fonctionne entièrement dans votre navigateur.")
+    body = f"""<main id="contenu" class="wrap page">
+<article class="article doc">
+  {t.breadcrumbs_nav([("Accueil", "/"), ("À propos", None)])}
+  <h1>À propos de Webconvert.fr</h1>
+  <p class="lede">Webconvert.fr est un projet indépendant, conçu et développé par {t.AUTHOR_NAME}.</p>
+
+  <h2>Pourquoi ce site</h2>
+  <p>La plupart des convertisseurs d'images en ligne demandent d'envoyer ses fichiers sur leurs serveurs. Pour une photo de vacances, c'est un détail ; pour une carte d'identité, un bulletin de salaire ou un document de travail, beaucoup moins. Webconvert.fr fait l'inverse : la conversion et la compression ont lieu dans votre navigateur, et vos fichiers ne quittent jamais votre appareil.</p>
+
+  <h2>Comment il fonctionne</h2>
+  <p>Le site est constitué de pages statiques, sans serveur de conversion ni base de données. Chaque image est décodée puis ré-encodée par votre navigateur, grâce aux fonctions standard du web (l'API Canvas). Le code source est public et consultable sur <a href="{t.REPO_URL}">GitHub</a>.</p>
+
+  <h2>L'auteur</h2>
+  <p>{t.AUTHOR_NAME} conçoit et développe des sites web. Son travail est présenté sur <a href="{t.AUTHOR_URL}">{t.AUTHOR_URL.replace("https://", "")}</a>. Il rédige aussi les <a href="/guide/">guides</a> du site.</p>
+
+  <h2>Confidentialité</h2>
+  <p>Le détail de ce qui est (et n'est pas) collecté figure dans la <a href="/confidentialite/">politique de confidentialité</a>.</p>
+</article>
+</main>"""
+    json_ld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {"@type": "BreadcrumbList", "itemListElement": t.breadcrumb_json_ld([("Accueil", "/"), ("À propos", "/a-propos/")])},
+            {"@type": "AboutPage", "url": t.BASE_URL + "/a-propos/", "name": title, "inLanguage": "fr-FR",
+             "about": {"@type": "WebSite", "name": t.SITE_NAME, "url": t.BASE_URL + "/"},
+             "author": t.AUTHOR_LD},
+        ],
+    }
+    html = t.render_page(path="/a-propos/", title="À propos | Webconvert.fr", meta_description=meta,
+                         body_html=body, json_ld=json_ld)
+    write_page("/a-propos/", html)
+    register("/a-propos/", "yearly", "0.3")
+
+
+def build_404():
+    """Served by Apache for any unknown URL (ErrorDocument in .htaccess).
+    Written as /404.html, noindex, no canonical, not in the sitemap."""
+    links = [("Convertir une image", "JPG, PNG, WebP, AVIF, HEIC et bien d'autres.", "/"),
+             ("Compresser une image", "Passer sous 200 Ko, 1 Mo ou la limite de votre choix.", "/compresser-image/"),
+             ("Guides", "Formats d'image, confidentialité, performance web.", "/guide/")]
+    body = f"""<main id="contenu" class="wrap page">
+<article class="article doc">
+  <h1>Page introuvable</h1>
+  <p class="lede">Cette adresse n'existe pas ou plus. Voici où trouver ce que vous cherchez :</p>
+{t.link_list_html(links, cls="")}
+</article>
+</main>"""
+    html = t.render_page(path="/404.html", title="Page introuvable | Webconvert.fr",
+                         meta_description="Cette page n'existe pas.", body_html=body,
+                         robots="noindex", canonical=False)
+    with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8") as f:
+        f.write(html)
+
+
 def build_confidentialite():
     title = "Politique de confidentialité | Webconvert.fr"
-    meta = ("Vos images ne quittent jamais votre appareil : la conversion a lieu entièrement dans votre "
-            "navigateur. Seule une mesure d'audience, soumise à votre accord, est utilisée.")
+    meta = ("Vos images ne quittent jamais votre appareil : la conversion a lieu dans votre navigateur. "
+            "Seule une mesure d'audience, avec votre accord.")
     body = f"""<main id="contenu" class="wrap page">
 <article class="article doc">
   {t.breadcrumbs_nav([("Accueil", "/"), ("Confidentialité", None)])}
@@ -562,7 +677,7 @@ def build_confidentialite():
   <p><a href="#cookies" data-consent-open>Modifier mon choix concernant les cookies</a></p>
 
   <h2>Hébergement</h2>
-  <p>Le site est constitué de fichiers statiques (HTML, CSS, JavaScript) servis tels quels par l'hébergeur. Seules les polices de caractères (Google Fonts) et trois librairies JavaScript ponctuelles — JSZip pour l'archive ZIP groupée, UTIF.js/pako pour le TIFF, heic2any pour le HEIC — sont chargées depuis un CDN public ; ce sont de simples fichiers de code, sans transmission de vos images.</p>
+  <p>Le site est constitué de fichiers statiques (HTML, CSS, JavaScript) servis tels quels par l'hébergeur. La police de caractères (Figtree) est hébergée sur le site lui-même. Seules trois librairies JavaScript ponctuelles — JSZip pour l'archive ZIP groupée, UTIF.js/pako pour le TIFF, heic2any pour le HEIC — sont chargées depuis un CDN public ; ce sont de simples fichiers de code, sans transmission de vos images.</p>
 
   <h2>Contact</h2>
   <p>Pour toute question, vous pouvez contacter l'éditeur du site via <a href="https://mathieu-perez.fr">mathieu-perez.fr</a>.</p>
@@ -578,10 +693,29 @@ def build_confidentialite():
 # Sitemap / robots / manifest / htaccess
 # ---------------------------------------------------------------------------
 
+LASTMOD_FILE = os.path.join(os.path.dirname(__file__), "lastmod.json")
+
+
 def build_sitemap():
+    """<lastmod> is the date a page's generated HTML last changed: build/
+    lastmod.json keeps each page's hash and date between builds (commit it),
+    so rebuilding without changes never bumps dates Google relies on."""
+    try:
+        with open(LASTMOD_FILE, encoding="utf-8") as f:
+            known = json.load(f)
+    except FileNotFoundError:
+        known = {}
+    today = datetime.date.today().isoformat()
+    updated = {}
     entries = []
-    for path, freq, prio in SITEMAP_URLS:
-        entries.append(f"  <url>\n    <loc>{t.BASE_URL}{path}</loc>\n    <changefreq>{freq}</changefreq>\n    <priority>{prio}</priority>\n  </url>")
+    for path, _freq, _prio in SITEMAP_URLS:
+        digest = PAGE_HASHES[path]
+        prev = known.get(path)
+        date = prev["date"] if prev and prev["hash"] == digest else today
+        updated[path] = {"hash": digest, "date": date}
+        entries.append(f"  <url>\n    <loc>{t.BASE_URL}{path}</loc>\n    <lastmod>{date}</lastmod>\n  </url>")
+    with open(LASTMOD_FILE, "w", encoding="utf-8") as f:
+        json.dump(updated, f, ensure_ascii=False, indent=1, sort_keys=True)
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(entries) + "\n</urlset>\n"
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(xml)
@@ -613,10 +747,27 @@ def build_manifest():
 
 
 def build_htaccess():
-    content = """# Cache static assets: HTML re-validates every visit, everything else is
+    content = """# One canonical origin: https://webconvert.fr (no www, no plain http).
+# Two rules so the http check also honours X-Forwarded-Proto: behind a TLS
+# proxy %{HTTPS} is always off, and a lone HTTPS test would loop forever.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\\. [NC]
+  RewriteRule ^ https://webconvert.fr%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://webconvert.fr%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# Cache static assets: HTML re-validates every visit, everything else is
 # fingerprint-free but changes rarely, so a moderate cache is a fair trade-off.
+AddType font/woff2 .woff2
+
 <IfModule mod_expires.c>
   ExpiresActive On
+  ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType text/html "access plus 0 seconds"
   ExpiresByType text/css "access plus 0 seconds"
   ExpiresByType application/javascript "access plus 0 seconds"
@@ -634,7 +785,7 @@ def build_htaccess():
   <FilesMatch "\\.(css|js)$">
     Header set Cache-Control "public, no-cache"
   </FilesMatch>
-  <FilesMatch "\\.(jpg|jpeg|png|webp|gif|ico|webmanifest)$">
+  <FilesMatch "\\.(jpg|jpeg|png|webp|gif|ico|webmanifest|woff2)$">
     Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
   <FilesMatch "\\.html$">
@@ -668,13 +819,15 @@ def main():
     for article in ARTICLES:
         build_guide_article(article)
     build_confidentialite()
+    build_about()
+    build_404()
 
     build_sitemap()
     build_robots()
     build_manifest()
     build_htaccess()
 
-    print(f"Generated {len(SITEMAP_URLS)} pages.")
+    print(f"Generated {len(PAGE_HASHES) + 1} pages ({len(SITEMAP_URLS)} in the sitemap, plus 404.html).")
 
 
 if __name__ == "__main__":

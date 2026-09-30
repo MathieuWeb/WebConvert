@@ -71,8 +71,9 @@ ou partager ailleurs, une conversion en JPG ou PNG s'impose.</p>
         slug="confidentialite-conversion-image-navigateur",
         tag="Confidentialité",
         title="Pourquoi la confidentialité compte quand vous convertissez une image",
-        meta="Vos photos peuvent contenir bien plus qu'une image : géolocalisation, appareil utilisé, parfois "
-             "des informations sensibles. Pourquoi la conversion locale change tout.",
+        seo_title="Conversion d'image et confidentialité : ce qu'il faut savoir",
+        meta="Vos photos contiennent souvent plus qu'une image : position GPS, appareil, informations sensibles. "
+             "Pourquoi la conversion locale change tout.",
         excerpt="Vos photos contiennent souvent plus d'informations que ce qu'elles montrent. Voici pourquoi "
                 "l'endroit où elles sont converties n'est pas un détail.",
         published="2026-08-18",
@@ -126,6 +127,7 @@ cela en tête si l'objectif est justement de les retirer.</li>
         slug="convertir-heic-iphone",
         tag="Guide pratique",
         title="Photos HEIC d'iPhone illisibles : le guide complet pour les convertir",
+        seo_title="Photos HEIC d'iPhone : comment les convertir en JPG",
         meta="Pourquoi vos photos iPhone sont en .HEIC, pourquoi elles ne s'ouvrent pas sur Windows ou "
              "Android, et comment les convertir simplement en JPG ou PNG.",
         excerpt="Pourquoi vos photos iPhone sont illisibles ailleurs, et comment les rendre compatibles avec "
@@ -273,6 +275,7 @@ supplémentaires lors des prochaines étapes de traitement.</p>
         slug="reduire-poids-images-site-web",
         tag="Performance web",
         title="Réduire le poids de ses images sans perdre en qualité : le guide complet",
+        seo_title="Réduire le poids de ses images sans perte de qualité",
         meta="Les images représentent souvent la majorité du poids d'une page web. Voici comment les alléger "
              "sans sacrifice visuel perceptible.",
         excerpt="Les images pèsent souvent plus de la moitié du poids total d'une page web. Voici comment les "
@@ -325,6 +328,7 @@ une seule archive ZIP.</p>
         slug="creer-favicon-ico",
         tag="Guide pratique",
         title="Créer une favicon .ico à partir de votre logo : le guide complet",
+        seo_title="Créer une favicon .ico à partir de son logo",
         meta="Comment transformer votre logo en favicon.ico prête à l'emploi pour votre site web, avec les "
              "bonnes dimensions et les bons réglages.",
         excerpt="La petite icône affichée dans l'onglet du navigateur mérite un peu plus d'attention qu'on ne "
