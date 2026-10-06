@@ -783,13 +783,15 @@ SPECS_CHECKED = "30 septembre 2026"
 
 def _platform(slug, crumb, short, h1, title, meta, intro, width, height, *, output="jpg",
               formats=("jpg", "png", "webp"), target=None, limit_text, formats_text, source_name,
-              source_url, notes, faq):
+              source_url, notes, faq, guide=()):
+    # guide: extra content sections shown under the spec table, as
+    # (heading_id, heading, inner HTML) — for pages worth a fuller answer.
     return dict(
         path=f"/{slug}/", crumb=crumb, short=short, h1=h1, title=title, meta=meta, intro=intro,
         width=width, height=height, output=output, formats=formats, target=target,
         spec=dict(size=f"{width} × {height} px", limit=limit_text, formats=formats_text,
                   source_name=source_name, source_url=source_url),
-        notes=notes, faq=faq,
+        notes=notes, faq=faq, guide=guide,
     )
 
 
@@ -797,16 +799,49 @@ PLATFORM_PAGES = [
     _platform(
         "banniere-linkedin", "Bannière LinkedIn", "1584 × 396 px, l'image de fond du profil.",
         "Taille de la bannière LinkedIn : 1584 × 396 px",
-        "Taille bannière LinkedIn : redimensionner en 1584 × 396",
-        "Redimensionnez et recadrez votre bannière LinkedIn au format recommandé de 1584 × 396 px, en JPG. "
-        "Gratuit, sans envoi sur un serveur.",
+        "Taille bannière LinkedIn (1584 × 396) : recadrer en ligne",
+        "Dimensions officielles de la bannière LinkedIn : 1584 × 396 px, JPG ou PNG, moins de 8 Mo. Recadrez "
+        "la vôtre au bon format ici, gratuitement et sans envoi.",
         "Déposez votre image : elle est recadrée au format exact recommandé par LinkedIn. Faites-la glisser pour choisir la partie visible.",
         1584, 396, limit_text="8 Mo", formats_text="JPG ou PNG", source_name="Aide LinkedIn",
         source_url="https://www.linkedin.com/help/linkedin/answer/a568217",
         notes=["La bannière est un format très allongé (4:1) : placez le sujet au centre, le haut et le bas étant rognés.",
                "Sur ordinateur, votre photo de profil recouvre le coin inférieur gauche de la bannière : évitez d'y mettre du texte."],
         faq=[("Quelle est la taille de la bannière LinkedIn ?", "LinkedIn recommande 1584 × 396 pixels, en JPG ou PNG, pour un fichier de moins de 8 Mo."),
-             ("Pourquoi ma bannière LinkedIn est-elle floue ou coupée ?", "Si l'image est plus petite que 1584 × 396 px, LinkedIn l'agrandit et elle perd en netteté ; si ses proportions diffèrent, elle est recadrée automatiquement. Préparer l'image au format exact évite les deux.")],
+             ("Pourquoi ma bannière LinkedIn est-elle floue ou coupée ?", "Si l'image est plus petite que 1584 × 396 px, LinkedIn l'agrandit et elle perd en netteté ; si ses proportions diffèrent, elle est recadrée automatiquement. Préparer l'image au format exact évite les deux."),
+             ("Quelle différence avec la bannière d'une page entreprise ?", "La couverture d'une Page entreprise mesure 1512 × 256 px et doit peser moins de 3 Mo ; celle d'un profil personnel, 1584 × 396 px et moins de 8 Mo. Les deux formats ne sont pas interchangeables."),
+             ("Comment changer sa bannière LinkedIn ?", "Sur ordinateur, ouvrez votre profil et cliquez sur l'icône d'appareil photo en haut à droite de la section d'introduction, puis importez l'image et cliquez sur « Appliquer ». Sur l'appli, touchez la bannière puis « Modifier ».")],
+        guide=[
+            ("profil-ou-entreprise", "Profil ou Page entreprise", """    <table class="spec">
+      <tbody>
+        <tr><th scope="row">Profil personnel</th><td>1584 × 396 px (4:1), JPG ou PNG, moins de 8 Mo</td></tr>
+        <tr><th scope="row">Page entreprise</th><td><a href="/banniere-linkedin-entreprise/">1512 × 256 px</a>, PNG ou JPEG, 3 Mo maximum</td></tr>
+      </tbody>
+    </table>
+    <div class="prose">
+      <p>La bannière d'un profil, aussi appelée image de fond ou de couverture, est beaucoup plus haute que celle d'une Page entreprise : une image préparée pour l'une sera mal recadrée sur l'autre. Cette page règle le format du profil personnel.</p>
+    </div>"""),
+            ("zone-visible", "Ce qui reste visible", """    <div class="prose">
+      <p>LinkedIn précise que l'affichage de la bannière varie selon la taille de la fenêtre et la résolution de l'écran : les bords peuvent être légèrement rognés. Gardez donc le texte, le logo ou le slogan vers le centre, avec de la marge en haut et en bas.</p>
+      <p>Votre photo de profil chevauche le bas de la bannière, côté gauche. Sur une bannière avec du texte, placez-le plutôt dans la moitié droite.</p>
+    </div>"""),
+            ("banniere-nette", "Une bannière nette", """    <div class="prose">
+      <ul>
+        <li>Partez d'une image d'au moins 1584 px de large : en dessous, LinkedIn l'agrandit et elle devient floue. LinkedIn conseille aussi les photographies plutôt que les visuels à base de logo.</li>
+        <li>Pour une bannière avec du texte, choisissez le PNG dans « Format de sortie » : le JPG peut créer un léger flou autour des lettres.</li>
+        <li>Dans l'outil, faites glisser l'image pour choisir la bande gardée : le format 4:1 coupe beaucoup en hauteur.</li>
+      </ul>
+    </div>"""),
+            ("changer-banniere", "Changer sa bannière LinkedIn", """    <div class="prose">
+      <p>Sur ordinateur :</p>
+      <ol>
+        <li>Cliquez sur « Vous » en haut de la page d'accueil, puis sur « Voir le profil ».</li>
+        <li>Cliquez sur l'icône d'appareil photo en haut à droite de la section d'introduction.</li>
+        <li>Importez l'image préparée ici, ajustez sa position si besoin, puis cliquez sur « Appliquer ».</li>
+      </ol>
+      <p>Sur l'appli mobile : touchez votre photo de profil, puis la bannière, choisissez « Modifier », importez l'image et touchez « Enregistrer ».</p>
+    </div>"""),
+        ],
     ),
     _platform(
         "banniere-linkedin-entreprise", "Bannière LinkedIn entreprise", "1512 × 256 px, la couverture d'une Page.",
@@ -839,9 +874,9 @@ PLATFORM_PAGES = [
     _platform(
         "miniature-youtube", "Miniature YouTube", "3840 × 2160 px (16:9), moins de 2 Mo.",
         "Taille de la miniature YouTube : 3840 × 2160 px",
-        "Taille miniature YouTube : redimensionner en 16:9",
-        "Préparez vos miniatures YouTube au format 16:9 recommandé (3840 × 2160 px), sous 2 Mo, en JPG. "
-        "Gratuit, sans envoi sur un serveur.",
+        "Taille miniature YouTube (3840 × 2160) : recadrer en ligne",
+        "Taille officielle d'une miniature YouTube : 3840 × 2160 px en 16:9 (Short : 2160 × 3840), moins de "
+        "2 Mo. Recadrez et compressez la vôtre ici, gratuitement.",
         "Recadrez votre image en 16:9 à la taille recommandée par YouTube, compressée sous 2 Mo pour être acceptée même depuis l'appli mobile.",
         3840, 2160, target=2_000_000, formats=("jpg", "png"), limit_text="2 Mo depuis l'appli mobile, 50 Mo depuis un ordinateur",
         formats_text="JPG ou PNG", source_name="Aide YouTube",
@@ -849,7 +884,46 @@ PLATFORM_PAGES = [
         notes=["YouTube recommande désormais 3840 × 2160 px (4K) ; beaucoup de guides indiquent encore 1280 × 720 px, l'ancienne recommandation.",
                "La largeur minimale acceptée est de 640 px. Vous pouvez saisir 1920 × 1080 ou 1280 × 720 si votre image d'origine est plus petite."],
         faq=[("Quelle est la taille d'une miniature YouTube ?", "YouTube recommande 3840 × 2160 pixels au format 16:9, avec une largeur minimale de 640 pixels, en JPG ou PNG."),
-             ("Quel poids maximum pour une miniature YouTube ?", "2 Mo pour un envoi depuis l'appli mobile, 50 Mo depuis un ordinateur. L'outil vise 2 Mo pour fonctionner dans tous les cas.")],
+             ("Quel poids maximum pour une miniature YouTube ?", "2 Mo pour un envoi depuis l'appli mobile, 50 Mo depuis un ordinateur. L'outil vise 2 Mo pour fonctionner dans tous les cas."),
+             ("Faut-il encore utiliser 1280 × 720 px ?", "Ce format est toujours accepté (même proportion 16:9, au-dessus du minimum de 640 px de large), mais YouTube recommande aujourd'hui 3840 × 2160 px. Utilisez 1280 × 720 seulement si votre image d'origine est plus petite."),
+             ("Quelle taille pour la miniature d'un Short ?", "2160 × 3840 pixels, au format vertical 9:16, avec une hauteur minimale de 640 pixels. Saisissez ces dimensions dans l'outil. Les miniatures personnalisées des Shorts s'ajoutent depuis YouTube Studio sur ordinateur."),
+             ("Pourquoi ne puis-je pas ajouter de miniature personnalisée ?", "YouTube réserve cette option aux comptes validés (youtube.com/verify). Si un message indique que la limite quotidienne est atteinte, attendez 24 heures.")],
+        guide=[
+            ("video-short-podcast", "Vidéo, Short ou podcast", """    <table class="spec">
+      <tbody>
+        <tr><th scope="row">Vidéo</th><td>3840 × 2160 px (16:9), 640 px de large minimum</td></tr>
+        <tr><th scope="row">Short</th><td>2160 × 3840 px (9:16), 640 px de haut minimum</td></tr>
+        <tr><th scope="row">Podcast</th><td>Format carré (1:1)</td></tr>
+        <tr><th scope="row">Poids maximum</th><td>2 Mo depuis l'appli mobile (10 Mo pour un podcast), 50 Mo depuis un ordinateur</td></tr>
+      </tbody>
+    </table>
+    <div class="prose">
+      <p>L'outil est réglé pour une vidéo classique. Pour un Short, saisissez 2160 × 3840 ; pour un podcast, un carré, par exemple 2160 × 2160.</p>
+    </div>"""),
+            ("1280-ou-3840", "1280 × 720 ou 3840 × 2160 ?", """    <div class="prose">
+      <p>Les deux fonctionnent : ce sont les mêmes proportions 16:9, et toutes deux dépassent la largeur minimale de 640 px. YouTube recommande aujourd'hui 3840 × 2160 px, une image qui reste nette sur un grand écran ou un téléviseur ; 1280 × 720 est l'ancienne recommandation, encore reprise par beaucoup de guides.</p>
+      <p>Agrandir une petite image n'ajoute aucun détail. Si la vôtre fait moins de 3840 px de large, saisissez plutôt 1920 × 1080 ou 1280 × 720 : le résultat sera aussi net, et plus léger.</p>
+      <p>En 3840 × 2160, un JPG dépasse facilement 2 Mo. L'outil ajuste la qualité pour passer sous cette limite sans toucher aux dimensions, pour que la miniature soit acceptée même depuis l'appli mobile.</p>
+    </div>"""),
+            ("conseils-miniature", "Avant de l'envoyer", """    <div class="prose">
+      <ul>
+        <li>La durée de la vidéo s'affiche dans le coin inférieur droit : n'y placez ni texte ni visage.</li>
+        <li>Dans les résultats sur téléphone, la miniature ne fait que quelques centimètres de large : trois ou quatre mots en gros caractères se lisent mieux qu'une phrase.</li>
+        <li>Pour une miniature avec beaucoup de texte ou un logo, le PNG évite le flou autour des lettres, à condition de rester sous la limite de poids.</li>
+        <li>La miniature doit respecter le règlement de la communauté YouTube : pas de nudité, de violence ni d'incitation à la haine.</li>
+      </ul>
+    </div>"""),
+            ("ajouter-miniature", "Ajouter la miniature sur YouTube", """    <div class="prose">
+      <ol>
+        <li>Connectez-vous à YouTube Studio sur ordinateur.</li>
+        <li>Dans le menu de gauche, cliquez sur « Contenu » (puis sur l'onglet « Shorts » pour un Short).</li>
+        <li>Cliquez sur l'icône de modification de la vidéo.</li>
+        <li>Sous « Miniature », choisissez « Importer un fichier » et sélectionnez l'image préparée ici.</li>
+        <li>Cliquez sur « Enregistrer ».</li>
+      </ol>
+      <p>Le bouton n'apparaît pas ? YouTube réserve les miniatures personnalisées aux comptes validés. Une fois enregistrée, la nouvelle miniature peut mettre un moment à s'afficher partout.</p>
+    </div>"""),
+        ],
     ),
     _platform(
         "banniere-youtube", "Bannière YouTube", "2560 × 1440 px, moins de 6 Mo.",
@@ -968,16 +1042,42 @@ PLATFORM_PAGES = [
     ),
     _platform(
         "banniere-twitter-x", "Bannière X (Twitter)", "1500 × 500 px, l'en-tête du profil.",
-        "Taille de la bannière X (Twitter) : 1500 × 500 px",
-        "Taille bannière Twitter / X : 1500 × 500 px",
-        "Recadrez l'image d'en-tête de votre profil X (Twitter) au format recommandé de 1500 × 500 px. Gratuit, "
-        "sans envoi sur un serveur.",
-        "Recadrez l'en-tête de votre profil X au format recommandé (3:1).",
-        1500, 500, limit_text="Non précisé par X pour l'en-tête", formats_text="JPG ou PNG", source_name="Aide X",
-        source_url="https://help.x.com/en/managing-your-account/common-issues-when-uploading-profile-photo",
-        notes=["La photo de profil X mesure 400 × 400 px et doit peser moins de 2 Mo (JPEG, GIF ou PNG) : saisissez ces dimensions pour la préparer."],
-        faq=[("Quelle est la taille de la bannière Twitter / X ?", "1500 × 500 pixels recommandés."),
-             ("Et la photo de profil X ?", "400 × 400 pixels, moins de 2 Mo, en JPEG, GIF ou PNG.")],
+        "Taille des images X (Twitter) : bannière 1500 × 500 px",
+        "Taille image Twitter / X : bannière, photo de profil, post",
+        "Tailles officielles des images X (Twitter) : bannière 1500 × 500 px, photo de profil 400 × 400 px, "
+        "posts du 2:1 au 3:4. Recadrez les vôtres ici, gratuitement.",
+        "Recadrez l'en-tête de votre profil X au format recommandé (3:1). Pour la photo de profil ou une image de post, changez simplement les dimensions.",
+        1500, 500, limit_text="Non précisé par X pour l'en-tête", formats_text="JPG ou PNG (GIF non animé)", source_name="Aide X",
+        source_url="https://help.x.com/en/managing-your-account/how-to-customize-your-profile",
+        notes=["Selon la taille de l'écran et du navigateur, X peut rogner jusqu'à 60 px en haut et en bas de l'en-tête : gardez le texte et le logo dans la bande centrale."],
+        faq=[("Quelle est la taille de la bannière Twitter / X ?", "1500 × 500 pixels recommandés, au format 3:1, en JPG, PNG ou GIF non animé."),
+             ("Quelle est la taille de la photo de profil X ?", "400 × 400 pixels, moins de 2 Mo, en JPEG, GIF ou PNG. Saisissez 400 × 400 dans l'outil : la photo est recadrée en carré."),
+             ("Quelle taille pour une image dans un post X ?", "X affiche en entier les images dont les proportions vont du paysage 2:1 au portrait 3:4, jusqu'à 5 Mo par image (JPG, PNG, GIF ou WebP), et jusqu'à 4 images par post."),
+             ("Pourquoi ma bannière X est-elle coupée ?", "X adapte l'en-tête à la taille de l'écran et peut en rogner jusqu'à 60 pixels en haut et en bas. Laissez de la marge autour de l'essentiel.")],
+        guide=[
+            ("tailles-x", "Toutes les tailles d'image sur X", """    <table class="spec">
+      <tbody>
+        <tr><th scope="row">Bannière (en-tête)</th><td>1500 × 500 px (3:1)</td></tr>
+        <tr><th scope="row">Photo de profil</th><td>400 × 400 px, moins de 2 Mo</td></tr>
+        <tr><th scope="row">Image de post</th><td>Du paysage 2:1 au portrait 3:4, 5 Mo maximum, 4 images par post</td></tr>
+        <tr><th scope="row">Formats</th><td>JPG, PNG ou GIF (WebP aussi pour les posts) ; pas de GIF animé pour le profil ni la bannière</td></tr>
+      </tbody>
+    </table>
+    <div class="prose">
+      <p>L'outil est réglé pour la bannière. Pour la photo de profil, saisissez 400 × 400. Pour un post, choisissez des proportions dans la plage affichée en entier, par exemple 1600 × 900 (16:9) en paysage, 1200 × 1200 en carré ou 1200 × 1600 (3:4) en portrait.</p>
+    </div>"""),
+            ("photo-profil-x", "La photo de profil", """    <div class="prose">
+      <p>X recommande une photo carrée de 400 × 400 px, de moins de 2 Mo. Elle est affichée dans un cercle : centrez le visage et laissez un peu d'espace autour, les coins sont masqués.</p>
+      <p>Dans l'outil, saisissez 400 × 400 et choisissez 2 Mo dans « Poids maximum » : une photo de téléphone est recadrée et compressée sous la limite en une fois.</p>
+    </div>"""),
+            ("changer-images-x", "Changer sa bannière ou sa photo", """    <div class="prose">
+      <ol>
+        <li>Sur x.com ou dans l'appli, ouvrez votre profil et choisissez « Éditer le profil ».</li>
+        <li>Cliquez sur l'icône d'appareil photo de la bannière ou de la photo de profil, puis importez l'image préparée ici.</li>
+        <li>Ajustez le cadrage si besoin, puis cliquez sur « Enregistrer ».</li>
+      </ol>
+    </div>"""),
+        ],
     ),
     _platform(
         "photo-instagram", "Photo Instagram", "1080 px de large, du paysage 1,91:1 au portrait 3:4.",

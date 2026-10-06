@@ -756,6 +756,7 @@ def build_platform_page(p):
     sections = (
         t.section_html("dimensions", f"Format officiel : {p['crumb']}", platform_spec_html(p), tag="article")
         + "\n"
+        + "".join(t.section_html(gid, heading, body, tag="article") + "\n" for gid, heading, body in p["guide"])
         + t.section_html("plateformes", "Autres formats", t.link_list_html(platform_links(exclude=p["path"])))
     )
     build_tool_page(

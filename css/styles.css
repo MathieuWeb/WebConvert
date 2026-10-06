@@ -1081,7 +1081,8 @@ button, input, select { font: inherit; color: inherit; }
 
 .prose { color: var(--text); }
 .prose p { margin: 0 0 14px; max-width: 68ch; }
-.prose ul { margin: 0 0 14px; padding-left: 20px; }
+.prose ul,
+.prose ol { margin: 0 0 14px; padding-left: 20px; }
 .prose li { margin-bottom: 4px; }
 .prose a,
 .article a:not(.btn),
