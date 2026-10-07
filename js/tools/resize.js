@@ -26,6 +26,12 @@ export function init(config) {
   const list = $("[data-queue-list]");
   const summary = $("[data-queue-summary]");
   const zipButton = $("[data-download-all]");
+  const zonesToggle = $("[data-zones-toggle]");
+  const zonesLegend = $("[data-zones-legend]");
+  const zones = config.zones || [];
+  // Zones are fractions of the platform's format: only meaningful while the
+  // output keeps the preset proportions.
+  const presetRatio = (Number(widthInput.value) || 1) / (Number(heightInput.value) || 1);
 
   const state = {
     items: [], // { id, name, source (canvas), zoom, fx, fy, result, thumbUrl, status }
@@ -99,8 +105,84 @@ export function init(config) {
     ctx.save();
     ctx.scale(canvas.width / W, canvas.height / H);
     draw(ctx, item, W, H, s);
+    const zonesFit = zones.length > 0 && cropping && Math.abs(W / H - presetRatio) / presetRatio < 0.01;
+    zonesToggle.hidden = !zonesFit;
+    zonesLegend.hidden = !(zonesFit && zonesToggle.querySelector("input").checked);
+    if (zonesFit && zonesToggle.querySelector("input").checked) drawZones(ctx, W, H, k);
     ctx.restore();
     zoomInput.value = String(item.zoom);
+  }
+
+  // ---------------- Risk zones (preview only, never in the download) ----------------
+  const ZONE_COLOR = "rgba(201, 82, 28, 0.9)";
+  let hatch = null;
+  function hatchPattern(ctx, k) {
+    const size = Math.max(4, Math.round(10 / k));
+    const c = document.createElement("canvas");
+    c.width = c.height = size;
+    const x = c.getContext("2d");
+    x.fillStyle = "rgba(201, 82, 28, 0.22)";
+    x.fillRect(0, 0, size, size);
+    x.strokeStyle = "rgba(201, 82, 28, 0.55)";
+    x.lineWidth = Math.max(1, size / 6);
+    x.beginPath();
+    x.moveTo(0, size);
+    x.lineTo(size, 0);
+    x.stroke();
+    return ctx.createPattern(c, "repeat");
+  }
+  function zonePath(ctx, z, W, H) {
+    const x = z.x * W, y = z.y * H, w = z.w * W, h = z.h * H;
+    if (z.shape === "circle") {
+      ctx.moveTo(x + w, y + h / 2);
+      ctx.ellipse(x + w / 2, y + h / 2, w / 2, h / 2, 0, 0, Math.PI * 2);
+    } else {
+      ctx.rect(x, y, w, h);
+    }
+  }
+  function label(ctx, text, x, y, k) {
+    const fs = 12 / k;
+    ctx.font = `600 ${fs}px Figtree, system-ui, sans-serif`;
+    const pad = 5 / k;
+    const tw = ctx.measureText(text).width;
+    ctx.fillStyle = ZONE_COLOR;
+    ctx.beginPath();
+    ctx.roundRect(x, y, tw + pad * 2, fs + pad * 1.6, 4 / k);
+    ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.textBaseline = "top";
+    ctx.fillText(text, x + pad, y + pad * 0.8);
+  }
+  function drawZones(ctx, W, H, k) {
+    hatch = hatchPattern(ctx, k);
+    for (const z of zones) {
+      ctx.save();
+      ctx.beginPath();
+      if (z.type === "safe") ctx.rect(0, 0, W, H); // shade everything outside
+      zonePath(ctx, z, W, H);
+      // Safe zone: darken the outside so the visible part stands out;
+      // covered zone: hatch it.
+      ctx.fillStyle = z.type === "safe" ? "rgba(20, 18, 16, 0.55)" : hatch;
+      ctx.fill("evenodd");
+      ctx.beginPath();
+      zonePath(ctx, z, W, H);
+      ctx.setLineDash([6 / k, 4 / k]);
+      ctx.lineWidth = 2 / k;
+      ctx.strokeStyle = ZONE_COLOR;
+      ctx.stroke();
+      ctx.setLineDash([]);
+      label(ctx, z.label + (z.official ? "" : " · indicatif"), z.x * W + 6 / k, z.y * H + 6 / k, k);
+      ctx.restore();
+    }
+  }
+  if (zones.length) {
+    zonesLegend.innerHTML = "";
+    for (const z of zones) {
+      const li = el("li", null, z.legend);
+      li.prepend(el("span", "editor__swatch"));
+      zonesLegend.appendChild(li);
+    }
+    zonesToggle.querySelector("input").addEventListener("change", renderEditor);
   }
 
   let drag = null;

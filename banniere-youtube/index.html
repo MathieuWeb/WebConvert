@@ -148,7 +148,9 @@
         <label class="editor__zoom"><span>Zoom</span>
           <input type="range" min="1" max="4" step="0.01" value="1" data-editor-zoom /></label>
         <span class="editor__hint" data-editor-hint>Faites glisser l'image pour la cadrer</span>
+        <label class="editor__zones-toggle" data-zones-toggle hidden><input type="checkbox" checked /> Afficher les zones</label>
       </div>
+      <ul class="editor__legend" data-zones-legend hidden></ul>
     </div>
 
     <div class="files" data-queue-card>
@@ -257,7 +259,7 @@
   </div>
 </footer>
 <script>
-window.WC_CONFIG = {"tool": "resize", "zipName": "banniere-youtube.zip"};
+window.WC_CONFIG = {"tool": "resize", "zipName": "banniere-youtube.zip", "zones": [{"type": "safe", "x": 0.2587890625, "y": 0.38263888888888886, "w": 0.482421875, "h": 0.23472222222222222, "label": "Visible partout", "official": true, "legend": "Zone visible sur tous les appareils (1235 × 338 px) : placez-y le texte et le logo. Le reste n'apparaît qu'en partie selon l'écran (en entier sur TV)."}]};
 </script>
 <script type="module" src="/js/main.js"></script>
 <script src="/js/nav.js" defer></script>

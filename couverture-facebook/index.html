@@ -147,7 +147,9 @@
         <label class="editor__zoom"><span>Zoom</span>
           <input type="range" min="1" max="4" step="0.01" value="1" data-editor-zoom /></label>
         <span class="editor__hint" data-editor-hint>Faites glisser l'image pour la cadrer</span>
+        <label class="editor__zones-toggle" data-zones-toggle hidden><input type="checkbox" checked /> Afficher les zones</label>
       </div>
+      <ul class="editor__legend" data-zones-legend hidden></ul>
     </div>
 
     <div class="files" data-queue-card>
@@ -334,7 +336,7 @@
   </div>
 </footer>
 <script>
-window.WC_CONFIG = {"tool": "resize", "zipName": "couverture-facebook.zip"};
+window.WC_CONFIG = {"tool": "resize", "zipName": "couverture-facebook.zip", "zones": [{"type": "cover", "shape": "circle", "x": 0.03, "y": 0.52, "w": 0.2, "h": 0.5403174603174604, "label": "Photo de profil", "official": false, "legend": "Photo de profil : Facebook indique qu'elle recouvre une partie du côté gauche, et le bas d'environ 40 px sur mobile. Position indicative, elle varie selon l'écran."}]};
 </script>
 <script type="module" src="/js/main.js"></script>
 <script src="/js/nav.js" defer></script>
