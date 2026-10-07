@@ -478,10 +478,10 @@ PAIR_OVERRIDES = {
         ],
     ),
     ("tiff", "jpg"): dict(
-        title="Convertir TIFF en JPG",
-        meta="Convertissez vos fichiers TIFF (scans, photos professionnelles) en JPG légers et lisibles "
-             "partout. Gratuit, sans envoi sur un serveur.",
-        intro="Pour partager des scans ou des photos TIFF, trop lourds et illisibles dans la plupart des applications.",
+        title="Convertir TIFF en JPG en ligne (scans, photos)",
+        meta="Convertissez vos TIFF (scans, photos) en JPG jusqu'à 15 fois plus légers, lisibles partout. "
+             "Gratuit, par lot, sans envoyer vos fichiers sur un serveur.",
+        intro="Scans et photos TIFF trop lourds ou illisibles sur téléphone : convertissez-les en JPG, par lot, sans les envoyer nulle part.",
         paragraphs=[
             "Le TIFF est le format des scanners et de la photographie professionnelle : fidèle, mais très lourd "
             "et impossible à afficher dans un navigateur ou sur la plupart des téléphones. Le JPG s'ouvre partout "
@@ -489,10 +489,36 @@ PAIR_OVERRIDES = {
             "Scans de documents, factures, photos d'archives : ces fichiers sont souvent confidentiels. Ici, ils "
             "sont convertis dans votre navigateur et ne sont envoyés sur aucun serveur.",
         ],
+        sections=[
+            ("poids-tiff-jpg", "Combien de poids gagne-t-on ?", """    <table class="measures">
+      <thead><tr><th scope="col">Fichier TIFF</th><th scope="col">Poids TIFF</th><th scope="col">JPG qualité 80</th><th scope="col">JPG qualité 90</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Photo 12 Mpx, non compressée</th><td>36,6 Mo</td><td>2,4 Mo (−93 %)</td><td>3,6 Mo (−90 %)</td></tr>
+        <tr><th scope="row">Photo 12 Mpx, compressée LZW</th><td>21,7 Mo</td><td>2,4 Mo (−89 %)</td><td>3,6 Mo (−84 %)</td></tr>
+        <tr><th scope="row">Scan A4 300 dpi, non compressé</th><td>8,7 Mo</td><td>1,1 Mo (−87 %)</td><td>1,7 Mo (−80 %)</td></tr>
+        <tr><th scope="row">Scan A4 300 dpi, compressé LZW</th><td>1,7 Mo</td><td>1,1 Mo (−34 %)</td><td>1,7 Mo (0 %)</td></tr>
+      </tbody>
+    </table>
+    <div class="prose">
+      <p>Pour une photo, le gain est spectaculaire : le JPG pèse 10 à 15 fois moins pour une différence invisible à l'œil. Pour un scan de texte déjà compressé en LZW, le gain est bien plus faible : ce format compresse très bien les pages de texte.</p>
+      <p>Un scan doit passer sous une limite précise, comme 1 Mo pour l'ANTS ? Utilisez plutôt <a href="/compresser-photo-ants/">la compression pour l'ANTS</a> ou <a href="/compresser-image-1-mo/">la compression sous 1 Mo</a> : la qualité est ajustée automatiquement pour respecter la limite.</p>
+      <p class="measures__note">Mesures réalisées avec l'outil de cette page sur une vraie photo de smartphone (3024 × 4032) et une page A4 de texte en niveaux de gris à 300 dpi.</p>
+    </div>"""),
+            ("tiff-pris-en-charge", "Quels TIFF sont pris en charge ?", """    <div class="prose">
+      <ul>
+        <li><strong>Pris en charge :</strong> TIFF non compressés, compressés en LZW ou en Deflate (ZIP), en couleur ou en niveaux de gris, extensions .tif et .tiff.</li>
+        <li><strong>Plusieurs pages :</strong> seule la première page est convertie.</li>
+        <li><strong>Peuvent échouer :</strong> certaines variantes rares, comme le JPEG intégré dans un TIFF ou la compression CCITT des fax.</li>
+        <li><strong>Transparence :</strong> le JPG n'en gère pas, les zones transparentes deviennent blanches. Pour la garder, convertissez en PNG.</li>
+      </ul>
+    </div>"""),
+        ],
         faq=[
+            ("Combien pèse un TIFF converti en JPG ?", "Dans notre mesure, une photo TIFF de 36,6 Mo pèse 2,4 Mo en JPG qualité 80, et un scan A4 non compressé passe de 8,7 Mo à 1,1 Mo."),
             ("Tous les TIFF sont-ils pris en charge ?", "Les TIFF non compressés, LZW et Deflate/ZIP le sont ; "
              "certaines variantes rares (JPEG dans TIFF, CCITT des fax) peuvent échouer."),
             ("Mon TIFF contient plusieurs pages, que se passe-t-il ?", "Seule la première page est convertie."),
+            ("Puis-je convertir plusieurs TIFF d'un coup ?", "Oui : déposez-les tous, puis téléchargez-les un par un ou groupés dans un ZIP."),
         ],
     ),
     ("ico", "png"): dict(
@@ -805,7 +831,8 @@ PLATFORM_PAGES = [
         "Déposez votre image : elle est recadrée au format exact recommandé par LinkedIn. Faites-la glisser pour choisir la partie visible.",
         1584, 396, limit_text="8 Mo", formats_text="JPG ou PNG", source_name="Aide LinkedIn",
         source_url="https://www.linkedin.com/help/linkedin/answer/a568217",
-        notes=["La bannière est un format très allongé (4:1) : placez le sujet au centre, le haut et le bas étant rognés.",
+        notes=["Cette page règle la bannière d'un <strong>profil personnel</strong>. Pour la Page d'une entreprise : <a href=\"/banniere-linkedin-entreprise/\">couverture de page entreprise, 1512 × 256 px →</a>",
+               "La bannière est un format très allongé (4:1) : placez le sujet au centre, le haut et le bas étant rognés.",
                "Sur ordinateur, votre photo de profil recouvre le coin inférieur gauche de la bannière : évitez d'y mettre du texte."],
         faq=[("Quelle est la taille de la bannière LinkedIn ?", "LinkedIn recommande 1584 × 396 pixels, en JPG ou PNG, pour un fichier de moins de 8 Mo."),
              ("Pourquoi ma bannière LinkedIn est-elle floue ou coupée ?", "Si l'image est plus petite que 1584 × 396 px, LinkedIn l'agrandit et elle perd en netteté ; si ses proportions diffèrent, elle est recadrée automatiquement. Préparer l'image au format exact évite les deux."),
@@ -844,18 +871,30 @@ PLATFORM_PAGES = [
         ],
     ),
     _platform(
-        "banniere-linkedin-entreprise", "Bannière LinkedIn entreprise", "1512 × 256 px, la couverture d'une Page.",
-        "Taille de la couverture d'une Page LinkedIn : 1512 × 256 px",
-        "Bannière LinkedIn entreprise : taille 1512 × 256 px",
-        "Préparez l'image de couverture de votre Page entreprise LinkedIn au format officiel de 1512 × 256 px, "
-        "sous 3 Mo. Gratuit, sans envoi.",
-        "L'image de couverture d'une Page entreprise n'a pas le même format que celle d'un profil. Recadrez-la ici au format officiel.",
+        "banniere-linkedin-entreprise", "Couverture LinkedIn entreprise", "1512 × 256 px, la couverture d'une Page entreprise.",
+        "Couverture d'une page entreprise LinkedIn : 1512 × 256 px",
+        "Couverture de page entreprise LinkedIn : 1512 × 256 px",
+        "Image de couverture d'une Page entreprise LinkedIn : 1512 × 256 px, PNG ou JPEG, 3 Mo maximum. "
+        "Recadrez-la au bon format ici, gratuitement et sans envoi.",
+        "Pour la Page de votre entreprise, pas pour votre profil personnel : LinkedIn y impose un format bien plus étroit. Recadrez votre image au format officiel.",
         1512, 256, target=2_000_000, limit_text="3 Mo", formats_text="PNG ou JPEG", source_name="Aide LinkedIn",
         source_url="https://www.linkedin.com/help/linkedin/answer/a563309",
         notes=["1512 × 256 px est à la fois la taille minimale et la taille recommandée par LinkedIn pour une Page.",
                "Le poids maximum est préréglé sur 2 Mo pour garder une marge sous la limite de 3 Mo."],
-        faq=[("Quelle est la taille de la bannière d'une page entreprise LinkedIn ?", "1512 × 256 pixels, au format PNG ou JPEG, pour un fichier de 3 Mo maximum, selon l'aide officielle de LinkedIn."),
-             ("Est-ce la même taille que la bannière d'un profil ?", "Non : la bannière d'un profil personnel mesure 1584 × 396 px. Utilisez la page dédiée pour celle-ci.")],
+        faq=[("Quelle est la taille de la couverture d'une page entreprise LinkedIn ?", "1512 × 256 pixels, au format PNG ou JPEG, pour un fichier de 3 Mo maximum, selon l'aide officielle de LinkedIn."),
+             ("Est-ce la même taille que la bannière d'un profil ?", "Non : la bannière d'un profil personnel mesure 1584 × 396 px et peut peser jusqu'à 8 Mo. Elle a sa propre page : bannière LinkedIn de profil."),
+             ("Puis-je réutiliser la bannière de mon profil pour ma Page ?", "Pas telle quelle : la couverture d'une Page est beaucoup plus étroite (environ 6:1 contre 4:1). Déposez la même image ici, elle sera recadrée au format de la Page.")],
+        guide=[
+            ("profil-ou-page", "Profil personnel ou Page entreprise ?", """    <div class="prose">
+      <p>Cette page concerne la <strong>Page d'une entreprise</strong> (ou d'une association, d'une école). Pour l'image de fond de <strong>votre profil personnel</strong>, le format est différent : <a href="/banniere-linkedin/">bannière LinkedIn de profil, 1584 × 396 px →</a></p>
+    </div>
+    <table class="spec">
+      <tbody>
+        <tr><th scope="row">Page entreprise</th><td>1512 × 256 px, PNG ou JPEG, 3 Mo maximum</td></tr>
+        <tr><th scope="row">Profil personnel</th><td><a href="/banniere-linkedin/">1584 × 396 px</a>, JPG ou PNG, moins de 8 Mo</td></tr>
+      </tbody>
+    </table>"""),
+        ],
     ),
     _platform(
         "photo-profil-linkedin", "Photo de profil LinkedIn", "400 × 400 px, carrée.",
@@ -999,16 +1038,42 @@ PLATFORM_PAGES = [
     ),
     _platform(
         "banniere-twitch", "Bannière Twitch", "1200 × 480 px, moins de 10 Mo.",
-        "Taille de la bannière de profil Twitch : 1200 × 480 px",
-        "Taille bannière Twitch : 1200 × 480 px",
-        "Redimensionnez la bannière de profil de votre chaîne Twitch en 1200 × 480 px, sous 10 Mo. Gratuit, sans "
-        "envoi sur un serveur.",
-        "Recadrez la bannière de votre chaîne au format recommandé par Twitch.",
+        "Taille de la bannière Twitch : 1200 × 480 px",
+        "Bannière Twitch (1200 × 480) : format et recadrage en ligne",
+        "Format de la bannière de profil Twitch : 1200 × 480 px, JPEG, PNG ou GIF, 10 Mo maximum. Recadrez la "
+        "vôtre au bon format ici, gratuitement et sans envoi.",
+        "Déposez votre image : elle est recadrée au format de la bannière de profil Twitch. Faites-la glisser pour choisir la partie visible.",
         1200, 480, limit_text="10 Mo", formats_text="JPEG, PNG ou GIF", source_name="Aide Twitch",
-        source_url="https://help.twitch.tv/s/article/twitch-account-settings",
-        notes=["La photo de profil Twitch mesure quant à elle 256 × 256 px (10 Mo maximum) : saisissez ces dimensions pour la préparer."],
-        faq=[("Quelle est la taille d'une bannière Twitch ?", "1200 × 480 pixels recommandés, pour un fichier de 10 Mo maximum en JPEG, PNG ou GIF."),
-             ("Et la photo de profil Twitch ?", "256 × 256 pixels, 10 Mo maximum.")],
+        source_url="https://help.twitch.tv/s/article/channel-page-setup",
+        notes=["Twitch recommande 1200 × 480 px ; sa page « Paramètres du compte » indique aussi qu'elle ne doit pas dépasser ces dimensions.",
+               "La photo de profil Twitch mesure au maximum 256 × 256 px (10 Mo) : saisissez ces dimensions pour la préparer."],
+        faq=[("Quel est le format d'une bannière Twitch ?", "1200 × 480 pixels (format 5:2), en JPEG, PNG ou GIF, pour un fichier de 10 Mo maximum, selon l'aide officielle de Twitch."),
+             ("Pourquoi ma bannière Twitch est-elle étirée ou coupée ?", "Twitch adapte la bannière à la largeur de la fenêtre de chaque spectateur : sa hauteur est ramenée à 480 px et l'image est étirée si la fenêtre est plus large qu'elle. Twitch conseille une image aussi large que possible, avec les éléments graphiques concentrés à gauche."),
+             ("Quelle taille pour la photo de profil Twitch ?", "256 × 256 pixels au maximum, 10 Mo, en JPG, PNG ou GIF."),
+             ("Où changer sa bannière Twitch ?", "Cliquez sur votre photo de profil en haut à droite, puis sur « Paramètres ». Dans l'onglet « Profil », section « Bannière de profil », cliquez sur « Mettre à jour » et importez l'image.")],
+        guide=[
+            ("formats-twitch", "Bannière, photo de profil : les formats Twitch", """    <table class="spec">
+      <tbody>
+        <tr><th scope="row">Bannière de profil</th><td>1200 × 480 px, JPEG, PNG ou GIF, 10 Mo maximum</td></tr>
+        <tr><th scope="row">Photo de profil</th><td>256 × 256 px maximum, JPG, PNG ou GIF, 10 Mo</td></tr>
+        <tr><th scope="row">Emotes</th><td><a href="/emote-twitch/">112 × 112 px en PNG →</a></td></tr>
+      </tbody>
+    </table>
+    <div class="prose">
+      <p>La bannière du lecteur vidéo, affichée quand la chaîne est hors ligne, est une image distincte : Twitch n'en précise pas les dimensions dans son aide.</p>
+    </div>"""),
+            ("affichage", "Comment Twitch affiche la bannière", """    <div class="prose">
+      <p>Les pages de Twitch, et donc la bannière, s'adaptent à la largeur de la fenêtre de chaque spectateur. Une image moins haute ou plus large que 480 px est ajustée à 480 px de hauteur, et elle est étirée si la fenêtre est plus large qu'elle.</p>
+      <p>Twitch conseille donc une image aussi large que possible, avec les éléments graphiques concentrés à gauche : c'est la partie qui reste visible sur tous les écrans. Dans l'outil, faites glisser l'image pour placer votre logo ou votre pseudo de ce côté.</p>
+    </div>"""),
+            ("changer-banniere", "Changer sa bannière Twitch", """    <div class="prose">
+      <ol>
+        <li>Sur le site, cliquez sur votre photo de profil en haut à droite, puis sur « Paramètres ».</li>
+        <li>Dans l'onglet « Profil », section « Bannière de profil », cliquez sur « Mettre à jour ».</li>
+        <li>Importez l'image préparée ici.</li>
+      </ol>
+    </div>"""),
+        ],
     ),
     _platform(
         "sticker-whatsapp", "Sticker WhatsApp", "512 × 512 px, WebP, moins de 100 Ko.",
@@ -1028,17 +1093,51 @@ PLATFORM_PAGES = [
     _platform(
         "couverture-facebook", "Couverture Facebook", "851 × 315 px, idéalement moins de 100 Ko.",
         "Taille de la photo de couverture Facebook : 851 × 315 px",
-        "Couverture Facebook : taille 851 × 315 px",
-        "Préparez la photo de couverture de votre Page Facebook en 851 × 315 px, en JPG de moins de 100 Ko pour "
-        "un chargement rapide. Gratuit, sans envoi.",
-        "Facebook recommande une couverture de 851 × 315 px, en JPG de moins de 100 Ko pour qu'elle s'affiche le plus vite possible.",
+        "Couverture Facebook (851 × 315) : recadrer en ligne",
+        "Taille de la photo de couverture Facebook : 851 × 315 px, en JPG de moins de 100 Ko. Recadrez et "
+        "redimensionnez la vôtre ici, gratuitement et sans envoi.",
+        "Déposez votre image : elle est recadrée au format recommandé par Facebook. Faites-la glisser pour choisir la partie visible, puis téléchargez-la.",
         851, 315, target=100_000, formats=("jpg", "png"), limit_text="Moins de 100 Ko recommandé",
-        formats_text="JPG (PNG pour un logo ou du texte)", source_name="Aide Facebook",
+        formats_text="JPG sRGB (PNG pour un logo ou du texte)", source_name="Aide Facebook",
         source_url="https://www.facebook.com/help/125379114252045",
-        notes=["La taille minimale est de 400 × 150 px.",
-               "Pour une couverture avec logo ou texte, Facebook conseille le PNG pour éviter le flou autour des lettres."],
-        faq=[("Quelle est la taille d'une couverture Facebook ?", "851 × 315 pixels, en JPG de moins de 100 Ko pour un chargement plus rapide, selon l'aide Facebook."),
-             ("Pourquoi ma couverture Facebook est-elle floue ?", "Facebook recompresse les images lourdes. Un JPG déjà au bon format et sous 100 Ko s'affiche plus net.")],
+        notes=["La taille minimale est de 400 × 150 px pour une Page, et de 720 px de large pour un profil personnel.",
+               "Pour une couverture avec logo ou texte, Facebook conseille le PNG : le JPG crée un léger flou autour des lettres."],
+        faq=[("Quelle est la taille d'une photo de couverture Facebook ?", "851 × 315 pixels, en JPG sRGB de moins de 100 Ko pour un chargement plus rapide, selon l'aide Facebook. Le minimum est de 400 × 150 px pour une Page."),
+             ("Comment redimensionner une photo de couverture Facebook ?", "Déposez votre image dans l'outil ci-dessus : elle est recadrée en 851 × 315 px et compressée sous 100 Ko. Faites-la glisser pour choisir la partie visible, puis téléchargez-la et importez-la sur Facebook."),
+             ("Pourquoi ma couverture Facebook est-elle coupée ?", "Facebook ne l'affiche pas de la même façon sur ordinateur et sur mobile, et la rogne pour l'adapter à chaque écran. Gardez le texte et les éléments importants vers le centre, loin du côté gauche recouvert par la photo de profil."),
+             ("Pourquoi ma couverture Facebook est-elle floue ?", "Facebook recompresse les images lourdes. Un JPG déjà au bon format et sous 100 Ko s'affiche plus net ; pour un logo ou du texte, préférez le PNG."),
+             ("Quelle taille pour la couverture d'un profil personnel ?", "Facebook demande au moins 720 pixels de large pour la couverture d'un profil personnel. Le format 851 × 315 réglé ici convient aussi.")],
+        guide=[
+            ("page-ou-profil", "Page ou profil personnel", """    <table class="spec">
+      <tbody>
+        <tr><th scope="row">Page Facebook</th><td>851 × 315 px conseillé, 400 × 150 px minimum, JPG sRGB de moins de 100 Ko</td></tr>
+        <tr><th scope="row">Profil personnel</th><td>Au moins 720 px de large</td></tr>
+        <tr><th scope="row">Avec logo ou texte</th><td>PNG, conseillé par Facebook</td></tr>
+      </tbody>
+    </table>"""),
+            ("zone-visible", "Ordinateur ou mobile : ce qui reste visible", """    <div class="prose">
+      <p>Facebook n'affiche pas la couverture de la même façon partout : sur ordinateur au format 16:9, sur mobile au format 2,4:1, alignée à gauche en pleine largeur. Selon l'écran, elle est donc rognée ou redimensionnée.</p>
+      <p>Le côté gauche est en partie recouvert par la photo de profil, qui chevauche aussi le bas de la couverture d'environ 40 px sur mobile.</p>
+      <p>En pratique : placez le texte, le logo ou le sujet vers le centre et la droite, et laissez de la marge en bas. Dans l'outil, faites glisser l'image pour choisir la bande gardée.</p>
+    </div>"""),
+            ("couverture-nette", "Une couverture nette", """    <div class="prose">
+      <ul>
+        <li>Partez d'une image d'au moins 851 px de large : en dessous, Facebook l'agrandit et elle perd en netteté.</li>
+        <li>Facebook conseille un JPG sRGB de moins de 100 Ko pour un chargement rapide : c'est le réglage par défaut de l'outil.</li>
+        <li>Pour un visuel avec logo ou texte, choisissez le PNG dans « Format de sortie ».</li>
+      </ul>
+    </div>"""),
+            ("changer-couverture", "Changer sa photo de couverture", """    <div class="prose">
+      <p>Sur ordinateur, pour votre profil :</p>
+      <ol>
+        <li>Cliquez sur votre photo de profil en haut à droite de Facebook, puis sur votre nom.</li>
+        <li>Cliquez sur « Modifier la photo de couverture », en bas à droite de la couverture.</li>
+        <li>Choisissez « Importer une photo » et sélectionnez l'image préparée ici.</li>
+        <li>Déplacez-la vers le haut ou le bas pour la repositionner, puis cliquez sur « Enregistrer les modifications ».</li>
+      </ol>
+      <p>Pour une Page, la marche à suivre est détaillée dans l'<a href="https://www.facebook.com/help/333543230019115" rel="noopener">aide Facebook</a>.</p>
+    </div>"""),
+        ],
     ),
     _platform(
         "banniere-twitter-x", "Bannière X (Twitter)", "1500 × 500 px, l'en-tête du profil.",

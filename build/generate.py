@@ -346,6 +346,10 @@ def build_pair_page(i, o):
             break
 
     paragraphs_html = "".join(f"<p>{p}</p>" for p in copy["paragraphs"])
+    # Optional extra content sections for pairs worth a fuller answer
+    # (PAIR_OVERRIDES[...]["sections"]: [(id, heading, inner HTML)]).
+    extra_sections = "".join("\n" + t.section_html(sid, heading, html, tag="article")
+                             for sid, heading, html in copy.get("sections", ()))
 
     why_body = f"""    <div class="prose">
       {paragraphs_html}
@@ -359,7 +363,7 @@ def build_pair_page(i, o):
     )}
 {t.tool_markup(input_id=i, preset_from=i, preset_to=o, default_output=o)}
 
-{t.section_html("a-propos-conversion", f"Pourquoi convertir {fi['label']} en {fo['label']}", why_body, tag="article")}
+{t.section_html("a-propos-conversion", f"Pourquoi convertir {fi['label']} en {fo['label']}", why_body, tag="article")}{extra_sections}
 {t.privacy_aside_html()}
 {t.pair_list_section_html("hub-autres", "Voir aussi", see_also)}
 {related_guides_html(f"/{i}-en-{o}/")}
