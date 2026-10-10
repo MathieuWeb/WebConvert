@@ -936,8 +936,11 @@ button, input, select { font: inherit; color: inherit; }
   width: 14px;
   height: 14px;
   margin-top: 2px;
-  border: 1.5px dashed #c9521c;
+  border: 2px solid var(--zone, #c9521c);
   border-radius: 3px;
+}
+.editor__swatch.is-hatched {
+  border-style: dashed;
   background: repeating-linear-gradient(-45deg, rgba(201, 82, 28, 0.5) 0 2px, rgba(201, 82, 28, 0.15) 2px 5px);
 }
 

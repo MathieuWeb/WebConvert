@@ -140,46 +140,67 @@ export function init(config) {
       ctx.rect(x, y, w, h);
     }
   }
-  function label(ctx, text, x, y, k) {
+  function label(ctx, text, x, y, k, color) {
     const fs = 12 / k;
     ctx.font = `600 ${fs}px Figtree, system-ui, sans-serif`;
     const pad = 5 / k;
     const tw = ctx.measureText(text).width;
-    ctx.fillStyle = ZONE_COLOR;
+    ctx.fillStyle = color || ZONE_COLOR;
     ctx.beginPath();
     ctx.roundRect(x, y, tw + pad * 2, fs + pad * 1.6, 4 / k);
     ctx.fill();
     ctx.fillStyle = "#fff";
     ctx.textBaseline = "top";
     ctx.fillText(text, x + pad, y + pad * 0.8);
+    return fs + pad * 1.6; // label height
   }
   function drawZones(ctx, W, H, k) {
     hatch = hatchPattern(ctx, k);
+    const gap = 6 / k;
+    const labelH = 12 / k + (5 / k) * 1.6;
+    // Shading first, so every outline and label stays on top of it.
     for (const z of zones) {
+      if (z.type === "frame" && z.shade === "outside") {
+        ctx.beginPath();
+        ctx.rect(0, 0, W, H);
+        zonePath(ctx, z, W, H);
+        ctx.fillStyle = "rgba(20, 18, 16, 0.55)";
+        ctx.fill("evenodd");
+      } else if (z.type === "cover") {
+        ctx.beginPath();
+        zonePath(ctx, z, W, H);
+        ctx.fillStyle = hatch;
+        ctx.fill();
+      }
+    }
+    for (const z of zones) {
+      const color = z.color || ZONE_COLOR;
+      if (z.type === "label") {
+        label(ctx, z.label, z.x * W + gap, z.y * H + gap, k, color);
+        continue;
+      }
       ctx.save();
       ctx.beginPath();
-      if (z.type === "safe") ctx.rect(0, 0, W, H); // shade everything outside
       zonePath(ctx, z, W, H);
-      // Safe zone: darken the outside so the visible part stands out;
-      // covered zone: hatch it.
-      ctx.fillStyle = z.type === "safe" ? "rgba(20, 18, 16, 0.55)" : hatch;
-      ctx.fill("evenodd");
-      ctx.beginPath();
-      zonePath(ctx, z, W, H);
-      ctx.setLineDash([6 / k, 4 / k]);
+      ctx.setLineDash(z.type === "cover" ? [6 / k, 4 / k] : []);
       ctx.lineWidth = 2 / k;
-      ctx.strokeStyle = ZONE_COLOR;
+      ctx.strokeStyle = color;
       ctx.stroke();
-      ctx.setLineDash([]);
-      label(ctx, z.label + (z.official ? "" : " · indicatif"), z.x * W + 6 / k, z.y * H + 6 / k, k);
       ctx.restore();
+      const x = z.x * W + gap;
+      let y = z.y * H + gap; // inside, top
+      if (z.label_pos === "above") y = z.y * H - labelH - gap / 2;
+      if (z.label_pos === "below") y = (z.y + z.h) * H + gap / 2;
+      label(ctx, z.label + (z.type === "cover" && !z.official ? " · indicatif" : ""), x, y, k, color);
     }
   }
   if (zones.length) {
     zonesLegend.innerHTML = "";
     for (const z of zones) {
       const li = el("li", null, z.legend);
-      li.prepend(el("span", "editor__swatch"));
+      const sw = el("span", "editor__swatch" + (z.type === "cover" ? " is-hatched" : ""));
+      sw.style.setProperty("--zone", z.color || "#c9521c");
+      li.prepend(sw);
       zonesLegend.appendChild(li);
     }
     zonesToggle.querySelector("input").addEventListener("change", renderEditor);

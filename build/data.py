@@ -980,10 +980,24 @@ PLATFORM_PAGES = [
         # Risk-zone overlay of the crop preview (fractions of the image).
         # "safe": everything outside is hatched; "cover": the shape is hatched.
         zones=[
-            dict(type="safe", x=(2560 - 1235) / 2 / 2560, y=(1440 - 338) / 2 / 1440, w=1235 / 2560, h=338 / 1440,
-                 label="Visible partout", official=True,
-                 legend="Zone visible sur tous les appareils (1235 × 338 px) : placez-y le texte et le logo. "
-                        "Le reste n'apparaît qu'en partie selon l'écran (en entier sur TV)."),
+            # TV shows the whole image; the other views are horizontal bands
+            # 423 px high at the centre. Official: the safe zone (1235 × 338 in
+            # a 2048 × 1152 image = 1544 × 423 at 2560 × 1440). Desktop and
+            # tablet widths: YouTube's former official channel-art template.
+            dict(type="label", label="TV : image entière", x=0, y=0, color="#3a3833",
+                 legend="TV : l'image entière (2560 × 1440 px) n'est visible que sur un téléviseur."),
+            dict(type="frame", shade="outside", x=0, y=(1440 - 423) / 2 / 1440, w=1, h=423 / 1440,
+                 label="Ordinateur · 2560 × 423", label_pos="above", color="#c9521c", official=False,
+                 legend="Ordinateur : bande de 2560 × 423 px au centre. Tout ce qui est assombri n'apparaît que sur TV. "
+                        "Dimensions de l'ancien gabarit officiel de YouTube, indicatives."),
+            dict(type="frame", x=(2560 - 1855) / 2 / 2560, y=(1440 - 423) / 2 / 1440, w=1855 / 2560, h=423 / 1440,
+                 label="Tablette · 1855 × 423", label_pos="below", color="#1f6fb2", official=False,
+                 legend="Tablette : 1855 × 423 px au centre. Ancien gabarit officiel de YouTube, indicatif."),
+            dict(type="frame", x=(2560 - 1546) / 2 / 2560, y=(1440 - 423) / 2 / 1440, w=1546 / 2560, h=423 / 1440,
+                 label="Mobile · zone sûre", label_pos="inside", color="#2f6b3b", official=True,
+                 legend="Mobile et zone sûre : 1546 × 423 px au centre, visible sur tous les appareils. Placez-y le "
+                        "texte et le logo. C'est la zone sûre officielle de YouTube (1235 × 338 px dans une image de "
+                        "2048 × 1152)."),
         ],
     ),
     _platform(
