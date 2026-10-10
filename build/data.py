@@ -851,6 +851,7 @@ PLATFORM_PAGES = [
             ("zone-visible", "Ce qui reste visible", """    <div class="prose">
       <p>LinkedIn précise que l'affichage de la bannière varie selon la taille de la fenêtre et la résolution de l'écran : les bords peuvent être légèrement rognés. Gardez donc le texte, le logo ou le slogan vers le centre, avec de la marge en haut et en bas.</p>
       <p>Votre photo de profil chevauche le bas de la bannière, côté gauche. Sur une bannière avec du texte, placez-le plutôt dans la moitié droite.</p>
+      <p>Pour des idées de contenu par métier, des exemples de mises en page et les outils pour la créer (Canva, Adobe Express…), lisez notre guide : <a href="/guide/comment-faire-une-bonne-banniere-linkedin/">comment faire une bonne bannière LinkedIn</a>.</p>
     </div>"""),
             ("banniere-nette", "Une bannière nette", """    <div class="prose">
       <ul>

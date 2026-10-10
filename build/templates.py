@@ -91,7 +91,8 @@ def icon(name, size=18):
 # ---------------------------------------------------------------------------
 
 def render_page(*, path, title, meta_description, body_html, json_ld=None,
-                 include_js=False, wc_config=None, og_alt=None, robots=None, canonical=True, extra_scripts=""):
+                 include_js=False, wc_config=None, og_alt=None, robots=None, canonical=True, extra_scripts="",
+                 og_type="website"):
     robots = robots or "index, follow, max-image-preview:large"
     # Google cuts titles around 60 characters: keep the brand suffix only
     # when the whole title still fits (Google usually shows the site name anyway).
@@ -134,7 +135,7 @@ def render_page(*, path, title, meta_description, body_html, json_ld=None,
 {canonical_html}
 {ICON_LINKS}
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content="{og_type}" />
 <meta property="og:locale" content="fr_FR" />
 <meta property="og:site_name" content="{SITE_NAME}" />
 <meta property="og:url" content="{canonical_url}" />

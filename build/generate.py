@@ -999,19 +999,27 @@ def build_guide_article(article):
     page_title = article.get("seo_title", article["title"]) + " | Webconvert.fr"
     tools = GUIDE_TOOLS.get(article["slug"], [])
     tools_html = t.link_list_html([tool_link_item(p) for p in tools], cls="") if tools else ""
+    faq = article.get("faq", ())
+    faq_html = ""
+    if faq:
+        faq_html = '\n    <h2 id="questions">Questions fréquentes</h2>\n' + "\n".join(
+            f"    <h3>{q}</h3>\n    <p>{a}</p>" for q, a in faq) + "\n"
+    cta = article.get("cta") or dict(
+        title="Convertissez vos images maintenant",
+        text="Le convertisseur Webconvert.fr traite vos fichiers directement dans votre navigateur, gratuitement et sans limite.",
+        href="/", label="Ouvrir le convertisseur →")
     body = f"""<main id="contenu" class="wrap page">
   <article class="article">
     {t.breadcrumbs_nav([("Accueil", "/"), ("Guides", "/guide/"), (article["title"], None)])}
     <p class="article__meta">{article['tag']} · {article['published']} · {article['reading_time']} de lecture · par <a href="/a-propos/">{t.AUTHOR_NAME}</a></p>
     <h1>{article['title']}</h1>
     <p class="lede">{article['lede']}</p>
-    {article['body_html']}
-
+    {article['body_html']}{faq_html}
     <div class="article-footer-cta">
-      <h2>Convertissez vos images maintenant</h2>
-      <p>Le convertisseur Webconvert.fr traite vos fichiers directement dans votre navigateur, gratuitement et sans limite.</p>
+      <h2>{cta['title']}</h2>
+      <p>{cta['text']}</p>
 {tools_html}
-      <p><a class="btn btn--dark" href="/">Ouvrir le convertisseur →</a></p>
+      <p><a class="btn btn--dark" href="{cta['href']}">{cta['label']}</a></p>
     </div>
   </article>
 </main>"""
@@ -1023,16 +1031,18 @@ def build_guide_article(article):
                 ("Accueil", "/"), ("Guides", "/guide/"), (article["title"], f"/guide/{article['slug']}/"),
             ])},
             {"@type": "Article", "headline": article["title"], "description": article["meta"],
-             "datePublished": article["published"], "inLanguage": "fr-FR",
+             "datePublished": article["published"],
+             "dateModified": article.get("modified", article["published"]), "inLanguage": "fr-FR",
+             "image": t.BASE_URL + "/assets/og-image.jpg",
              "author": t.AUTHOR_LD,
              "publisher": {"@type": "Organization", "name": t.SITE_NAME, "logo": {"@type": "ImageObject", "url": t.BASE_URL + "/assets/logo-square.png"}},
              "mainEntityOfPage": t.BASE_URL + f"/guide/{article['slug']}/"},
-        ],
+        ] + ([t.faq_json_ld(faq)] if faq else []),
     }
 
     html = t.render_page(
         path=f"/guide/{article['slug']}/", title=page_title, meta_description=article["meta"],
-        body_html=body, json_ld=json_ld,
+        body_html=body, json_ld=json_ld, og_type="article",
     )
     write_page(f"/guide/{article['slug']}/", html)
     register(f"/guide/{article['slug']}/", "yearly", "0.5")

@@ -4,15 +4,22 @@ same markup vocabulary as .article in css/styles.css (h2/h3, p, ul/ol,
 table, .callout)."""
 
 # Layout diagrams for the LinkedIn banner guide (inline SVG, 4:1 banner +
-# the profile photo overlapping its bottom-left corner).
+# the profile photo overlapping its bottom-left corner). Text is real sample
+# copy, sized to stay readable once the figure shrinks to a phone's width.
+_LK_FONT = 'font-family="Figtree, system-ui, sans-serif"'
 _LK_BANNER = '<rect x="0" y="0" width="400" height="100" rx="6" fill="#d8d3c9"/>'
 _LK_PHOTO = ('<circle cx="58" cy="100" r="34" fill="#fbfaf8" stroke="#23221f" stroke-width="2"/>'
              '<circle cx="58" cy="92" r="11" fill="#bdb8ad"/><path d="M36 122a22 18 0 0 1 44 0z" fill="#bdb8ad"/>')
 
 
 def _lk_svg(inner, label, defs=""):
-    return (f'<svg viewBox="0 0 400 112" role="img" aria-label="{label}" xmlns="http://www.w3.org/2000/svg">'
+    return (f'<svg viewBox="0 0 400 138" role="img" aria-label="{label}" xmlns="http://www.w3.org/2000/svg">'
             f'{defs}{inner}</svg>')
+
+
+def _lk_text(x, y, text, size, color="#23221f", weight=400, anchor="start"):
+    return (f'<text x="{x}" y="{y}" {_LK_FONT} font-size="{size}" font-weight="{weight}" '
+            f'fill="{color}" text-anchor="{anchor}">{text}</text>')
 
 
 _LK_ZONES = _lk_svg(
@@ -22,37 +29,40 @@ _LK_ZONES = _lk_svg(
     + '<rect x="0" y="0" width="10" height="100" fill="url(#lk-hatch)"/><rect x="390" y="0" width="10" height="100" fill="url(#lk-hatch)"/>'
     + '<rect x="8" y="56" width="104" height="44" fill="url(#lk-hatch)"/>'
     + _LK_PHOTO
-    + '<rect x="150" y="26" width="220" height="48" rx="4" fill="none" stroke="#2f6b3b" stroke-width="2"/>'
-    + '<text x="160" y="46" font-family="Figtree, sans-serif" font-size="11" font-weight="700" fill="#2f6b3b">Zone la plus sûre</text>'
-    + '<text x="160" y="62" font-family="Figtree, sans-serif" font-size="10" fill="#23221f">texte, slogan, logo</text>'
-    + '<text x="122" y="94" font-family="Figtree, sans-serif" font-size="9" font-weight="600" fill="#c9521c">photo de profil</text>',
-    "Schéma : la photo de profil recouvre le coin inférieur gauche, les bords peuvent être rognés, la zone la plus sûre est au centre et à droite",
+    + '<rect x="150" y="22" width="226" height="56" rx="4" fill="#fbfaf8" fill-opacity="0.6" stroke="#2f6b3b" stroke-width="2"/>'
+    + _lk_text(163, 45, "Zone la plus sûre", 16, "#2f6b3b", 700)
+    + _lk_text(163, 65, "texte, slogan, logo", 14)
+    + _lk_text(100, 122, "← masqué par la photo", 13, "#c9521c", 600)
+    + _lk_text(398, 122, "bords parfois rognés ↑", 13, "#c9521c", 600, "end"),
+    "Schéma : la photo de profil masque le coin inférieur gauche, les bords peuvent être rognés, la zone la plus sûre est au centre et à droite",
     defs='<defs><pattern id="lk-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">'
          '<rect width="6" height="6" fill="#c9521c" fill-opacity="0.12"/>'
          '<line x1="0" y1="0" x2="0" y2="6" stroke="#c9521c" stroke-opacity="0.5" stroke-width="2"/></pattern></defs>')
 
 _LK_SLOGAN = _lk_svg(
     _LK_BANNER
-    + '<rect x="210" y="30" width="160" height="12" rx="3" fill="#23221f"/>'
-    + '<rect x="210" y="50" width="120" height="8" rx="3" fill="#5d5a53"/>'
-    + '<rect x="210" y="64" width="90" height="8" rx="3" fill="#5d5a53"/>' + _LK_PHOTO,
-    "Mise en page 1 : fond sobre, accroche sur deux lignes à droite")
+    + _lk_text(196, 40, "Des sites rapides", 21, weight=700)
+    + _lk_text(196, 64, "pour les artisans", 21, weight=700)
+    + _lk_text(196, 84, "votre-site.fr", 13, "#5d5a53") + _LK_PHOTO,
+    "Exemple 1 : fond sobre, accroche « Des sites rapides pour les artisans » sur deux lignes à droite, adresse du site en dessous")
 
 _LK_PHOTO_BG = _lk_svg(
     '<rect x="0" y="0" width="400" height="100" rx="6" fill="url(#lk-grad)"/>'
-    + '<path d="M0 78 L70 52 L130 70 L210 36 L290 64 L400 40 L400 100 L0 100Z" fill="#23221f" fill-opacity="0.18"/>'
-    + '<rect x="230" y="38" width="140" height="14" rx="3" fill="#fbfaf8"/>'
-    + '<rect x="230" y="58" width="96" height="8" rx="3" fill="#fbfaf8" fill-opacity="0.85"/>' + _LK_PHOTO,
-    "Mise en page 2 : photo d'ambiance en fond, mot-clé court en clair à droite",
-    defs='<defs><linearGradient id="lk-grad" x1="0" x2="1"><stop offset="0" stop-color="#7d8f80"/>'
-         '<stop offset="1" stop-color="#c9b48f"/></linearGradient></defs>')
+    + '<path d="M0 78 L70 52 L130 70 L210 36 L290 64 L400 40 L400 100 L0 100Z" fill="#23221f" fill-opacity="0.22"/>'
+    + _lk_text(384, 44, "Photographe · Lyon", 21, "#fbfaf8", 700, "end")
+    + _lk_text(384, 66, "Mariages et portraits", 14, "#fbfaf8", 500, "end") + _LK_PHOTO,
+    "Exemple 2 : photo de paysage en fond, « Photographe · Lyon » en blanc à droite",
+    defs='<defs><linearGradient id="lk-grad" x1="0" x2="1"><stop offset="0" stop-color="#6f8272"/>'
+         '<stop offset="1" stop-color="#b89f74"/></linearGradient></defs>')
 
 _LK_PROOF = _lk_svg(
     _LK_BANNER
-    + '<rect x="150" y="24" width="150" height="12" rx="3" fill="#23221f"/>'
-    + ''.join(f'<rect x="{x}" y="44" width="40" height="22" rx="3" fill="#fbfaf8" stroke="#bdb8ad"/>' for x in (150, 198, 246, 294))
-    + '<rect x="150" y="74" width="110" height="8" rx="3" fill="#2f6b3b"/>' + _LK_PHOTO,
-    "Mise en page 3 : accroche, rangée de logos ou de chiffres clés, puis une ligne d'appel à l'action")
+    + _lk_text(150, 30, "Consultante data", 18, weight=700)
+    + "".join(f'<rect x="{x}" y="40" width="72" height="26" rx="4" fill="#fbfaf8" stroke="#bdb8ad"/>'
+              + _lk_text(x + 36, 58, label, 12.5, weight=600, anchor="middle")
+              for x, label in ((150, "12 ans"), (228, "40 clients"), (306, "3 pays")))
+    + _lk_text(150, 86, "Prenons contact →", 13, "#2f6b3b", 700) + _LK_PHOTO,
+    "Exemple 3 : « Consultante data », trois chiffres clés dans des cases, puis « Prenons contact »")
 
 
 ARTICLES = [
@@ -434,11 +444,11 @@ variantes couvrent les cas particuliers.</p>
         tag="Guide pratique",
         title="Comment faire une bonne bannière LinkedIn : idées, exemples et erreurs à éviter",
         seo_title="Comment faire une bonne bannière LinkedIn (idées, exemples)",
-        meta="Que mettre sur sa bannière LinkedIn ? Idées par métier, mises en page, zones à éviter et erreurs "
-             "fréquentes, avec le bon format (1584 × 396 px).",
+        meta="Que mettre sur sa bannière LinkedIn ? Idées par métier, exemples, outils comme Canva, zones à éviter "
+             "et bon format (1584 × 396 px).",
         excerpt="Que mettre sur sa bannière, où placer le texte, quelles erreurs éviter : idées par métier et mises en page prêtes à reproduire.",
         published="2026-10-10",
-        reading_time="7 min",
+        reading_time="8 min",
         lede="La bannière est la plus grande image de votre profil LinkedIn, et la plupart des gens la laissent vide ou "
              "y mettent une photo de paysage sans rapport. Bien utilisée, elle dit en une seconde ce que vous faites "
              "et pour qui.",
@@ -462,8 +472,9 @@ variantes couvrent les cas particuliers.</p>
 <li><strong>De la marge sur tous les bords</strong>, surtout en haut et en bas : le format 4:1 est déjà très étroit.</li>
 <li><strong>Le texte au centre ou à droite</strong>, en gros caractères : sur un téléphone, la bannière ne fait que quelques centimètres de large.</li>
 </ul>
+<p>Bannière et photo fonctionnent ensemble : pensez à soigner aussi votre <a href="/photo-profil-linkedin/">photo de profil LinkedIn</a> (400 × 400 px minimum), c'est elle qui se pose sur la bannière.</p>
 
-<h2>Que mettre sur sa bannière : idées par profil</h2>
+<h2>Que mettre sur sa bannière LinkedIn : idées par métier</h2>
 <h3>Indépendant ou freelance</h3>
 <p>Une accroche qui dit le résultat que vous apportez, pas votre intitulé de poste : « Des sites rapides pour les artisans », « Je traduis vos contrats en anglais sous 48 h ». Ajoutez éventuellement votre site ou un moyen de contact.</p>
 <h3>Commercial ou consultant</h3>
@@ -477,26 +488,38 @@ variantes couvrent les cas particuliers.</p>
 <h3>Dirigeant ou fondateur</h3>
 <p>La mission de l'entreprise en une phrase, ou une photo de l'équipe ou du lieu. Pour la Page de l'entreprise elle-même, le format est différent : <a href="/banniere-linkedin-entreprise/">1512 × 256 px</a>.</p>
 
-<h2>Trois mises en page qui fonctionnent</h2>
+<h2>Exemples de bannières LinkedIn : trois mises en page</h2>
 <figure class="diagram">
 """ + _LK_SLOGAN + """
-<figcaption>1. Fond sobre et accroche sur deux lignes à droite : simple, lisible partout.</figcaption>
+<figcaption>1. Fond sobre et accroche sur deux lignes à droite : simple, lisible partout. Idéal pour un indépendant.</figcaption>
 </figure>
 <figure class="diagram">
 """ + _LK_PHOTO_BG + """
-<figcaption>2. Photo d'ambiance en fond, mot-clé court en clair : pour un univers visuel fort.</figcaption>
+<figcaption>2. Photo d'ambiance en fond, métier et ville en clair : pour un univers visuel fort. Assombrissez légèrement la photo pour que le texte ressorte.</figcaption>
 </figure>
 <figure class="diagram">
 """ + _LK_PROOF + """
-<figcaption>3. Accroche, rangée de logos ou de chiffres clés, ligne d'appel à l'action : la fonction « preuve ».</figcaption>
+<figcaption>3. Accroche, chiffres clés (ou logos de clients), puis une invitation à vous contacter : la fonction « preuve ».</figcaption>
 </figure>
+
+<h2>Avec quel outil créer sa bannière : Canva et les autres</h2>
+<p>Pas besoin d'être graphiste : des outils en ligne gratuits proposent des modèles déjà au format LinkedIn. Il suffit d'en choisir un et de remplacer le texte et les images.</p>
+<table>
+<tr><th>Outil</th><th>Pour qui</th><th>Ce qu'il apporte</th></tr>
+<tr><td><a href="https://www.canva.com/fr_fr/creer/bannieres/linkedin/" rel="noopener">Canva</a></td><td>Débutants</td><td>Le plus simple : modèles gratuits de bannières LinkedIn, éditeur en glisser-déposer, grande banque d'images. Certains éléments sont réservés à l'abonnement Pro.</td></tr>
+<tr><td><a href="https://www.adobe.com/fr/express/templates/banner/linkedin" rel="noopener">Adobe Express</a></td><td>Débutants</td><td>Même principe que Canva, avec ses propres modèles de bannières LinkedIn gratuits, utilisables sans carte bancaire.</td></tr>
+<tr><td><a href="https://www.figma.com/fr-fr/" rel="noopener">Figma</a></td><td>Profils design</td><td>Liberté totale de mise en page, offre gratuite. Plus technique, à réserver à ceux qui l'utilisent déjà.</td></tr>
+<tr><td><a href="https://www.photopea.com/" rel="noopener">Photopea</a></td><td>Retouche photo</td><td>Éditeur photo gratuit dans le navigateur, proche de Photoshop : utile pour retoucher la photo de fond avant d'y ajouter du texte.</td></tr>
+</table>
+<p>Une précaution avec les modèles : ils sont dessinés pour être beaux en plein écran, pas forcément pour LinkedIn. Beaucoup placent un texte ou un logo dans le coin inférieur gauche, qui finira caché sous votre photo de profil. Avant de télécharger, comparez votre création au schéma plus haut.</p>
+<p>À l'export, choisissez le <strong>PNG</strong> si la bannière contient du texte. Si l'image téléchargée n'a pas exactement les bonnes dimensions, l'<a href="/banniere-linkedin/">outil de recadrage au format LinkedIn</a> la met à 1584 × 396 px sans la déformer ; si elle dépasse 8 Mo, vous pouvez la <a href="/compresser-image/">compresser à une taille précise</a>.</p>
 
 <h2>Les erreurs fréquentes</h2>
 <ul>
 <li><strong>Du texte dans le coin gauche</strong> : il disparaît sous la photo de profil.</li>
 <li><strong>Trop de texte</strong> : au-delà d'une accroche et d'une ligne secondaire, rien ne se lit sur mobile.</li>
 <li><strong>Une image trop petite</strong> : sous 1584 px de large, LinkedIn l'agrandit et elle devient floue.</li>
-<li><strong>Un JPG pour une bannière pleine de texte</strong> : la compression crée un léger flou autour des lettres. Le PNG reste net.</li>
+<li><strong>Un JPG pour une bannière pleine de texte</strong> : la compression crée un léger flou autour des lettres. Le PNG reste net (voir <a href="/guide/png-vs-jpg/">PNG ou JPG : lequel choisir</a>).</li>
 <li><strong>Un texte collé aux bords</strong> : il risque d'être rogné selon l'écran.</li>
 <li><strong>Un contraste trop faible</strong> : un texte gris clair sur une photo claire est illisible en petit.</li>
 <li><strong>Des informations périmées</strong> : ancien poste, offre terminée. Une bannière se met à jour comme le reste du profil.</li>
@@ -505,8 +528,8 @@ variantes couvrent les cas particuliers.</p>
 <h2>Créer sa bannière pas à pas</h2>
 <ol>
 <li><strong>Choisissez la fonction</strong> : contexte, message ou preuve.</li>
-<li><strong>Composez l'image</strong> dans l'outil de votre choix (logiciel de retouche, outil de design en ligne, ou simplement une photo).</li>
-<li><strong>Recadrez-la au format exact</strong> avec <a href="/banniere-linkedin/">l'outil bannière LinkedIn</a> : faites glisser l'image pour choisir la partie visible. Choisissez le PNG si elle contient du texte.</li>
+<li><strong>Composez l'image</strong> dans l'outil de votre choix : Canva ou Adobe Express à partir d'un modèle, un logiciel de retouche, ou simplement une belle photo.</li>
+<li><strong>Recadrez-la au format exact</strong> avec <a href="/banniere-linkedin/">l'outil bannière LinkedIn</a> si besoin : faites glisser l'image pour choisir la partie visible. Choisissez le PNG si elle contient du texte.</li>
 <li><strong>Importez-la</strong> : sur ordinateur, cliquez sur « Vous » puis « Voir le profil », sur l'icône d'appareil photo en haut à droite de la section d'introduction, puis sur « Appliquer ».</li>
 <li><strong>Vérifiez sur votre téléphone</strong> : si le texte n'est pas lisible ou passe sous la photo, ajustez.</li>
 </ol>
@@ -515,5 +538,24 @@ variantes couvrent les cas particuliers.</p>
 <p>Votre bannière contient des informations personnelles ou des logos de clients ? Le recadrage se fait entièrement dans votre navigateur : l'image n'est envoyée sur aucun serveur. <a href="/banniere-linkedin/">Préparer ma bannière →</a></p>
 </div>
 """,
+        cta=dict(title="Préparez votre bannière LinkedIn",
+                 text="Déposez votre image, choisissez la partie visible : elle est recadrée à 1584 × 396 px dans votre "
+                      "navigateur, sans envoi sur un serveur.",
+                 href="/banniere-linkedin/", label="Ouvrir l'outil bannière LinkedIn →"),
+        faq=[
+            ("Quelle est la taille d'une bannière LinkedIn ?",
+             "1584 × 396 pixels pour un profil personnel (format 4:1), en JPG ou PNG, 8 Mo maximum. La couverture "
+             "d'une Page entreprise a un format différent : 1512 × 256 pixels."),
+            ("Comment faire une bannière LinkedIn sur Canva ?",
+             "Ouvrez la page « Bannières LinkedIn » de Canva, choisissez un modèle, remplacez le texte et les images, "
+             "puis téléchargez en PNG. Vérifiez avant que rien d'important ne se trouve dans le coin inférieur gauche, "
+             "caché par la photo de profil."),
+            ("Pourquoi ma bannière LinkedIn est-elle floue ?",
+             "Le plus souvent, l'image est trop petite : sous 1584 pixels de large, LinkedIn l'agrandit. Un JPG très "
+             "compressé rend aussi le texte flou. Repartez d'une image assez grande et exportez en PNG."),
+            ("Pourquoi ma bannière LinkedIn est-elle coupée ?",
+             "L'affichage varie selon l'écran : les bords peuvent être rognés et la photo de profil masque le bas à "
+             "gauche. Gardez une marge autour du texte et placez-le au centre ou à droite."),
+        ],
     ),
 ]
