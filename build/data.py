@@ -1145,7 +1145,7 @@ PLATFORM_PAGES = [
         "Taille des images X (Twitter) : bannière 1500 × 500 px",
         "Taille image Twitter / X : bannière, photo de profil, post",
         "Tailles officielles des images X (Twitter) : bannière 1500 × 500 px, photo de profil 400 × 400 px, "
-        "posts du 2:1 au 3:4. Recadrez les vôtres ici, gratuitement.",
+        "posts du 2:1 au 3:4. Recadrez les vôtres ici.",
         "Recadrez l'en-tête de votre profil X au format recommandé (3:1). Pour la photo de profil ou une image de post, changez simplement les dimensions.",
         1500, 500, limit_text="Non précisé par X pour l'en-tête", formats_text="JPG ou PNG (GIF non animé)", source_name="Aide X",
         source_url="https://help.x.com/en/managing-your-account/how-to-customize-your-profile",
