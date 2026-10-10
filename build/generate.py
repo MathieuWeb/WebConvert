@@ -65,6 +65,8 @@ GUIDE_TOOLS = {
     "png-vs-jpg": ["/png-en-jpg/", "/jpg-en-png/"],
     "reduire-poids-images-site-web": ["/compresser-image-pour-site-web/", "/jpg-en-webp/", "/png-en-webp/"],
     "creer-favicon-ico": ["/png-en-ico/", "/ico-en-png/"],
+    "comment-faire-une-bonne-banniere-linkedin": ["/banniere-linkedin/", "/banniere-linkedin-entreprise/",
+                                                  "/photo-profil-linkedin/"],
 }
 
 
@@ -85,6 +87,9 @@ def tool_link_item(path):
     for d in DEMARCHES.values():
         if d["path"] == path:
             return (d["crumb"].replace("Pour ", "Compresser pour "), d["intro"].split(".")[0] + ".", path)
+    for p in PLATFORM_PAGES:
+        if p["path"] == path:
+            return (p["crumb"], ucfirst(p["short"]), path)
     i, o = path.strip("/").split("-en-")
     copy = get_pair_copy(i, o)
     desc = copy["intro"] if copy else f"Convertir vos fichiers {t.label(i)} en {t.label(o)}."

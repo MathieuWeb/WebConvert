@@ -1,7 +1,7 @@
 {
  "/": {
-  "date": "2026-09-30",
-  "hash": "98bf9ae1e7bd8a234f6326156003adfbdf92c64bdbfb1a2830aaf2db06c4a19f"
+  "date": "2026-10-10",
+  "hash": "6e5e31ee706266edc823c0616291787046da8f004f6d99a7c86c1717a94b52c1"
  },
  "/a-propos/": {
   "date": "2026-09-30",
@@ -20,12 +20,12 @@
   "hash": "3540fdc74168339481c6bc661a26108e8a66a4ae444e57f42467d20a679cadab"
  },
  "/banniere-linkedin-entreprise/": {
-  "date": "2026-10-07",
-  "hash": "d6fe0e370f9bb8cd05d21f161901754fa74d2ed650018d69544f7a971c492522"
+  "date": "2026-10-10",
+  "hash": "3779129c534413c29e8ca15c2a00a729ae3a8627a605701e3484ded961a25eab"
  },
  "/banniere-linkedin/": {
-  "date": "2026-10-07",
-  "hash": "ca76ef0f88503f37440d672695a74c602304a9c434d80af73fca4f34a04e70b1"
+  "date": "2026-10-10",
+  "hash": "b1a49b88970517d21efb59a9a49b855fe86466f0fb06589e89a3e7a5114e29e2"
  },
  "/banniere-twitch/": {
   "date": "2026-10-07",
@@ -168,8 +168,12 @@
   "hash": "dae1d6544e0368b9298b75a69cfd47b3dc3ab739e06bc6b4f711ac14d025b8ff"
  },
  "/guide/": {
-  "date": "2026-09-30",
-  "hash": "8c58387e91ca1bc6fd09d824b9c058ad7f6dd73cb8f843e8367da89ed31d307f"
+  "date": "2026-10-10",
+  "hash": "2e3cd16be5da0bd7214fae229ce9f80b14e16a8c47a2a6aea995480e840ea1ac"
+ },
+ "/guide/comment-faire-une-bonne-banniere-linkedin/": {
+  "date": "2026-10-10",
+  "hash": "2c0a70b06b8b7e1e699d69e6873ed2fc75a52f722a6a5c8fd57c709b25cc9da6"
  },
  "/guide/confidentialite-conversion-image-navigateur/": {
   "date": "2026-09-30",
@@ -240,8 +244,8 @@
   "hash": "5c78bbe57a4400048c1d41bb158b2427c0b08064de756aaf25aea592f0c3eb7b"
  },
  "/photo-profil-linkedin/": {
-  "date": "2026-10-07",
-  "hash": "84cfe274b8a67fd2d6d74db39da46a52f19ed4e6c9d41046527f2ebb6cc46d8d"
+  "date": "2026-10-10",
+  "hash": "62a3b1f4a3c47819cb7dd442ed9c72d14d3c5ad23a7c1218a558fcef6fa57007"
  },
  "/png-en-ico/": {
   "date": "2026-10-07",

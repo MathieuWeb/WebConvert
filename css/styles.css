@@ -1301,6 +1301,14 @@ code {
 .article ol { margin: 0 0 16px; padding-left: 22px; }
 .article li { margin-bottom: 6px; }
 .article strong { color: var(--ink); }
+.article figure.diagram { margin: 8px 0 24px; }
+.article figure.diagram svg { display: block; width: 100%; height: auto; }
+.article figure.diagram figcaption {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted);
+}
 
 .article table {
   display: block;
