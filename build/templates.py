@@ -191,7 +191,8 @@ NAV_MENU = [
     ("Redimensionner", "redimensionner", [("Redimensionner une image", "/redimensionner-image/"),
                                           ("Bannière LinkedIn", "/banniere-linkedin/"),
                                           ("Miniature YouTube", "/miniature-youtube/"),
-                                          ("Sticker WhatsApp", "/sticker-whatsapp/")]),
+                                          ("Sticker WhatsApp", "/sticker-whatsapp/"),
+                                          ("Gabarits de bannières", "/gabarits/")]),
     ("PDF et confidentialité", "pdf", [("Images en PDF", "/images-en-pdf/"),
                                        ("Supprimer les métadonnées", "/supprimer-metadonnees-photo/")]),
 ]

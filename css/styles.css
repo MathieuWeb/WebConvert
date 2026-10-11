@@ -52,7 +52,7 @@
   --shadow-win: 0 1px 2px rgba(35, 34, 31, 0.06);
 
   --gutter: 40px;
-  --wrap: 1120px;
+  --wrap: 1280px;
 }
 
 @media (max-width: 899px) {
@@ -1015,8 +1015,8 @@ button, input, select { font: inherit; color: inherit; }
 
 .sec {
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
-  gap: 48px;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 56px;
   padding: 48px 0;
   border-top: 1px solid var(--line);
 }
@@ -1120,7 +1120,7 @@ button, input, select { font: inherit; color: inherit; }
 .prose { color: var(--text); }
 .prose p { margin: 0 0 14px; max-width: 68ch; }
 .prose ul,
-.prose ol { margin: 0 0 14px; padding-left: 20px; }
+.prose ol { margin: 0 0 14px; padding-left: 20px; max-width: 72ch; }
 .prose li { margin-bottom: 4px; }
 .prose a,
 .article a:not(.btn),
@@ -1296,7 +1296,7 @@ code {
 .guide-item:hover .guide-item__title { text-decoration: underline; text-underline-offset: 3px; }
 
 .article {
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
   padding-top: 24px;
   color: var(--text);
@@ -1340,6 +1340,8 @@ code {
 .article li { margin-bottom: 6px; }
 .article strong { color: var(--ink); }
 figure.diagram { margin: 8px 0 24px; }
+.sec__body figure.diagram { max-width: 760px; }
+.sec__body .diagram-grid figure.diagram { max-width: none; }
 .diagram-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; margin: 8px 0 8px; }
 .diagram-grid figure.diagram { margin: 0 0 20px; }
 @media (max-width: 599px) { .diagram-grid { grid-template-columns: 1fr; } }

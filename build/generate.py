@@ -664,7 +664,48 @@ def build_resize_hub():
       <p>Choisissez le format de sortie (JPG, PNG ou WebP) et, si un site impose un poids maximum, la limite : la qualité est ajustée pour la respecter sans toucher aux dimensions.</p>
       <p>Tout se passe dans votre navigateur : vos images ne sont envoyées sur aucun serveur.</p>
     </div>"""
-    sections = platform_section + t.section_html("comment-redimensionner", "Comment ça marche", how, tag="article")
+    def px(cm, dpi):
+        return round(cm / 2.54 * dpi)
+    cm_rows = "\n".join(
+        f'        <tr><th scope="row">{name}</th><td>{str(w).replace(".", ",")} × {str(h).replace(".", ",")} cm</td><td>{px(w, 300)} × {px(h, 300)} px</td><td>{px(w, 150)} × {px(h, 150)} px</td></tr>'
+        for name, w, h in (("Photo d'identité", 3.5, 4.5), ("Tirage 10 × 15", 10, 15), ("Tirage 13 × 18", 13, 18),
+                           ("Tirage 20 × 30", 20, 30), ("Feuille A4", 21, 29.7)))
+    cm = f"""    <table class="measures">
+      <thead><tr><th scope="col">Format</th><th scope="col">Taille</th><th scope="col">À 300 dpi (impression)</th><th scope="col">À 150 dpi</th></tr></thead>
+      <tbody>
+{cm_rows}
+      </tbody>
+    </table>
+    <div class="prose">
+      <p>Une image n'a pas de taille en centimètres : elle a des pixels, et c'est la résolution d'impression (en dpi, points par pouce) qui fixe sa taille sur le papier. Le calcul : <strong>pixels = centimètres ÷ 2,54 × dpi</strong>. Pour une impression de qualité, comptez 300 dpi ; 150 dpi suffisent pour une affiche regardée de loin.</p>
+      <p>Saisissez ensuite ces dimensions en pixels dans l'outil. Pour une photo d'identité officielle, passez plutôt par un photographe ou une cabine agréée : les règles de cadrage sont strictes.</p>
+    </div>"""
+    sizes = """    <table class="spec">
+      <tbody>
+        <tr><th scope="row">Image de site ou de blog</th><td>1200 px de large suffisent le plus souvent</td></tr>
+        <tr><th scope="row">Écran Full HD</th><td>1920 × 1080 px</td></tr>
+        <tr><th scope="row">Image de partage d'un lien (LinkedIn)</th><td>1200 × 627 px</td></tr>
+        <tr><th scope="row">Photo Instagram (portrait)</th><td><a href="/photo-instagram/">1080 × 1440 px →</a></td></tr>
+        <tr><th scope="row">Bannière LinkedIn</th><td><a href="/banniere-linkedin/">1584 × 396 px →</a></td></tr>
+        <tr><th scope="row">Miniature YouTube</th><td><a href="/miniature-youtube/">16:9, jusqu'à 3840 × 2160 px →</a></td></tr>
+      </tbody>
+    </table>
+    <div class="prose">
+      <p>Pour une bannière ou une couverture, utilisez directement la page du format : les dimensions exactes sont déjà réglées et l'aperçu montre les zones coupées. Des <a href="/gabarits/">gabarits à télécharger</a> existent aussi pour préparer le visuel dans Canva.</p>
+    </div>"""
+    quality = """    <div class="prose">
+      <ul>
+        <li><strong>Réduire une image ne la dégrade pas visiblement</strong> : on retire des pixels dont l'écran n'a pas besoin. C'est le cas le plus courant, pour alléger une photo ou l'adapter à un site.</li>
+        <li><strong>Agrandir n'ajoute aucun détail</strong> : jusqu'à 150 % environ, la différence reste discrète ; au-delà, l'image devient floue.</li>
+        <li><strong>Le format compte aussi</strong> : le PNG ne perd rien à l'enregistrement, idéal pour un logo, une capture ou du texte ; le JPG et le WebP sont plus légers pour les photos.</li>
+        <li><strong>Une seule passe</strong> : repartez toujours de l'image d'origine plutôt que de redimensionner plusieurs fois la même copie.</li>
+      </ul>
+    </div>"""
+    sections = (platform_section
+                + t.section_html("comment-redimensionner", "Comment ça marche", how, tag="article") + "\n"
+                + t.section_html("sans-perte", "Redimensionner sans perte de qualité", quality, tag="article") + "\n"
+                + t.section_html("en-cm", "Redimensionner en centimètres : la conversion en pixels", cm, tag="article") + "\n"
+                + t.section_html("tailles-courantes", "Les tailles d'image courantes", sizes, tag="article"))
     faq = [
         ("Comment redimensionner une image sans la déformer ?",
          "Laissez « Conserver les proportions » coché et indiquez seulement la largeur : la hauteur est calculée "
@@ -672,6 +713,12 @@ def build_resize_hub():
          "jamais étirée."),
         ("Puis-je agrandir une petite image ?",
          "Oui, mais un agrandissement n'ajoute pas de détails : au-delà de 150 à 200 %, l'image paraîtra floue."),
+        ("Comment redimensionner une image en centimètres ?",
+         "Convertissez d'abord les centimètres en pixels : pixels = centimètres ÷ 2,54 × dpi. Pour un tirage "
+         "10 × 15 cm à 300 dpi, cela donne 1181 × 1772 px. Saisissez ces dimensions dans l'outil."),
+        ("Comment redimensionner une photo pour Instagram ?",
+         "Utilisez la page Photo Instagram : 1080 px de large, en portrait 3:4 (1080 × 1440), carré ou paysage, "
+         "avec un recadrage que vous choisissez."),
         ("Puis-je redimensionner plusieurs images d'un coup ?",
          "Oui : déposez-les toutes, elles sont redimensionnées avec les mêmes réglages. Cliquez sur le nom d'une "
          "image pour ajuster son cadrage, puis téléchargez le ZIP."),
@@ -679,11 +726,11 @@ def build_resize_hub():
     build_tool_page(
         path=RESIZE_HUB,
         crumbs=[("Accueil", "/"), ("Redimensionner une image", None)],
-        h1="Redimensionner une image en pixels",
+        h1="Redimensionner une image en ligne",
         subtitle="Choisissez la largeur, ou une taille exacte à recadrer. Par lot, en JPG, PNG ou WebP, sans envoi sur un serveur.",
-        title="Redimensionner une image en ligne (en pixels)",
-        meta=("Redimensionnez vos images en pixels, en gardant les proportions ou à une taille exacte avec "
-              "recadrage. Gratuit, par lot, sans envoi sur un serveur."),
+        title="Redimensionner une image en ligne gratuitement (px, cm)",
+        meta=("Redimensionnez vos images en ligne, en pixels ou en centimètres, sans les déformer : proportions "
+              "gardées ou recadrage. Gratuit, par lot, sans envoi."),
         tool_html=t.resize_tool_markup(width=1200, height=None, keep_ratio=True),
         wc_config={"tool": "resize", "zipName": "images-redimensionnees.zip"},
         sections=sections, faq_items=faq, app_name="Redimensionner une image", priority="0.9",
@@ -787,6 +834,7 @@ def build_gabarits_page():
       <li>Gardez le texte et le logo dans la zone sûre, et rien d'important dans les zones hachurées ou assombries.</li>
       <li>Masquez ou supprimez le gabarit, puis exportez votre visuel.</li>
     </ol>
+    <p>Pour les idées de contenu et des exemples de mises en page, voyez aussi notre guide <a href="/guide/comment-faire-une-bonne-banniere-linkedin/">comment faire une bonne bannière LinkedIn</a>.</p>
     <p>Les zones marquées « indicatif » varient selon l'écran : elles donnent un ordre d'idée, pas une limite exacte. Une fois votre image prête, l'outil de chaque format la recadre aux dimensions exactes, sans envoi sur un serveur.</p>
   </div>
 </main>"""
@@ -901,6 +949,7 @@ def tool_catalog(full):
     resize = [("Redimensionner une image", "En pixels, avec ou sans recadrage, par lot.", RESIZE_HUB)]
     if full:
         resize += platform_links()
+        resize += [("Gabarits de bannières", "Zones coupées et zone sûre, en PNG, pour Canva ou Photoshop.", GABARITS_PATH)]
     else:
         featured = {"/banniere-linkedin/", "/miniature-youtube/", "/sticker-whatsapp/"}
         resize += [item for item in platform_links() if item[2] in featured]
