@@ -480,7 +480,9 @@ def resize_tool_markup(*, width, height, output="jpg", target=None, keep_ratio=F
         <label class="editor__zoom"><span>Zoom</span>
           <input type="range" min="1" max="4" step="0.01" value="1" data-editor-zoom /></label>
         <span class="editor__hint" data-editor-hint>Faites glisser l'image pour la cadrer</span>
+        <label class="editor__zones-toggle" data-zones-toggle hidden><input type="checkbox" checked /> Afficher les zones</label>
       </div>
+      <ul class="editor__legend" data-zones-legend hidden></ul>
     </div>
 """
     return _app_html("Redimensionner", "Sélectionnez vos images", side, main_extra=editor, tool_class="app--resize")

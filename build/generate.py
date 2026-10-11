@@ -811,7 +811,8 @@ def build_platform_page(p):
         h1=p["h1"], subtitle=p["intro"], title=p["title"], meta=p["meta"],
         tool_html=t.resize_tool_markup(width=p["width"], height=p["height"], output=p.get("output", "jpg"),
                                        target=p.get("target"), formats=p.get("formats", ("jpg", "png", "webp"))),
-        wc_config={"tool": "resize", "zipName": p["path"].strip("/") + ".zip"},
+        wc_config={"tool": "resize", "zipName": p["path"].strip("/") + ".zip",
+                   **({"zones": p["zones"]} if p.get("zones") else {})},
         sections=sections, faq_items=list(p["faq"]) + resize_faq(p) + list(t.PRIVACY_FAQ[:1]),
         app_name=p["title"], priority="0.8",
     )

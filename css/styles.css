@@ -911,6 +911,41 @@ button, input, select { font: inherit; color: inherit; }
 }
 .editor__zoom input { width: 180px; accent-color: var(--ok); }
 .editor__hint { font-size: 13px; color: var(--muted); }
+.editor__zones-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+}
+.editor__zones-toggle[hidden] { display: none; }
+.editor__zones-toggle input { width: 18px; height: 18px; margin: 0; accent-color: #c9521c; }
+.editor__legend {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text);
+}
+.editor__legend[hidden] { display: none; }
+.editor__legend li { display: flex; gap: 8px; align-items: flex-start; }
+.editor__swatch {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+  border: 2px solid var(--zone, #c9521c);
+  border-radius: 3px;
+}
+.editor__swatch.is-hatched {
+  border-style: dashed;
+  background: repeating-linear-gradient(-45deg, rgba(201, 82, 28, 0.5) 0 2px, rgba(201, 82, 28, 0.15) 2px 5px);
+}
 
 .file__pick {
   padding: 0;

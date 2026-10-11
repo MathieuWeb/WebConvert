@@ -884,7 +884,7 @@ SPECS_CHECKED = "30 septembre 2026"
 
 def _platform(slug, crumb, short, h1, title, meta, intro, width, height, *, output="jpg",
               formats=("jpg", "png", "webp"), target=None, limit_text, formats_text, source_name,
-              source_url, notes, faq, guide=()):
+              source_url, notes, faq, guide=(), zones=None):
     # guide: extra content sections shown under the spec table, as
     # (heading_id, heading, inner HTML) — for pages worth a fuller answer.
     return dict(
@@ -892,7 +892,7 @@ def _platform(slug, crumb, short, h1, title, meta, intro, width, height, *, outp
         width=width, height=height, output=output, formats=formats, target=target,
         spec=dict(size=f"{width} × {height} px", limit=limit_text, formats=formats_text,
                   source_name=source_name, source_url=source_url),
-        notes=notes, faq=faq, guide=guide,
+        notes=notes, faq=faq, guide=guide, zones=zones,
     )
 
 
@@ -1053,6 +1053,28 @@ PLATFORM_PAGES = [
                "Seule la zone centrale de 1235 × 338 px est visible sur tous les appareils (mobile, ordinateur, TV) : placez-y le texte et le logo."],
         faq=[("Quelle est la taille d'une bannière YouTube ?", "2560 × 1440 pixels recommandés, 2048 × 1152 au minimum, pour un fichier de 6 Mo maximum."),
              ("Pourquoi ma bannière YouTube est-elle coupée sur mobile ?", "Sur mobile, YouTube n'affiche que la zone centrale de 1235 × 338 px. Tout ce qui est en dehors peut être rogné.")],
+        # Risk-zone overlay of the crop preview (fractions of the image).
+        # "safe": everything outside is hatched; "cover": the shape is hatched.
+        zones=[
+            # TV shows the whole image; the other views are horizontal bands
+            # 423 px high at the centre. Official: the safe zone (1235 × 338 in
+            # a 2048 × 1152 image = 1544 × 423 at 2560 × 1440). Desktop and
+            # tablet widths: YouTube's former official channel-art template.
+            dict(type="label", label="TV : image entière", x=0, y=0, color="#3a3833",
+                 legend="TV : l'image entière (2560 × 1440 px) n'est visible que sur un téléviseur."),
+            dict(type="frame", shade="outside", x=0, y=(1440 - 423) / 2 / 1440, w=1, h=423 / 1440,
+                 label="Ordinateur · 2560 × 423", label_pos="above", color="#c9521c", official=False,
+                 legend="Ordinateur : bande de 2560 × 423 px au centre. Tout ce qui est assombri n'apparaît que sur TV. "
+                        "Dimensions de l'ancien gabarit officiel de YouTube, indicatives."),
+            dict(type="frame", x=(2560 - 1855) / 2 / 2560, y=(1440 - 423) / 2 / 1440, w=1855 / 2560, h=423 / 1440,
+                 label="Tablette · 1855 × 423", label_pos="below", color="#1f6fb2", official=False,
+                 legend="Tablette : 1855 × 423 px au centre. Ancien gabarit officiel de YouTube, indicatif."),
+            dict(type="frame", x=(2560 - 1546) / 2 / 2560, y=(1440 - 423) / 2 / 1440, w=1546 / 2560, h=423 / 1440,
+                 label="Mobile · zone sûre", label_pos="inside", color="#2f6b3b", official=True,
+                 legend="Mobile et zone sûre : 1546 × 423 px au centre, visible sur tous les appareils. Placez-y le "
+                        "texte et le logo. C'est la zone sûre officielle de YouTube (1235 × 338 px dans une image de "
+                        "2048 × 1152)."),
+        ],
     ),
     _platform(
         "banniere-discord", "Bannière Discord", "960 × 540 px (16:9), bannière de serveur.",
@@ -1213,6 +1235,12 @@ PLATFORM_PAGES = [
       </ol>
       <p>Pour une Page, la marche à suivre est détaillée dans l'<a href="https://www.facebook.com/help/333543230019115" rel="noopener">aide Facebook</a>.</p>
     </div>"""),
+        ],
+        zones=[
+            dict(type="cover", shape="circle", x=0.03, y=0.52, w=0.20, h=0.20 * 851 / 315,
+                 label="Photo de profil", official=False,
+                 legend="Photo de profil : Facebook indique qu'elle recouvre une partie du côté gauche, et le bas "
+                        "d'environ 40 px sur mobile. Position indicative, elle varie selon l'écran."),
         ],
     ),
     _platform(

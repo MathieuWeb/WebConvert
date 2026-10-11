@@ -26,6 +26,12 @@ export function init(config) {
   const list = $("[data-queue-list]");
   const summary = $("[data-queue-summary]");
   const zipButton = $("[data-download-all]");
+  const zonesToggle = $("[data-zones-toggle]");
+  const zonesLegend = $("[data-zones-legend]");
+  const zones = config.zones || [];
+  // Zones are fractions of the platform's format: only meaningful while the
+  // output keeps the preset proportions.
+  const presetRatio = (Number(widthInput.value) || 1) / (Number(heightInput.value) || 1);
 
   const state = {
     items: [], // { id, name, source (canvas), zoom, fx, fy, result, thumbUrl, status }
@@ -99,8 +105,105 @@ export function init(config) {
     ctx.save();
     ctx.scale(canvas.width / W, canvas.height / H);
     draw(ctx, item, W, H, s);
+    const zonesFit = zones.length > 0 && cropping && Math.abs(W / H - presetRatio) / presetRatio < 0.01;
+    zonesToggle.hidden = !zonesFit;
+    zonesLegend.hidden = !(zonesFit && zonesToggle.querySelector("input").checked);
+    if (zonesFit && zonesToggle.querySelector("input").checked) drawZones(ctx, W, H, k);
     ctx.restore();
     zoomInput.value = String(item.zoom);
+  }
+
+  // ---------------- Risk zones (preview only, never in the download) ----------------
+  const ZONE_COLOR = "rgba(201, 82, 28, 0.9)";
+  let hatch = null;
+  function hatchPattern(ctx, k) {
+    const size = Math.max(4, Math.round(10 / k));
+    const c = document.createElement("canvas");
+    c.width = c.height = size;
+    const x = c.getContext("2d");
+    x.fillStyle = "rgba(201, 82, 28, 0.22)";
+    x.fillRect(0, 0, size, size);
+    x.strokeStyle = "rgba(201, 82, 28, 0.55)";
+    x.lineWidth = Math.max(1, size / 6);
+    x.beginPath();
+    x.moveTo(0, size);
+    x.lineTo(size, 0);
+    x.stroke();
+    return ctx.createPattern(c, "repeat");
+  }
+  function zonePath(ctx, z, W, H) {
+    const x = z.x * W, y = z.y * H, w = z.w * W, h = z.h * H;
+    if (z.shape === "circle") {
+      ctx.moveTo(x + w, y + h / 2);
+      ctx.ellipse(x + w / 2, y + h / 2, w / 2, h / 2, 0, 0, Math.PI * 2);
+    } else {
+      ctx.rect(x, y, w, h);
+    }
+  }
+  function label(ctx, text, x, y, k, color) {
+    const fs = 12 / k;
+    ctx.font = `600 ${fs}px Figtree, system-ui, sans-serif`;
+    const pad = 5 / k;
+    const tw = ctx.measureText(text).width;
+    ctx.fillStyle = color || ZONE_COLOR;
+    ctx.beginPath();
+    ctx.roundRect(x, y, tw + pad * 2, fs + pad * 1.6, 4 / k);
+    ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.textBaseline = "top";
+    ctx.fillText(text, x + pad, y + pad * 0.8);
+    return fs + pad * 1.6; // label height
+  }
+  function drawZones(ctx, W, H, k) {
+    hatch = hatchPattern(ctx, k);
+    const gap = 6 / k;
+    const labelH = 12 / k + (5 / k) * 1.6;
+    // Shading first, so every outline and label stays on top of it.
+    for (const z of zones) {
+      if (z.type === "frame" && z.shade === "outside") {
+        ctx.beginPath();
+        ctx.rect(0, 0, W, H);
+        zonePath(ctx, z, W, H);
+        ctx.fillStyle = "rgba(20, 18, 16, 0.55)";
+        ctx.fill("evenodd");
+      } else if (z.type === "cover") {
+        ctx.beginPath();
+        zonePath(ctx, z, W, H);
+        ctx.fillStyle = hatch;
+        ctx.fill();
+      }
+    }
+    for (const z of zones) {
+      const color = z.color || ZONE_COLOR;
+      if (z.type === "label") {
+        label(ctx, z.label, z.x * W + gap, z.y * H + gap, k, color);
+        continue;
+      }
+      ctx.save();
+      ctx.beginPath();
+      zonePath(ctx, z, W, H);
+      ctx.setLineDash(z.type === "cover" ? [6 / k, 4 / k] : []);
+      ctx.lineWidth = 2 / k;
+      ctx.strokeStyle = color;
+      ctx.stroke();
+      ctx.restore();
+      const x = z.x * W + gap;
+      let y = z.y * H + gap; // inside, top
+      if (z.label_pos === "above") y = z.y * H - labelH - gap / 2;
+      if (z.label_pos === "below") y = (z.y + z.h) * H + gap / 2;
+      label(ctx, z.label + (z.type === "cover" && !z.official ? " · indicatif" : ""), x, y, k, color);
+    }
+  }
+  if (zones.length) {
+    zonesLegend.innerHTML = "";
+    for (const z of zones) {
+      const li = el("li", null, z.legend);
+      const sw = el("span", "editor__swatch" + (z.type === "cover" ? " is-hatched" : ""));
+      sw.style.setProperty("--zone", z.color || "#c9521c");
+      li.prepend(sw);
+      zonesLegend.appendChild(li);
+    }
+    zonesToggle.querySelector("input").addEventListener("change", renderEditor);
   }
 
   let drag = null;
