@@ -424,6 +424,23 @@ def demarche_links(exclude=None):
             for key, d in DEMARCHES.items() if key != exclude]
 
 
+def demarche_limits_html():
+    rows = "\n".join(
+        f'        <tr><th scope="row"><a href="{d["path"]}">{d["limit"][0]}</a></th><td>{d["limit"][1]}</td><td>{d["limit"][2]}</td></tr>'
+        for d in DEMARCHES.values() if d.get("limit"))
+    return f"""    <table class="spec">
+      <thead>
+        <tr><th scope="col">Site</th><th scope="col">Limite</th><th scope="col">Formats</th></tr>
+      </thead>
+      <tbody>
+{rows}
+      </tbody>
+    </table>
+    <div class="prose">
+      <p>Limites relevées dans les sources officielles de chaque service. Elles peuvent changer : la limite affichée sur le formulaire fait toujours foi.</p>
+    </div>"""
+
+
 def compress_how_html(limit_text):
     return f"""    <div class="prose">
       <p>Pour chaque image, l'outil cherche la meilleure qualité d'encodage dont le résultat pèse moins de {limit_text} : il essaie plusieurs réglages et garde le plus élevé qui respecte la limite. Vous n'avez rien à régler à la main.</p>
@@ -487,6 +504,9 @@ def build_compress_hub():
         + "\n"
         + t.section_html("demarches", "Pour une démarche précise", t.link_list_html(demarche_links()),
                          intro="La limite exigée par le site de destination, déjà réglée.")
+        + "\n"
+        + t.section_html("limites-demarches", "Les limites des principales démarches en ligne", demarche_limits_html(),
+                         tag="article")
         + "\n"
         + t.section_html("comment-compresser", "Comment fonctionne la compression", compress_how_html("la limite choisie"),
                          tag="article")

@@ -615,12 +615,13 @@ DEMARCHES = {
         path="/compresser-photo-ants/",
         crumb="Pour l'ANTS",
         title="Compresser une photo pour l'ANTS (moins de 1 Mo)",
-        h1="Photo trop lourde pour l'ANTS ? Passez-la sous 1 Mo",
+        h1="Photo trop lourde pour l'ANTS ? Passez-la sous 1 Mo",
         meta=("Justificatif refusé car trop lourd sur le site de l'ANTS ? Passez vos photos et scans sous 1 Mo "
               "en JPG, sans envoyer vos documents."),
         intro="Carte grise, carte d'identité, passeport : chaque pièce jointe doit peser moins de 1 Mo. Vos documents restent sur votre appareil.",
         target=1_000_000,
         output="jpg",
+        limit=("ANTS (carte grise, identité, passeport)", "1 Mo par document", "JPEG, PNG, PDF"),
         paragraphs=[
             "Sur la plupart des démarches du site de l'ANTS (carte grise, pré-demande de carte d'identité ou de "
             "passeport), chaque document téléversé ne doit pas dépasser 1 Mo et doit être au format JPEG, PNG ou "
@@ -648,12 +649,13 @@ DEMARCHES = {
         path="/compresser-photo-caf/",
         crumb="Pour la CAF",
         title="Justificatif trop lourd pour la CAF : le compresser",
-        h1="Justificatif trop lourd pour la CAF ? Allégez vos photos",
+        h1="Justificatif trop lourd pour la CAF ? Allégez vos photos",
         meta=("Vos justificatifs dépassent la limite d'envoi de la CAF ? Compressez vos photos de documents en JPG "
               "dans votre navigateur, sans les envoyer sur un serveur."),
         intro="Un envoi de documents à la CAF ne doit pas dépasser 10 Mo au total. Allégez vos photos de justificatifs sans les envoyer nulle part.",
         target=2_000_000,
         output="jpg",
+        limit=("CAF", "10 Mo par envoi", "JPEG, PDF, PNG, GIF"),
         paragraphs=[
             "Depuis l'espace « Mon Compte » de la CAF, un envoi de justificatifs ne doit pas dépasser 10 Mo pour "
             "l'ensemble des documents, aux formats JPEG, PDF, PNG ou GIF. Trois ou quatre photos de smartphone "
@@ -678,12 +680,13 @@ DEMARCHES = {
         path="/compresser-photo-pour-mail/",
         crumb="Pour un e-mail",
         title="Photo trop lourde pour un mail : comment la compresser",
-        h1="Photo trop lourde pour un mail ? Compressez-la avant l'envoi",
+        h1="Photo trop lourde pour un mail ? Compressez-la avant l'envoi",
         meta=("Photos trop lourdes pour une pièce jointe ? Compressez-les en quelques secondes pour les envoyer "
               "par mail, sans les téléverser."),
         intro="Les messageries limitent le poids des pièces jointes. Réduisez vos photos à 1 Mo chacune pour en envoyer plusieurs dans un seul mail.",
         target=1_000_000,
         output="jpg",
+        limit=("Gmail · Outlook.com", "25 Mo · 20 Mo par message", "Photos et documents"),
         paragraphs=[
             "Gmail accepte jusqu'à 25 Mo de pièces jointes par message et Outlook.com jusqu'à 20 Mo ; beaucoup de "
             "messageries professionnelles sont plus strictes. Une série de photos de smartphone dépasse vite ces "
@@ -709,12 +712,13 @@ DEMARCHES = {
         path="/compresser-document-retraite/",
         crumb="Pour la retraite (CNAV)",
         title="Document trop lourd pour la retraite (CNAV) : compresser",
-        h1="Justificatif trop lourd pour l'Assurance retraite ?",
+        h1="Justificatif trop lourd pour l'Assurance retraite ?",
         meta=("Justificatif refusé sur lassuranceretraite.fr ? Passez vos photos et scans sous la limite de 4 Mo "
               "par fichier, sans envoyer vos documents."),
         intro="L'Assurance retraite limite chaque fichier à 4 Mo, en PDF ou JPG. Compressez vos photos de justificatifs sans les envoyer nulle part.",
         target=2_000_000,
         output="jpg",
+        limit=("Assurance retraite (CNAV)", "4 Mo par fichier", "PDF, JPG"),
         paragraphs=[
             "Sur le site de l'Assurance retraite (CNAV), chaque justificatif envoyé en ligne ne doit pas dépasser "
             "4 Mo, au format PDF ou JPG. Une photo de document prise au smartphone peut dépasser cette limite, "
@@ -740,12 +744,13 @@ DEMARCHES = {
         path="/compresser-document-france-travail/",
         crumb="Pour France Travail",
         title="Pièce jointe trop lourde pour France Travail : compresser",
-        h1="Pièce jointe trop lourde pour France Travail ?",
+        h1="Pièce jointe trop lourde pour France Travail ?",
         meta=("Pièce jointe refusée dans votre espace France Travail ? Compressez vos photos et scans sous 5 Mo, "
               "sans envoyer vos documents sur un serveur."),
         intro="Une pièce jointe envoyée à votre conseiller France Travail ne doit pas dépasser 5 Mo. Allégez vos photos de documents sans les envoyer nulle part.",
         target=2_000_000,
         output="jpg",
+        limit=("France Travail", "5 Mo par pièce jointe", "PDF, JPG, PNG"),
         paragraphs=[
             "Dans votre espace personnel France Travail, les pièces jointes des messages envoyés à votre conseiller "
             "sont limitées à 5 Mo, dans des formats courants comme PDF, JPG ou PNG. Au-delà, la pièce jointe est "
@@ -762,6 +767,76 @@ DEMARCHES = {
              "limite affichée si vous passez par un autre formulaire."),
             ("Quel format choisir ?",
              "Le JPG pour une photo de document, le PDF pour un document de plusieurs pages. Les deux sont acceptés."),
+            ("Mes documents sont-ils envoyés sur un serveur ?",
+             "Non. Tout le traitement a lieu dans votre navigateur, rien ne quitte votre appareil."),
+        ],
+    ),
+    "anef": dict(
+        path="/compresser-document-anef/",
+        crumb="Pour l'ANEF (titre de séjour)",
+        title="Fichier trop lourd pour l'ANEF (titre de séjour)",
+        h1="Justificatif refusé sur l'ANEF ? Passez-le sous 10 Mo",
+        meta=("Fichier trop volumineux ou refusé sur l'ANEF ? Convertissez vos photos, même HEIC d'iPhone, en JPG "
+              "sous 5 Mo, sans envoyer vos documents."),
+        intro="Pour un titre de séjour sur l'ANEF, chaque justificatif doit peser moins de 10 Mo, en JPG, PDF, PNG, BMP ou TIFF. Vos documents restent sur votre appareil.",
+        target=5_000_000,
+        output="jpg",
+        limit=("ANEF (titres de séjour)", "10 Mo par fichier", "JPG, PDF, PNG, BMP, TIFF"),
+        paragraphs=[
+            "Pour les demandes de titre de séjour déposées sur l'ANEF (administration-etrangers-en-france.interieur.gouv.fr), "
+            "les listes de justificatifs de la Direction générale des étrangers en France imposent des fichiers aux "
+            "formats JPG, PDF, PNG, BMP ou TIFF, de 10 Mo maximum chacun. Un scan en très haute résolution dépasse "
+            "vite cette limite, et une photo prise avec un iPhone est souvent enregistrée en HEIC, un format qui ne "
+            "figure pas dans cette liste.",
+            "Déposez ici vos photos ou scans, y compris au format HEIC : chacun est converti en JPG et compressé sous "
+            "5 Mo. Cela laisse une marge confortable sous la limite, avec un document parfaitement lisible. Pour des "
+            "fichiers plus légers, choisissez 2 Mo ou 1 Mo dans le menu « Poids maximum ».",
+            "Passeport, justificatif de domicile, contrat de travail : ces documents ne sont jamais envoyés sur un "
+            "serveur, tout le traitement a lieu dans votre navigateur. Pour un document de plusieurs pages, réunissez "
+            "les photos en un seul PDF avec l'outil « Images en PDF ».",
+        ],
+        faq=[
+            ("Quelle taille maximale pour un fichier sur l'ANEF ?",
+             "10 Mo par fichier, aux formats JPG, PDF, PNG, BMP ou TIFF, selon les listes de justificatifs publiées "
+             "par la Direction générale des étrangers en France. Vérifiez la limite affichée sur le formulaire de "
+             "votre démarche."),
+            ("Ma photo d'iPhone est refusée, pourquoi ?",
+             "Les iPhone enregistrent souvent les photos au format HEIC, qui ne fait pas partie des formats acceptés "
+             "par l'ANEF. Déposez-la ici : elle est convertie en JPG, un format accepté."),
+            ("Mes documents sont-ils envoyés sur un serveur ?",
+             "Non. Tout le traitement a lieu dans votre navigateur, rien ne quitte votre appareil."),
+        ],
+    ),
+    "logement-social": dict(
+        path="/compresser-document-logement-social/",
+        crumb="Pour une demande de logement social",
+        title="Justificatif trop lourd pour la demande de logement social",
+        h1="Justificatif trop lourd pour le logement social ?",
+        meta=("Pièce refusée sur demande-logement-social.gouv.fr ? Passez vos photos et scans sous 1 Mo en JPG, "
+              "sans envoyer vos documents sur un serveur."),
+        intro="Pour une demande de logement social en ligne, chaque pièce justificative doit peser moins de 1 Mo. Vos documents restent sur votre appareil.",
+        target=1_000_000,
+        output="jpg",
+        limit=("Demande de logement social", "1 Mo par pièce", "PDF, JPEG"),
+        paragraphs=[
+            "Sur le portail de la demande de logement social (demande-logement-social.gouv.fr), le ministère du "
+            "Logement indique que la taille maximale des pièces justificatives est fixée à 1 Mo. Une photo de "
+            "smartphone pèse souvent 3 à 5 Mo, et un document scanné en PDF dépasse vite 1 Mo : la pièce est alors "
+            "refusée.",
+            "Déposez ici vos photos ou scans : chacun est recompressé en JPG sous 1 Mo, avec la meilleure qualité "
+            "possible pour que le texte reste lisible. Si la compression ne suffit pas, l'image est légèrement "
+            "réduite en dimensions.",
+            "Avis d'imposition, bulletins de salaire, pièce d'identité : ces documents ne sont jamais envoyés sur un "
+            "serveur. Une pièce de plusieurs pages doit être déposée en un seul fichier : réunissez les photos avec "
+            "l'outil « Images en PDF », qui peut aussi limiter le PDF à 1 Mo.",
+        ],
+        faq=[
+            ("Quelle taille maximale pour une pièce justificative de demande de logement social ?",
+             "1 Mo par pièce, selon le ministère du Logement. Vérifiez la limite affichée dans l'onglet "
+             "« Justificatifs » de votre demande, elle peut évoluer."),
+            ("Mon justificatif fait plusieurs pages, comment faire ?",
+             "Il doit être déposé en un seul fichier. Réunissez vos photos avec l'outil « Images en PDF » et "
+             "choisissez 1 Mo comme poids maximum du PDF."),
             ("Mes documents sont-ils envoyés sur un serveur ?",
              "Non. Tout le traitement a lieu dans votre navigateur, rien ne quitte votre appareil."),
         ],
@@ -1212,6 +1287,7 @@ THRESHOLD_REQUIREMENTS = {
     ],
     "1-mo": [
         ("/compresser-photo-ants/", "ANTS (carte grise, carte d'identité, passeport)", "1 Mo par document"),
+        ("/compresser-document-logement-social/", "Demande de logement social", "1 Mo par pièce justificative"),
         ("/emote-twitch/", "Emote Twitch", "1 Mo maximum"),
     ],
     "2-mo": [
@@ -1221,5 +1297,6 @@ THRESHOLD_REQUIREMENTS = {
     ],
     "5-mo": [
         ("/compresser-document-france-travail/", "France Travail", "5 Mo par pièce jointe"),
+        ("/compresser-document-anef/", "ANEF (titres de séjour)", "10 Mo par fichier : 5 Mo garde une marge"),
     ],
 }
