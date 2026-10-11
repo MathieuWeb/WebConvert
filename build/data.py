@@ -900,7 +900,7 @@ PLATFORM_PAGES = [
     _platform(
         "banniere-linkedin", "Bannière LinkedIn", "1584 × 396 px, l'image de fond du profil.",
         "Redimensionner une image en bannière LinkedIn (1584 × 396 px)",
-        "Redimensionner une image en bannière LinkedIn (1584 × 396)",
+        "Bannière LinkedIn : format 1584×396, redimensionner en ligne",
         "Redimensionnez votre image en bannière LinkedIn, 1584 × 396 px, sans la déformer : choisissez "
         "la zone visible et téléchargez en PNG ou JPG. Gratuit.",
         "Déposez votre image : elle est recadrée au format exact recommandé par LinkedIn. Faites-la glisser pour choisir la partie visible.",
@@ -949,7 +949,7 @@ PLATFORM_PAGES = [
     _platform(
         "banniere-linkedin-entreprise", "Couverture LinkedIn entreprise", "1512 × 256 px, la couverture d'une Page entreprise.",
         "Recadrer la couverture d'une page entreprise LinkedIn (1512 × 256 px)",
-        "Recadrer une couverture de page LinkedIn (1512 × 256)",
+        "Couverture LinkedIn entreprise : taille 1512 × 256, recadrer",
         "Recadrez l'image de couverture de votre Page entreprise LinkedIn en 1512 × 256 px, PNG ou JPEG sous "
         "3 Mo, sans la déformer. Gratuit et sans envoi.",
         "Pour la Page de votre entreprise, pas pour votre profil personnel : LinkedIn y impose un format bien plus étroit. Recadrez votre image au format officiel.",
@@ -975,7 +975,7 @@ PLATFORM_PAGES = [
     _platform(
         "photo-profil-linkedin", "Photo de profil LinkedIn", "400 × 400 px, carrée.",
         "Recadrer une photo de profil LinkedIn (400 × 400 px)",
-        "Recadrer une photo de profil LinkedIn en ligne (400 × 400)",
+        "Redimensionner photo de profil LinkedIn (400 × 400), gratuit",
         "Recadrez votre photo de profil LinkedIn en carré de 400 × 400 px, visage bien centré. Gratuit, en "
         "ligne, sans envoyer votre photo sur un serveur.",
         "Déposez votre photo et centrez votre visage : elle est recadrée en carré de 400 × 400 px, la taille recommandée par LinkedIn.",
@@ -989,7 +989,7 @@ PLATFORM_PAGES = [
     _platform(
         "miniature-youtube", "Miniature YouTube", "3840 × 2160 px (16:9), moins de 2 Mo.",
         "Redimensionner une image en miniature YouTube (3840 × 2160 px)",
-        "Redimensionner une miniature YouTube (16:9, moins de 2 Mo)",
+        "Miniature YouTube : taille et format, redimensionner gratuit",
         "Redimensionnez votre image en miniature YouTube : recadrage 16:9 en 3840 × 2160 px (Short : "
         "2160 × 3840), compressée sous 2 Mo. Gratuit, sans envoi.",
         "Recadrez votre image en 16:9 à la taille recommandée par YouTube, compressée sous 2 Mo pour être acceptée même depuis l'appli mobile.",
@@ -1043,7 +1043,7 @@ PLATFORM_PAGES = [
     _platform(
         "banniere-youtube", "Bannière YouTube", "2560 × 1440 px, moins de 6 Mo.",
         "Redimensionner une image en bannière YouTube (2560 × 1440 px)",
-        "Redimensionner une image en bannière YouTube (2560 × 1440)",
+        "Bannière YouTube : dimension 2560 × 1440, redimensionner",
         "Redimensionnez l'image de bannière de votre chaîne YouTube en 2560 × 1440 px, sous 6 Mo. Gratuit, par "
         "lot, sans envoi sur un serveur.",
         "Recadrez la bannière de votre chaîne au format recommandé par YouTube. Gardez l'essentiel au centre : c'est la seule zone visible sur tous les écrans.",
@@ -1115,7 +1115,7 @@ PLATFORM_PAGES = [
     _platform(
         "banniere-twitch", "Bannière Twitch", "1200 × 480 px, moins de 10 Mo.",
         "Redimensionner une image en bannière Twitch (1200 × 480 px)",
-        "Redimensionner une bannière Twitch en ligne (1200 × 480)",
+        "Bannière Twitch : format 1200 × 480, redimensionner gratuit",
         "Redimensionnez votre image en bannière de profil Twitch, 1200 × 480 px, JPEG, PNG ou GIF sous 10 Mo : "
         "choisissez la zone visible. Gratuit, sans envoi.",
         "Déposez votre image : elle est recadrée au format de la bannière de profil Twitch. Faites-la glisser pour choisir la partie visible.",
@@ -1169,7 +1169,7 @@ PLATFORM_PAGES = [
     _platform(
         "couverture-facebook", "Couverture Facebook", "851 × 315 px, idéalement moins de 100 Ko.",
         "Redimensionner une photo de couverture Facebook (851 × 315 px)",
-        "Redimensionner une photo de couverture Facebook (851 × 315)",
+        "Redimensionner photo de couverture Facebook (851 × 315)",
         "Redimensionnez votre photo de couverture Facebook en 851 × 315 px sans la déformer : choisissez la zone "
         "visible, JPG léger ou PNG net. Gratuit, sans envoi.",
         "Déposez votre image : elle est recadrée au format recommandé par Facebook. Faites-la glisser pour choisir la partie visible, puis téléchargez-la.",
@@ -1218,7 +1218,7 @@ PLATFORM_PAGES = [
     _platform(
         "banniere-twitter-x", "Bannière X (Twitter)", "1500 × 500 px, l'en-tête du profil.",
         "Redimensionner une image pour X (Twitter) : bannière 1500 × 500 px",
-        "Redimensionner une image pour X (Twitter) : bannière, profil",
+        "Taille image Twitter / X : bannière, profil, redimensionner",
         "Redimensionnez vos images pour X (Twitter) : bannière 1500 × 500 px, photo de profil 400 × 400 px, "
         "posts du 2:1 au 3:4. Gratuit, sans envoi.",
         "Recadrez l'en-tête de votre profil X au format recommandé (3:1). Pour la photo de profil ou une image de post, changez simplement les dimensions.",
