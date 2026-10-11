@@ -40,29 +40,55 @@ _LK_ZONES = _lk_svg(
          '<line x1="0" y1="0" x2="0" y2="6" stroke="#c9521c" stroke-opacity="0.5" stroke-width="2"/></pattern></defs>')
 
 _LK_SLOGAN = _lk_svg(
-    _LK_BANNER
-    + _lk_text(196, 40, "Des sites rapides", 21, weight=700)
-    + _lk_text(196, 64, "pour les artisans", 21, weight=700)
-    + _lk_text(196, 84, "votre-site.fr", 13, "#5d5a53") + _LK_PHOTO,
-    "Exemple 1 : fond sobre, accroche « Des sites rapides pour les artisans » sur deux lignes à droite, adresse du site en dessous")
+    '<rect x="0" y="0" width="400" height="100" rx="6" fill="url(#lk-g1)"/>'
+    '<circle cx="402" cy="-4" r="78" fill="#fbfaf8" fill-opacity="0.07"/>'
+    '<circle cx="386" cy="96" r="40" fill="#fbfaf8" fill-opacity="0.06"/>'
+    '<rect x="166" y="22" width="4" height="46" rx="2" fill="#f4b860"/>'
+    + _lk_text(180, 40, "Des sites rapides", 21, "#fbfaf8", 800)
+    + '<text x="180" y="64" font-family="Figtree, system-ui, sans-serif" font-size="21" font-weight="800" '
+      'fill="#fbfaf8">pour les <tspan fill="#f4b860">artisans</tspan></text>'
+    + '<rect x="180" y="72" width="98" height="19" rx="9.5" fill="#fbfaf8" fill-opacity="0.16"/>'
+    + _lk_text(229, 85.5, "votre-site.fr", 12, "#fbfaf8", 600, "middle") + _LK_PHOTO,
+    "Exemple 1 : fond bleu de marque, accroche « Des sites rapides pour les artisans » à droite, adresse du site dans une pastille",
+    defs='<defs><linearGradient id="lk-g1" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#17324f"/>'
+         '<stop offset="1" stop-color="#2f6b9a"/></linearGradient></defs>')
 
 _LK_PHOTO_BG = _lk_svg(
     '<rect x="0" y="0" width="400" height="100" rx="6" fill="url(#lk-grad)"/>'
-    + '<path d="M0 78 L70 52 L130 70 L210 36 L290 64 L400 40 L400 100 L0 100Z" fill="#23221f" fill-opacity="0.22"/>'
-    + _lk_text(384, 44, "Photographe · Lyon", 21, "#fbfaf8", 700, "end")
-    + _lk_text(384, 66, "Mariages et portraits", 14, "#fbfaf8", 500, "end") + _LK_PHOTO,
-    "Exemple 2 : photo de paysage en fond, « Photographe · Lyon » en blanc à droite",
-    defs='<defs><linearGradient id="lk-grad" x1="0" x2="1"><stop offset="0" stop-color="#6f8272"/>'
-         '<stop offset="1" stop-color="#b89f74"/></linearGradient></defs>')
+    '<circle cx="168" cy="32" r="15" fill="#fff1d6" fill-opacity="0.95"/>'
+    '<path d="M0 70 L60 48 L120 66 L190 36 L270 62 L330 44 L400 58 L400 100 L0 100Z" fill="#6b4f6e" fill-opacity="0.55"/>'
+    '<path d="M0 86 L80 66 L170 84 L250 64 L330 82 L400 70 L400 100 L0 100Z" fill="#3a2d45" fill-opacity="0.8"/>'
+    + _lk_text(384, 36, "PHOTOGRAPHE", 11, "#fbfaf8", 700, "end").replace('font-size="11"', 'font-size="11" letter-spacing="2"')
+    + _lk_text(384, 60, "Lyon · Mariages", 21, "#fbfaf8", 800, "end")
+    + _lk_text(384, 80, "et portraits sur demande", 13, "#fbfaf8", 500, "end") + _LK_PHOTO,
+    "Exemple 2 : coucher de soleil sur des montagnes en fond, « Photographe, Lyon, mariages » en blanc à droite",
+    defs='<defs><linearGradient id="lk-grad" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f6c58f"/>'
+         '<stop offset="1" stop-color="#e07f63"/></linearGradient></defs>')
 
 _LK_PROOF = _lk_svg(
-    _LK_BANNER
-    + _lk_text(150, 30, "Consultante data", 18, weight=700)
-    + "".join(f'<rect x="{x}" y="40" width="72" height="26" rx="4" fill="#fbfaf8" stroke="#bdb8ad"/>'
-              + _lk_text(x + 36, 58, label, 12.5, weight=600, anchor="middle")
-              for x, label in ((150, "12 ans"), (228, "40 clients"), (306, "3 pays")))
-    + _lk_text(150, 86, "Prenons contact →", 13, "#2f6b3b", 700) + _LK_PHOTO,
-    "Exemple 3 : « Consultante data », trois chiffres clés dans des cases, puis « Prenons contact »")
+    '<rect x="0" y="0" width="400" height="100" rx="6" fill="#f3efe7"/>'
+    '<rect x="0" y="0" width="400" height="5" rx="2" fill="#2f6b3b"/>'
+    + _lk_text(150, 30, "Consultante data", 17, weight=800)
+    + _lk_text(287, 30, "· retail", 12, "#5d5a53", 500)
+    + "".join(f'<rect x="{x}" y="38" width="74" height="34" rx="5" fill="#fbfaf8" stroke="#d8d3c9"/>'
+              + _lk_text(x + 37, 54, big, 14, "#2f6b3b", 800, "middle")
+              + _lk_text(x + 37, 66, small, 9.5, "#5d5a53", 500, "middle")
+              for x, big, small in ((150, "12 ans", "d'expérience"), (230, "40", "clients"), (310, "3 pays", "en Europe")))
+    + '<rect x="150" y="78" width="118" height="17" rx="8.5" fill="#2f6b3b"/>'
+    + _lk_text(209, 90.5, "Prenons contact →", 11, "#fbfaf8", 700, "middle") + _LK_PHOTO,
+    "Exemple 3 : « Consultante data », trois chiffres clés dans des cartes, puis un bouton « Prenons contact »")
+
+_LK_STUDENT = _lk_svg(
+    '<rect x="0" y="0" width="400" height="100" rx="6" fill="url(#lk-g4)"/>'
+    '<circle cx="396" cy="2" r="30" fill="#fbfaf8" fill-opacity="0.4"/>'
+    '<rect x="362" y="74" width="34" height="34" rx="8" fill="#fbfaf8" fill-opacity="0.3" transform="rotate(18 379 91)"/>'
+    '<rect x="150" y="18" width="104" height="18" rx="9" fill="#4b3a8f"/>'
+    + _lk_text(202, 31, "EN RECHERCHE", 10, "#fbfaf8", 700, "middle")
+    + _lk_text(150, 58, "Alternance marketing digital", 16.5, "#2a2152", 800)
+    + _lk_text(150, 78, "Disponible en septembre 2027 · Paris", 12.5, "#4b3a8f", 600) + _LK_PHOTO,
+    "Exemple 4 : fond mauve clair, pastille « En recherche », « Alternance marketing digital, disponible en septembre 2027 »",
+    defs='<defs><linearGradient id="lk-g4" x1="0" x2="1"><stop offset="0" stop-color="#ece7fb"/>'
+         '<stop offset="1" stop-color="#cfc4f3"/></linearGradient></defs>')
 
 
 ARTICLES = [
@@ -488,18 +514,22 @@ variantes couvrent les cas particuliers.</p>
 <h3>Dirigeant ou fondateur</h3>
 <p>La mission de l'entreprise en une phrase, ou une photo de l'équipe ou du lieu. Pour la Page de l'entreprise elle-même, le format est différent : <a href="/banniere-linkedin-entreprise/">1512 × 256 px</a>.</p>
 
-<h2>Exemples de bannières LinkedIn : trois mises en page</h2>
+<h2>Exemples de bannières LinkedIn : quatre mises en page</h2>
 <figure class="diagram">
 """ + _LK_SLOGAN + """
-<figcaption>1. Fond sobre et accroche sur deux lignes à droite : simple, lisible partout. Idéal pour un indépendant.</figcaption>
+<figcaption>1. Un indépendant : une couleur de marque, une accroche qui dit le résultat, l'adresse du site. Un seul mot mis en couleur suffit à guider l'œil.</figcaption>
 </figure>
 <figure class="diagram">
 """ + _LK_PHOTO_BG + """
-<figcaption>2. Photo d'ambiance en fond, métier et ville en clair : pour un univers visuel fort. Assombrissez légèrement la photo pour que le texte ressorte.</figcaption>
+<figcaption>2. Un photographe : une de ses photos en fond, assombrie en bas, avec le métier et la ville en clair, à droite.</figcaption>
 </figure>
 <figure class="diagram">
 """ + _LK_PROOF + """
-<figcaption>3. Accroche, chiffres clés (ou logos de clients), puis une invitation à vous contacter : la fonction « preuve ».</figcaption>
+<figcaption>3. Une consultante : la fonction « preuve », avec trois chiffres vérifiables et une invitation à la contacter.</figcaption>
+</figure>
+<figure class="diagram">
+""" + _LK_STUDENT + """
+<figcaption>4. Un étudiant : le poste visé et la date de disponibilité, ce que cherchent les recruteurs.</figcaption>
 </figure>
 
 <h2>Avec quel outil créer sa bannière : Canva et les autres</h2>

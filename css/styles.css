@@ -1339,9 +1339,12 @@ code {
 .article ol { margin: 0 0 16px; padding-left: 22px; }
 .article li { margin-bottom: 6px; }
 .article strong { color: var(--ink); }
-.article figure.diagram { margin: 8px 0 24px; }
-.article figure.diagram svg { display: block; width: 100%; height: auto; }
-.article figure.diagram figcaption {
+figure.diagram { margin: 8px 0 24px; }
+.diagram-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; margin: 8px 0 8px; }
+.diagram-grid figure.diagram { margin: 0 0 20px; }
+@media (max-width: 599px) { .diagram-grid { grid-template-columns: 1fr; } }
+figure.diagram svg { display: block; width: 100%; height: auto; }
+figure.diagram figcaption {
   margin-top: 8px;
   font-size: 14px;
   line-height: 1.45;

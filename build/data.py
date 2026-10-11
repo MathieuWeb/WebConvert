@@ -5,6 +5,9 @@ generated page; keep js/formats-data.js in sync with the id/label/ext/mime
 fields when a format is added or changed.
 """
 
+import diagrams as dg
+from articles import _LK_ZONES
+
 # Insertion order == display order everywhere (dropdowns, pill lists, grids).
 FORMATS = {
     "jpg": dict(
@@ -923,10 +926,28 @@ PLATFORM_PAGES = [
     <div class="prose">
       <p>La bannière d'un profil, aussi appelée image de fond ou de couverture, est beaucoup plus haute que celle d'une Page entreprise : une image préparée pour l'une sera mal recadrée sur l'autre. Cette page règle le format du profil personnel.</p>
     </div>"""),
-            ("zone-visible", "Ce qui reste visible", """    <div class="prose">
+            ("zone-visible", "Ce qui reste visible", "    <div class=\"prose\">\n" + dg.figure(
+                _LK_ZONES,
+                "La photo de profil recouvre le bas de la bannière côté gauche, et les bords peuvent être rognés.")
+             + """
       <p>LinkedIn précise que l'affichage de la bannière varie selon la taille de la fenêtre et la résolution de l'écran : les bords peuvent être légèrement rognés. Gardez donc le texte, le logo ou le slogan vers le centre, avec de la marge en haut et en bas.</p>
       <p>Votre photo de profil chevauche le bas de la bannière, côté gauche. Sur une bannière avec du texte, placez-le plutôt dans la moitié droite.</p>
       <p>Pour des idées de contenu par métier, des exemples de mises en page et les outils pour la créer (Canva, Adobe Express…), lisez notre guide : <a href="/guide/comment-faire-une-bonne-banniere-linkedin/">comment faire une bonne bannière LinkedIn</a>.</p>
+    </div>"""),
+            ("toutes-les-tailles-linkedin", "Toutes les tailles d'images LinkedIn", """    <table class="spec">
+      <tbody>
+        <tr><th scope="row">Bannière du profil</th><td>1584 × 396 px, JPG ou PNG, 8 Mo maximum</td></tr>
+        <tr><th scope="row">Photo de profil</th><td><a href="/photo-profil-linkedin/">400 × 400 px conseillé →</a></td></tr>
+        <tr><th scope="row">Couverture d'une Page entreprise</th><td><a href="/banniere-linkedin-entreprise/">1512 × 256 px →</a></td></tr>
+        <tr><th scope="row">Logo d'une Page entreprise</th><td>400 × 400 px conseillé, 268 × 268 px minimum</td></tr>
+        <tr><th scope="row">Image d'une publication avec lien</th><td>1200 × 627 px (1,91:1), plus de 200 px de large</td></tr>
+        <tr><th scope="row">Image principale (onglet Vie)</th><td>1128 × 376 px</td></tr>
+        <tr><th scope="row">Modules personnalisés (onglet Vie)</th><td>502 × 282 px</td></tr>
+        <tr><th scope="row">Photos de l'entreprise (onglet Vie)</th><td>900 × 600 px conseillé, 264 × 176 px minimum</td></tr>
+      </tbody>
+    </table>
+    <div class="prose">
+      <p>Les images d'une Page entreprise doivent être en PNG ou JPEG, 3 Mo maximum, selon les <a href="https://www.linkedin.com/help/linkedin/answer/a569383" rel="noopener">spécifications d'images des Pages LinkedIn</a>. L'onglet « Vie » n'existe que pour les Pages qui ont des pages Carrières. Pour toute autre taille, saisissez les dimensions dans l'outil en haut de cette page.</p>
     </div>"""),
             ("banniere-nette", "Une bannière nette", """    <div class="prose">
       <ul>
@@ -944,6 +965,16 @@ PLATFORM_PAGES = [
       </ol>
       <p>Sur l'appli mobile : touchez votre photo de profil, puis la bannière, choisissez « Modifier », importez l'image et touchez « Enregistrer ».</p>
     </div>"""),
+        ],
+        zones=[
+            dict(type="cover", shape="circle", x=0.03, y=0.62, w=0.19, h=0.19 * 1584 / 396,
+                 label="Photo de profil", official=False,
+                 legend="Photo de profil : sur ordinateur, elle recouvre le coin inférieur gauche de la bannière. "
+                        "Position indicative, elle varie selon l'écran."),
+            dict(type="frame", x=0.375, y=0.2, w=0.57, h=0.6, label="Zone la plus sûre", label_pos="inside",
+                 color="#2f6b3b", official=False,
+                 legend="Zone la plus sûre pour le texte : au centre et à droite, avec de la marge. LinkedIn indique "
+                        "que les bords peuvent être rognés selon la fenêtre et l'écran. Zone indicative."),
         ],
     ),
     _platform(
@@ -985,6 +1016,12 @@ PLATFORM_PAGES = [
                "La photo est affichée dans un cercle : gardez un peu d'espace autour du visage."],
         faq=[("Quelle taille pour une photo de profil LinkedIn ?", "Au moins 400 × 400 pixels, en PNG ou JPG, pour 8 Mo maximum."),
              ("Ma photo est rectangulaire, que faire ?", "Déposez-la ici : elle est recadrée en carré et vous choisissez la partie gardée en la faisant glisser.")],
+        zones=[
+            dict(type="frame", shade="outside", shape="circle", x=0, y=0, w=1, h=1, label="Affichage en cercle",
+                 label_pos="inside", color="#2f6b3b", official=False,
+                 legend="LinkedIn affiche la photo de profil dans un cercle : les coins assombris ne se voient pas. "
+                        "Centrez votre visage."),
+        ],
     ),
     _platform(
         "miniature-youtube", "Miniature YouTube", "3840 × 2160 px (16:9), moins de 2 Mo.",
@@ -1015,6 +1052,17 @@ PLATFORM_PAGES = [
     <div class="prose">
       <p>L'outil est réglé pour une vidéo classique. Pour un Short, saisissez 2160 × 3840 ; pour un podcast, un carré, par exemple 2160 × 2160.</p>
     </div>"""),
+            ("miniature-qui-donne-envie", "Une miniature qui donne envie de cliquer", "    <div class=\"prose\">\n" + dg.figure(
+                dg.thumbnail_example(),
+                "Un sujet bien visible, trois ou quatre mots en grand, et rien sous le badge de durée en bas à droite.")
+             + """
+      <ul>
+        <li><strong>Trois ou quatre mots au maximum</strong>, en très gros : la miniature s'affiche souvent en petit, surtout sur mobile.</li>
+        <li><strong>Un sujet principal bien visible</strong> : un visage, un objet ou un résultat.</li>
+        <li><strong>Du contraste</strong> entre le texte et le fond.</li>
+        <li><strong>Une miniature reconnaissable</strong> : mêmes couleurs et même mise en page d'une vidéo à l'autre, pour que vos abonnés repèrent vos vidéos.</li>
+      </ul>
+    </div>"""),
             ("1280-ou-3840", "1280 × 720 ou 3840 × 2160 ?", """    <div class="prose">
       <p>Les deux fonctionnent : ce sont les mêmes proportions 16:9, et toutes deux dépassent la largeur minimale de 640 px. YouTube recommande aujourd'hui 3840 × 2160 px, une image qui reste nette sur un grand écran ou un téléviseur ; 1280 × 720 est l'ancienne recommandation, encore reprise par beaucoup de guides.</p>
       <p>Agrandir une petite image n'ajoute aucun détail. Si la vôtre fait moins de 3840 px de large, saisissez plutôt 1920 × 1080 ou 1280 × 720 : le résultat sera aussi net, et plus léger.</p>
@@ -1039,6 +1087,11 @@ PLATFORM_PAGES = [
       <p>Le bouton n'apparaît pas ? YouTube réserve les miniatures personnalisées aux comptes validés. Une fois enregistrée, la nouvelle miniature peut mettre un moment à s'afficher partout.</p>
     </div>"""),
         ],
+        zones=[
+            dict(type="cover", x=0.83, y=0.84, w=0.15, h=0.13, label="Durée", official=False,
+                 legend="Durée de la vidéo : YouTube l'affiche dans un badge en bas à droite de la miniature. "
+                        "N'y placez ni texte ni visage. Position indicative."),
+        ],
     ),
     _platform(
         "banniere-youtube", "Bannière YouTube", "2560 × 1440 px, moins de 6 Mo.",
@@ -1053,6 +1106,41 @@ PLATFORM_PAGES = [
                "Seule la zone centrale de 1235 × 338 px est visible sur tous les appareils (mobile, ordinateur, TV) : placez-y le texte et le logo."],
         faq=[("Quelle est la taille d'une bannière YouTube ?", "2560 × 1440 pixels recommandés, 2048 × 1152 au minimum, pour un fichier de 6 Mo maximum."),
              ("Pourquoi ma bannière YouTube est-elle coupée sur mobile ?", "Sur mobile, YouTube n'affiche que la zone centrale de 1235 × 338 px. Tout ce qui est en dehors peut être rogné.")],
+        guide=[
+            ("zones-youtube", "Ce qui reste visible : TV, ordinateur, mobile", "    <div class=\"prose\">\n" + dg.figure(
+                dg.youtube_zones(),
+                "La bannière entière n'apparaît que sur un téléviseur. Ailleurs, seule une bande centrale est visible.")
+             + """
+      <p>Une bannière YouTube est pensée pour le téléviseur : c'est le seul écran qui l'affiche en entier. Sur ordinateur et sur tablette, seule une bande centrale de 423 px de haut est visible. Sur mobile, c'est la zone sûre de 1546 × 423 px au centre, soit 1235 × 338 px dans une image de 2048 × 1152 selon l'aide YouTube.</p>
+      <p>Placez le nom de la chaîne, le texte et le logo dans cette zone sûre ; le reste de l'image sert de fond. Dans l'outil, cochez « Afficher les zones » pour voir ces limites sur votre propre image.</p>
+    </div>"""),
+            ("idees-banniere-youtube", "Que mettre sur sa bannière YouTube : quatre exemples", "    <div class=\"prose\">\n"
+             + '<div class="diagram-grid">\n'
+             + dg.figure(dg.youtube_example("yte1", "#ecd8bf", "#d9a066", "Cuisine express", "Une recette chaque mardi", deco=dg.deco_plates()),
+                         "Le thème de la chaîne et le rythme de publication.")
+             + "\n" + dg.figure(dg.youtube_example("yte2", "#16142a", "#4a2f80", "NOVA PLAYS", "Live lun · mer · ven, 20 h", dark=True, deco=dg.deco_stripes()),
+                         "Jeu vidéo : le pseudo en grand, les horaires de live.")
+             + "\n" + dg.figure(dg.youtube_example("yte3", "#eef4ef", "#cfe0d3", "Excel facile", "Du débutant à l'expert", deco=dg.deco_grid()),
+                         "Tutoriels : le sujet et le niveau, rien de plus.")
+             + "\n" + dg.figure(dg.youtube_example("yte4", "#f4b78a", "#7aa7c7", "Un pays par mois", "Vlogs de voyage", dark=True, deco=dg.deco_landscape()),
+                         "Vlog : une photo d'ambiance en fond, le concept au centre.")
+             + "\n</div>"
+             + """
+      <ul>
+        <li><strong>Une promesse claire</strong> : ce que l'on trouve sur la chaîne, en quelques mots.</li>
+        <li><strong>Le rythme de publication ou de live</strong>, si vous le tenez. Pensez à le mettre à jour.</li>
+        <li><strong>Un fond qui prolonge l'univers de la chaîne</strong> : couleurs, texture ou photo. Il ne sera vu en entier que sur TV, il ne doit donc rien porter d'essentiel.</li>
+      </ul>
+    </div>"""),
+            ("erreurs-banniere-youtube", "Les erreurs fréquentes", """    <div class="prose">
+      <ul>
+        <li><strong>Du texte hors de la zone sûre</strong> : il est coupé sur mobile, et parfois sur ordinateur.</li>
+        <li><strong>Des caractères trop petits</strong> : sur un téléphone, la zone sûre ne fait que quelques centimètres de large.</li>
+        <li><strong>Une image trop petite</strong> : la taille minimale est de 2048 × 1152 px. Partez d'une image au moins aussi grande.</li>
+        <li><strong>Un fichier trop lourd</strong> : YouTube limite la bannière à 6 Mo. L'outil la compresse sous 5 Mo.</li>
+      </ul>
+    </div>"""),
+        ],
         # Risk-zone overlay of the crop preview (fractions of the image).
         # "safe": everything outside is hatched; "cover": the shape is hatched.
         zones=[
@@ -1160,9 +1248,20 @@ PLATFORM_PAGES = [
     <div class="prose">
       <p>La bannière du lecteur vidéo, affichée quand la chaîne est hors ligne, est une image distincte : Twitch n'en précise pas les dimensions dans son aide.</p>
     </div>"""),
-            ("affichage", "Comment Twitch affiche la bannière", """    <div class="prose">
+            ("affichage", "Comment Twitch affiche la bannière", "    <div class=\"prose\">\n" + dg.figure(
+                dg.twitch_zones(),
+                "Twitch étire la bannière selon la fenêtre : gardez les éléments importants à gauche.")
+             + """
       <p>Les pages de Twitch, et donc la bannière, s'adaptent à la largeur de la fenêtre de chaque spectateur. Une image moins haute ou plus large que 480 px est ajustée à 480 px de hauteur, et elle est étirée si la fenêtre est plus large qu'elle.</p>
       <p>Twitch conseille donc une image aussi large que possible, avec les éléments graphiques concentrés à gauche : c'est la partie qui reste visible sur tous les écrans. Dans l'outil, faites glisser l'image pour placer votre logo ou votre pseudo de ce côté.</p>
+    </div>"""),
+            ("idees-banniere-twitch", "Que mettre sur sa bannière Twitch : deux exemples", "    <div class=\"prose\">\n"
+             + dg.figure(dg.twitch_example("twe1", "#2a1f4a", "#7b4fd6", "NOVA", "Live lundi, mercredi et vendredi · 20 h"),
+                         "1. Le pseudo en grand et le planning des lives, à gauche.")
+             + "\n" + dg.figure(dg.twitch_example("twe2", "#12343b", "#2c8c7c", "SPEEDRUN", "Records et discussions le dimanche"),
+                         "2. Le thème de la chaîne en un mot, avec une ligne pour préciser.")
+             + """
+      <p>Le pseudo, le logo et le planning suffisent : la bannière s'affiche derrière les informations de la chaîne, un visuel chargé devient vite illisible. Gardez la droite pour un fond qui peut s'étirer sans dommage.</p>
     </div>"""),
             ("changer-banniere", "Changer sa bannière Twitch", """    <div class="prose">
       <ol>
@@ -1171,6 +1270,12 @@ PLATFORM_PAGES = [
         <li>Importez l'image préparée ici.</li>
       </ol>
     </div>"""),
+        ],
+        zones=[
+            dict(type="frame", x=0.03, y=0.08, w=0.47, h=0.84, label="Éléments graphiques à gauche",
+                 label_pos="inside", color="#2f6b3b", official=False,
+                 legend="Côté gauche : Twitch conseille d'y concentrer les éléments graphiques, car la bannière "
+                        "s'adapte à la largeur de chaque fenêtre. La largeur de cette zone est indicative."),
         ],
     ),
     _platform(
@@ -1213,10 +1318,23 @@ PLATFORM_PAGES = [
         <tr><th scope="row">Avec logo ou texte</th><td>PNG, conseillé par Facebook</td></tr>
       </tbody>
     </table>"""),
-            ("zone-visible", "Ordinateur ou mobile : ce qui reste visible", """    <div class="prose">
+            ("zone-visible", "Ordinateur ou mobile : ce qui reste visible", "    <div class=\"prose\">\n" + dg.figure(
+                dg.facebook_zones(),
+                "La photo de profil masque le bas à gauche ; sur mobile, la droite de la couverture peut disparaître.")
+             + """
       <p>Facebook n'affiche pas la couverture de la même façon partout : sur ordinateur au format 16:9, sur mobile au format 2,4:1, alignée à gauche en pleine largeur. Selon l'écran, elle est donc rognée ou redimensionnée.</p>
       <p>Le côté gauche est en partie recouvert par la photo de profil, qui chevauche aussi le bas de la couverture d'environ 40 px sur mobile.</p>
-      <p>En pratique : placez le texte, le logo ou le sujet vers le centre et la droite, et laissez de la marge en bas. Dans l'outil, faites glisser l'image pour choisir la bande gardée.</p>
+      <p>En pratique : placez le texte, le logo ou le sujet vers le centre, sans aller jusqu'au bord droit, et laissez de la marge en bas. Dans l'outil, cochez « Afficher les zones » et faites glisser l'image pour choisir la bande gardée.</p>
+    </div>"""),
+            ("idees-couverture-facebook", "Que mettre sur sa couverture Facebook : trois exemples", "    <div class=\"prose\">\n"
+             + dg.figure(dg.facebook_example("fbe1", "#f6eadb", "#e5bd8c", "Boulangerie Martin", "", pill="Ouvert 7 j/7 · 6 h 30 – 20 h", deco=dg.deco_bakery()),
+                         "1. Un commerce : le nom et l'information la plus demandée, comme les horaires.")
+             + "\n" + dg.figure(dg.facebook_example("fbe2", "#1d3a57", "#3f7cac", "Fête du quartier", "", dark=True, pill="Samedi 14 juin · place du Marché", deco=dg.deco_confetti()),
+                         "2. Une association : le prochain événement, avec sa date et son lieu.")
+             + "\n" + dg.figure(dg.facebook_example("fbe3", "#7d8f80", "#c9b48f", "", "", photo=True),
+                         "3. Un profil personnel : une belle photo, sujet au centre, sans texte.")
+             + """
+      <p>Gardez le texte court et centré : sur mobile, la couverture est plus étroite et la photo de profil prend plus de place. Une information datée, comme un événement, doit être retirée une fois passée.</p>
     </div>"""),
             ("couverture-nette", "Une couverture nette", """    <div class="prose">
       <ul>
@@ -1237,6 +1355,10 @@ PLATFORM_PAGES = [
     </div>"""),
         ],
         zones=[
+            dict(type="frame", shade="outside", x=0, y=0, w=315 * 2.4 / 851, h=1, label="Mobile · 2,4:1",
+                 label_pos="inside", color="#1f6fb2", official=True,
+                 legend="Mobile : Facebook affiche la couverture au format 2,4:1, alignée à gauche en pleine "
+                        "largeur. La partie assombrie à droite peut disparaître sur un téléphone."),
             dict(type="cover", shape="circle", x=0.03, y=0.52, w=0.20, h=0.20 * 851 / 315,
                  label="Photo de profil", official=False,
                  legend="Photo de profil : Facebook indique qu'elle recouvre une partie du côté gauche, et le bas "
@@ -1280,6 +1402,16 @@ PLATFORM_PAGES = [
         <li>Ajustez le cadrage si besoin, puis cliquez sur « Enregistrer ».</li>
       </ol>
     </div>"""),
+        ],
+        zones=[
+            dict(type="cover", shape="circle", x=0.027, y=0.665, w=0.223, h=0.223 * 1500 / 500,
+                 label="Photo de profil", official=False,
+                 legend="Photo de profil : elle chevauche le bas de la bannière, côté gauche. Position indicative, "
+                        "elle varie selon l'écran."),
+            dict(type="frame", x=0.3, y=0.18, w=0.66, h=0.64, label="Zone la plus sûre", label_pos="inside",
+                 color="#2f6b3b", official=False,
+                 legend="Zone la plus sûre pour le texte : au centre et à droite, loin de la photo de profil et des "
+                        "bords, qui peuvent être rognés selon l'écran. Zone indicative."),
         ],
     ),
     _platform(

@@ -8,6 +8,7 @@ quality slider, main pane with the dropzone and the file list). Content
 sections below the tool share one layout: heading on the left, content on
 the right, separated by hairlines. See README.md, "Charte graphique"."""
 import json
+import re
 from data import FORMATS, INPUT_IDS, OUTPUT_IDS, FEATURED_PAIRS, TARGET_SIZES
 
 BASE_URL = "https://webconvert.fr"
@@ -90,10 +91,20 @@ def icon(name, size=18):
 # <head> + shell
 # ---------------------------------------------------------------------------
 
+_HEADING_RE = re.compile(r"(<h[1-3][^>]*>)(.*?)(</h[1-3]>)", re.S)
+
+
+def nbsp_headings(html):
+    """French typography in headings: a no-break space before ? ! : ; so the
+    sign never wraps alone onto the next line."""
+    return _HEADING_RE.sub(lambda m: m.group(1) + re.sub(r" ([?!:;])", "\u00a0\\1", m.group(2)) + m.group(3), html)
+
+
 def render_page(*, path, title, meta_description, body_html, json_ld=None,
                  include_js=False, wc_config=None, og_alt=None, robots=None, canonical=True, extra_scripts="",
                  og_type="website"):
     robots = robots or "index, follow, max-image-preview:large"
+    body_html = nbsp_headings(body_html)
     # Google cuts titles around 60 characters: keep the brand suffix only
     # when the whole title still fits (Google usually shows the site name anyway).
     suffix = " | " + SITE_NAME
