@@ -1169,7 +1169,7 @@ PLATFORM_PAGES = [
     _platform(
         "couverture-facebook", "Couverture Facebook", "851 × 315 px, idéalement moins de 100 Ko.",
         "Redimensionner une photo de couverture Facebook (851 × 315 px)",
-        "Redimensionner photo de couverture Facebook (851 × 315)",
+        "Redimensionner photo couverture Facebook : taille 851 × 315",
         "Redimensionnez votre photo de couverture Facebook en 851 × 315 px sans la déformer : choisissez la zone "
         "visible, JPG léger ou PNG net. Gratuit, sans envoi.",
         "Déposez votre image : elle est recadrée au format recommandé par Facebook. Faites-la glisser pour choisir la partie visible, puis téléchargez-la.",
