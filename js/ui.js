@@ -12,7 +12,7 @@ import { formatBytes, savingsLabel, debounce } from "./common.js";
 //     in place (see setOutput below) or by navigating to the matching page.
 //   zipName: filename for the "download all" archive
 //   target: optional maximum weight in bytes (compression pages such as
-//     /compresser-image-200-ko/). When set, every file is compressed to fit
+//     /compresser-photo-ants/). When set, every file is compressed to fit
 //     under it (compressToTarget) instead of using the quality slider.
 function resolveConfig() {
   const c = window.WC_CONFIG || {};

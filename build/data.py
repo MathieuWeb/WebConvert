@@ -504,7 +504,7 @@ PAIR_OVERRIDES = {
     </table>
     <div class="prose">
       <p>Pour une photo, le gain est spectaculaire : le JPG pèse 10 à 15 fois moins pour une différence invisible à l'œil. Pour un scan de texte déjà compressé en LZW, le gain est bien plus faible : ce format compresse très bien les pages de texte.</p>
-      <p>Un scan doit passer sous une limite précise, comme 1 Mo pour l'ANTS ? Utilisez plutôt <a href="/compresser-photo-ants/">la compression pour l'ANTS</a> ou <a href="/compresser-image-1-mo/">la compression sous 1 Mo</a> : la qualité est ajustée automatiquement pour respecter la limite.</p>
+      <p>Un scan doit passer sous une limite précise, comme 1 Mo pour l'ANTS ? Utilisez plutôt <a href="/compresser-photo-ants/">la compression pour l'ANTS</a> ou <a href="/compresser-image/">la compression à une taille précise</a> : la qualité est ajustée automatiquement pour respecter la limite.</p>
       <p class="measures__note">Mesures réalisées avec l'outil de cette page sur une vraie photo de smartphone (3024 × 4032) et une page A4 de texte en niveaux de gris à 300 dpi.</p>
     </div>"""),
             ("tiff-pris-en-charge", "Quels TIFF sont pris en charge ?", """    <div class="prose">
@@ -587,7 +587,7 @@ def get_hub_copy(format_id):
 # this sense is also under 1 048 576 octets, so it passes either convention
 # a destination site might use.
 
-# (slug, bytes, label) — one page per threshold: /compresser-image-{slug}/
+# (slug, bytes, label) — the « Poids maximum » options of the compression tools
 TARGET_SIZES = [
     ("50-ko", 50_000, "50 Ko"),
     ("100-ko", 100_000, "100 Ko"),
@@ -599,16 +599,6 @@ TARGET_SIZES = [
     ("5-mo", 5_000_000, "5 Mo"),
 ]
 
-TARGET_USES = {
-    "50-ko": "les formulaires les plus stricts, les avatars et les signatures d'e-mail",
-    "100-ko": "les photos de profil, les miniatures et certains formulaires en ligne",
-    "200-ko": "les formulaires de candidature, les photos de CV et les images de blog",
-    "300-ko": "les images de site web et les pièces jointes légères",
-    "500-ko": "les illustrations de site web et les annonces en ligne",
-    "1-mo": "la plupart des téléservices administratifs (dont l'ANTS) et les pièces jointes",
-    "2-mo": "les dossiers en ligne, les formulaires de recrutement et les envois groupés",
-    "5-mo": "les photos haute définition à envoyer par e-mail ou sur une plateforme",
-}
 
 # Démarches: pages /compresser-photo-{slug}/ that preset the right limit.
 # Only limits confirmed by an official source are stated as facts; "check
@@ -1431,32 +1421,3 @@ PLATFORM_PAGES = [
 ]
 
 
-# Where each weight limit is actually required — only limits confirmed by an
-# official source (see DEMARCHES and PLATFORM_PAGES), linked to their page.
-# (path, what, detail)
-THRESHOLD_REQUIREMENTS = {
-    "100-ko": [
-        ("/sticker-whatsapp/", "Sticker WhatsApp", "100 Ko maximum, en WebP 512 × 512 px"),
-        ("/couverture-facebook/", "Couverture de Page Facebook", "moins de 100 Ko recommandé pour un affichage rapide"),
-    ],
-    "200-ko": [
-        ("/emoji-discord/", "Emoji Discord", "256 Ko maximum : 200 Ko garde une marge"),
-    ],
-    "500-ko": [
-        ("/sticker-discord/", "Sticker Discord", "512 Ko maximum, en PNG 320 × 320 px"),
-    ],
-    "1-mo": [
-        ("/compresser-photo-ants/", "ANTS (carte grise, carte d'identité, passeport)", "1 Mo par document"),
-        ("/compresser-document-logement-social/", "Demande de logement social", "1 Mo par pièce justificative"),
-        ("/emote-twitch/", "Emote Twitch", "1 Mo maximum"),
-    ],
-    "2-mo": [
-        ("/miniature-youtube/", "Miniature YouTube", "2 Mo depuis l'appli mobile"),
-        ("/banniere-twitter-x/", "Photo de profil X (Twitter)", "moins de 2 Mo"),
-        ("/compresser-photo-caf/", "CAF", "10 Mo par envoi, soit 2 Mo par document pour en envoyer cinq"),
-    ],
-    "5-mo": [
-        ("/compresser-document-france-travail/", "France Travail", "5 Mo par pièce jointe"),
-        ("/compresser-document-anef/", "ANEF (titres de séjour)", "10 Mo par fichier : 5 Mo garde une marge"),
-    ],
-}

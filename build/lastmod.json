@@ -1,7 +1,7 @@
 {
  "/": {
   "date": "2026-10-11",
-  "hash": "45dbe96cf7bcae45b3f50fb430f3adfefa10ebc96a2fd081ada6c96db3325c12"
+  "hash": "c77617e910618475d75d4251c211da125bfad257990759eac212f3809fd9dbf1"
  },
  "/a-propos/": {
   "date": "2026-10-11",
@@ -45,71 +45,39 @@
  },
  "/compresser-document-anef/": {
   "date": "2026-10-11",
-  "hash": "18340aee89b09c2b21a4b5aaa31961470e57c35f0ab78a1be429dc784ad473cb"
+  "hash": "e0703c7f465249e85039f458e4775f20077e49f344b8d6a59b5d9a4d990c0c70"
  },
  "/compresser-document-france-travail/": {
   "date": "2026-10-11",
-  "hash": "ca0a08964ce9dfd25379a0c01221668e6ba1919f57e4318c4e08596420069aef"
+  "hash": "b3cce5b3b2148cf70686ac58025631c21a04515acde5bd097ad27d5f13ab4b35"
  },
  "/compresser-document-logement-social/": {
   "date": "2026-10-11",
-  "hash": "b2361ba84ad4167cb5f801cb5f34482f8a3a3a076913edb703aefc368197b3bc"
+  "hash": "629e2069d274ce4958b49b9eabe301a577ea433fe07831b803d01704dc8c39d4"
  },
  "/compresser-document-retraite/": {
   "date": "2026-10-11",
-  "hash": "d2ac731945cca2e7d1dc32abc65103a4f758c7e40d5619e1d10da789438417d3"
- },
- "/compresser-image-1-mo/": {
-  "date": "2026-10-11",
-  "hash": "21d52bb04c63c215aae8f0c26349537496e6ee442255e586174811fe5aa0511e"
- },
- "/compresser-image-100-ko/": {
-  "date": "2026-10-11",
-  "hash": "7aca0186fb13d0db0f7302713affd469056d136c5b79a31548c9728b93ab5519"
- },
- "/compresser-image-2-mo/": {
-  "date": "2026-10-11",
-  "hash": "5f4dc8be6c53f5c7793bb64713ea41fa89fd43d2ce442ef9ba30f18c284fa659"
- },
- "/compresser-image-200-ko/": {
-  "date": "2026-10-11",
-  "hash": "cdd70ff7d905d0b15a16bd3e87ff251c28df6abab88f464f0b55fb544222ad50"
- },
- "/compresser-image-300-ko/": {
-  "date": "2026-10-11",
-  "hash": "fc61680efd83a25786f90a332525c91865ae4e6a86f843ead68a98c5907dfd29"
- },
- "/compresser-image-5-mo/": {
-  "date": "2026-10-11",
-  "hash": "ebe19d349ff174177f089a128cdd99eecabe51e0cfdd6828dea0f62c89b80cc9"
- },
- "/compresser-image-50-ko/": {
-  "date": "2026-10-11",
-  "hash": "09f5ee53df1bb49f3d14e7f57a3939a9c7e0c7a229172739e76711d6e5484a6f"
- },
- "/compresser-image-500-ko/": {
-  "date": "2026-10-11",
-  "hash": "c9ab739a72470f70a95a33a04ab0921dd83ac3b84ad3f71be0e30a6acec20067"
+  "hash": "83c6cf4d2647804ff9e004a677782bbcd0bc6a2be65821ee6edbd9b92eca8469"
  },
  "/compresser-image-pour-site-web/": {
   "date": "2026-10-11",
-  "hash": "016b8ef86129d76a508b0e0fb316192bae4d1e5f14713607a29c05e90e08a826"
+  "hash": "c2816629252bd4c94f63137cca2177dd8939e9eb2e3c7f8215428187af94a0ea"
  },
  "/compresser-image/": {
   "date": "2026-10-11",
-  "hash": "370211eff5eca304889f9ab24dd8865dd85b8bca235172f22f954f664310065e"
+  "hash": "a95c2581883f38978aeffa61e68f3b7f8cf934127c888f012459a7c3a2c75676"
  },
  "/compresser-photo-ants/": {
   "date": "2026-10-11",
-  "hash": "d039310c63afa9cb8b64dc66ba354668d46663eb0f32dc9750fcfa083daae3a5"
+  "hash": "d6ef736cc17d1d3be33d977e619185e0fe714a825252af3fd197325b741921ae"
  },
  "/compresser-photo-caf/": {
   "date": "2026-10-11",
-  "hash": "0dd371d945269261bdad45df979d8d1210e1d4f610f44dfb27d6b41b5bda93ec"
+  "hash": "796eeb2124358ebdeb28ca8f12daacc013037f79eb11ab1c69b26ff42fbd40b8"
  },
  "/compresser-photo-pour-mail/": {
   "date": "2026-10-11",
-  "hash": "828a7b7caddb26c06a0dcc1d0ae262107fc12e50acc403b2a1dc611027027abb"
+  "hash": "dd064f17fed6889a461d3e02bca2f652347e0922b99f4acce14f871964040fd0"
  },
  "/confidentialite/": {
   "date": "2026-10-11",
@@ -249,7 +217,7 @@
  },
  "/outils/": {
   "date": "2026-10-11",
-  "hash": "e70f813f37658180f8344d44f7828eee7609044490dd72dfd6bc71cb5c8fbd4f"
+  "hash": "73ac6dc2215733e476485b5b87e85bd21c23c4f5b05eafaac0f235ca95e117a1"
  },
  "/photo-instagram/": {
   "date": "2026-10-11",
@@ -297,7 +265,7 @@
  },
  "/tiff-en-jpg/": {
   "date": "2026-10-11",
-  "hash": "d22ee49ac8187f545229fc2098171ce882dc9c98a112dc90d71ee479fcf7119d"
+  "hash": "15b4dc58109ce0e3fae267a6597b0a0f8ff6f61789ebf864dd1a4c2377569dbe"
  },
  "/webp-en-jpg/": {
   "date": "2026-10-11",

@@ -18,7 +18,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 
 from data import (FORMATS, INPUT_IDS, OUTPUT_IDS, PAIRS, FEATURED_PAIRS, INDEXED_PAIRS, TARGET_SIZES,
-                  TARGET_USES, DEMARCHES, get_pair_copy, get_hub_copy)
+                  DEMARCHES, get_pair_copy, get_hub_copy)
 from articles import ARTICLES
 import templates as t
 
@@ -101,15 +101,7 @@ def tool_link_item(path):
 # ---------------------------------------------------------------------------
 
 def compress_teaser_html():
-    chips = "\n".join(f'      <a class="chip" href="/compresser-image-{slug}/">{text}</a>'
-                      for slug, _b, text in TARGET_SIZES)
     return f"""    <div class="catalog__group">
-      <p class="catalog__label">Par poids maximum</p>
-      <div class="chips">
-{chips}
-      </div>
-    </div>
-    <div class="catalog__group">
       <p class="catalog__label">Par démarche</p>
 {t.link_list_html(demarche_links())}
     </div>"""
@@ -407,16 +399,11 @@ def build_pair_page(i, o):
 
 
 # ---------------------------------------------------------------------------
-# Compression to a target weight: /compresser-image/, /compresser-image-{seuil}/,
+# Compression to a target weight: /compresser-image/ and
 # /compresser-photo-{démarche}/
 # ---------------------------------------------------------------------------
 
 COMPRESS_HUB = "/compresser-image/"
-
-
-def threshold_links(exclude=None):
-    return [(f"Moins de {text}", ucfirst(TARGET_USES[slug]) + ".", f"/compresser-image-{slug}/")
-            for slug, _b, text in TARGET_SIZES if slug != exclude]
 
 
 def demarche_links(exclude=None):
@@ -499,8 +486,7 @@ def build_compress_page(*, path, crumbs, h1, subtitle, title, meta, target, outp
 
 def build_compress_hub():
     sections = (
-        t.section_html("seuils", "Choisir une limite de poids", t.link_list_html(threshold_links()),
-                       intro="Une page par limite courante, avec le bon réglage déjà sélectionné.")
+        t.section_html("mesures", "Ce que devient une image selon la limite", limits_table_html(), tag="article")
         + "\n"
         + t.section_html("demarches", "Pour une démarche précise", t.link_list_html(demarche_links()),
                          intro="La limite exigée par le site de destination, déjà réglée.")
@@ -575,87 +561,25 @@ def scan_verdict(w):
     return dpi, "petits caractères difficiles à lire, mieux vaut une limite plus haute"
 
 
-def threshold_data_html(text):
+def limits_table_html():
+    """One row per limit of the « Poids maximum » menu, measured on a real
+    smartphone photo and an A4 scan (build/threshold_measures.json)."""
     rows = []
-    for kind in ("photo", "scan", "capture"):
-        cells = []
-        for fmt in ("jpg", "webp"):
-            m = measure(text, kind, fmt)
-            same = f'{m["w"]} × {m["h"]} px'
-            q = f', qualité {m["q"]}' if m["q"] else ""
-            cells.append(f"<td>{same}{q}</td>")
-        rows.append(f'<tr><th scope="row">{SOURCE_LABELS[kind]}</th>{"".join(cells)}</tr>')
-    p = measure(text, "photo", "jpg")
-    pw = measure(text, "photo", "webp")
-    s = measure(text, "scan", "jpg")
-    dpi, scan_note = scan_verdict(s["w"])
-    if s["w"] >= 2480:
-        scan_sentence = f"une page A4 garde sa pleine résolution de 300 dpi : {scan_note}."
-    else:
-        scan_sentence = f"une page A4 passe à {s['w']} × {s['h']} px, soit environ {dpi} dpi : {scan_note}."
-    gain = round((pw["w"] * pw["h"]) / (p["w"] * p["h"]) * 100 - 100)
-    webp_line = (f"En WebP, la même photo garde {gain} % de pixels en plus pour le même poids."
-                 if gain >= 5 else "Ici, le WebP n'apporte presque rien de plus que le JPG.")
+    for _slug, _b, text in TARGET_SIZES:
+        p = measure(text, "photo", "jpg")
+        s_ = measure(text, "scan", "jpg")
+        dpi, note = scan_verdict(s_["w"])
+        scan = "300 dpi, pleine résolution" if s_["w"] >= 2480 else f"≈ {dpi} dpi : {note}"
+        rows.append(f'        <tr><th scope="row">Moins de {text}</th><td>{p["w"]} × {p["h"]} px</td><td>{scan}</td></tr>')
     return f"""    <table class="measures">
-      <thead><tr><th scope="col">Image d'origine</th><th scope="col">En JPG</th><th scope="col">En WebP</th></tr></thead>
+      <thead><tr><th scope="col">Limite</th><th scope="col">Photo de smartphone (12 Mpx), en JPG</th><th scope="col">Page A4 scannée, en JPG</th></tr></thead>
       <tbody>
-        {"".join(rows)}
+{chr(10).join(rows)}
       </tbody>
     </table>
     <div class="prose">
-      <p><strong>Photo :</strong> sous {text}, une photo de smartphone de 12 Mpx garde {p["w"]} × {p["h"]} px en JPG, {photo_verdict(p["w"], p["h"])}. {webp_line}</p>
-      <p><strong>Document scanné :</strong> {scan_sentence}</p>
-      <p class="measures__note">Mesures réalisées avec l'outil de cette page, sur une vraie photo de smartphone, une page A4 de texte scannée à 300 dpi et une capture d'écran 1920 × 1080. Les résultats varient selon le contenu de l'image : une photo très détaillée perd plus de pixels qu'un ciel uni.</p>
+      <p class="measures__note">Mesures réalisées avec l'outil de cette page sur une vraie photo de smartphone (3024 × 4032, 5,7 Mo) et une page A4 de texte scannée à 300 dpi. La qualité est ajustée d'abord, les dimensions ne sont réduites que si nécessaire ; les résultats varient selon le contenu de l'image. Choisissez la limite dans le menu « Poids maximum » de l'outil.</p>
     </div>"""
-
-
-def threshold_faq(text):
-    p = measure(text, "photo", "jpg")
-    pw = measure(text, "photo", "webp")
-    s = measure(text, "scan", "jpg")
-    dpi, scan_note = scan_verdict(s["w"])
-    better = "le WebP" if pw["w"] * pw["h"] > p["w"] * p["h"] * 1.05 else "le JPG ou le WebP, à peu près à égalité"
-    return [
-        (f"Une photo de smartphone peut-elle passer sous {text} ?",
-         f"Oui. Dans notre mesure, une photo de 12 Mpx (5,7 Mo) passe sous {text} en JPG en gardant "
-         f"{p['w']} × {p['h']} pixels (qualité {p['q']}) : {photo_verdict(p['w'], p['h'])}."),
-        (f"Quel format garde la meilleure qualité sous {text} ?",
-         f"Pour une photo, {better} : sous {text}, le WebP conserve {pw['w']} × {pw['h']} px contre "
-         f"{p['w']} × {p['h']} px en JPG. Choisissez le JPG si le site de destination n'accepte pas le WebP."),
-        (f"Un document scanné reste-t-il lisible sous {text} ?",
-         (f"Oui : une page A4 scannée à 300 dpi tient sous {text} en JPG sans perdre de résolution ({scan_note})."
-          if s["w"] >= 2480 else
-          f"Une page A4 scannée à 300 dpi descend à environ {dpi} dpi pour tenir sous {text} en JPG : {scan_note}.")),
-    ] + list(t.PRIVACY_FAQ[:1])
-
-
-def build_threshold_page(slug, target, text):
-    uses = TARGET_USES[slug]
-    reqs = THRESHOLD_REQUIREMENTS.get(slug, [])
-    req_section = ""
-    if reqs:
-        req_section = t.section_html(
-            "exige", f"Où la limite de {text} est exigée",
-            t.link_list_html([(what, ucfirst(detail) + ".", path) for path, what, detail in reqs]),
-            intro="Limites confirmées par les sites eux-mêmes ; chaque page règle l'outil pour vous.") + "\n"
-    sections = (
-        t.section_html("mesures", f"Ce que devient une image sous {text}", threshold_data_html(text), tag="article")
-        + "\n" + req_section
-        + t.section_html("seuils", "Autres limites", t.link_list_html(threshold_links(exclude=slug)),
-                         intro=f'L\'outil cherche la meilleure qualité sous {text}, puis réduit les dimensions si besoin. '
-                               f'<a href="{COMPRESS_HUB}">Comment fonctionne la compression →</a>')
-    )
-    build_compress_page(
-        path=f"/compresser-image-{slug}/",
-        crumbs=[("Accueil", "/"), ("Compresser une image", COMPRESS_HUB), (f"Moins de {text}", None)],
-        h1=f"Compresser une image à moins de {text}",
-        subtitle=f"Pour {uses}. Meilleure qualité possible sous {text}, sans envoi sur un serveur.",
-        title=f"Compresser une image à moins de {text}",
-        meta=(f"Réduisez une photo à moins de {text} avec la meilleure qualité possible. Gratuit, par lot, sans "
-              f"envoyer vos fichiers sur un serveur."),
-        target=target, output="jpg", sections=sections, faq_items=threshold_faq(text),
-        app_name=f"Compresser une image à moins de {text}", priority="0.8",
-    )
 
 
 def build_demarche_page(key):
@@ -670,8 +594,7 @@ def build_demarche_page(key):
                          tag="article")
         + "\n"
         + t.section_html("demarches", "Autres démarches", t.link_list_html(demarche_links(exclude=key)))
-        + "\n"
-        + t.section_html("seuils", "Toutes les limites", t.link_list_html(threshold_links()))
+
     )
     build_compress_page(
         path=d["path"],
@@ -693,7 +616,7 @@ TOOLS_PAGE = "/outils/"
 
 # Platform size pages, filled from PLATFORM_PAGES in data.py (only values
 # confirmed by the platform's own documentation).
-from data import PLATFORM_PAGES, SPECS_CHECKED, THRESHOLD_REQUIREMENTS
+from data import PLATFORM_PAGES, SPECS_CHECKED
 
 
 def build_tool_page(*, path, crumbs, h1, subtitle, title, meta, tool_html, wc_config, sections, faq_items,
@@ -974,7 +897,7 @@ def tool_catalog(full):
                 for i in (INPUT_IDS if full else ["heic", "webp", "png"])]
     compress = [("Compresser à une taille précise", "50 Ko, 200 Ko, 1 Mo… la meilleure qualité sous la limite.", COMPRESS_HUB)]
     if full:
-        compress += threshold_links() + demarche_links()
+        compress += demarche_links()
     resize = [("Redimensionner une image", "En pixels, avec ou sans recadrage, par lot.", RESIZE_HUB)]
     if full:
         resize += platform_links()
@@ -1040,7 +963,6 @@ def all_cards():
     extra = []
     extra += [card(f"Convertisseur {t.label(i)}", ucfirst(FORMATS[i]["short"]) + ".", f"/convertisseur-{i}/",
                    "convertir", "phone" if i == "heic" else "convert") for i in INPUT_IDS]
-    extra += [card(title, desc, href, "compresser", "compress") for title, desc, href in threshold_links()]
     extra += [card(title, desc, href, "compresser", "doc") for title, desc, href in demarche_links()]
     extra += [card(p["crumb"], p["short"], p["path"], "redimensionner", platform_icon(p["path"])) for p in PLATFORM_PAGES]
     for c in extra:
@@ -1440,8 +1362,6 @@ def main():
     build_pdf_hub()
     build_exif_page()
     build_compress_hub()
-    for slug, target, text in TARGET_SIZES:
-        build_threshold_page(slug, target, text)
     for key in DEMARCHES:
         build_demarche_page(key)
     build_tools_page()
