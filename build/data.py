@@ -899,10 +899,10 @@ def _platform(slug, crumb, short, h1, title, meta, intro, width, height, *, outp
 PLATFORM_PAGES = [
     _platform(
         "banniere-linkedin", "Bannière LinkedIn", "1584 × 396 px, l'image de fond du profil.",
-        "Taille de la bannière LinkedIn : 1584 × 396 px",
-        "Taille bannière LinkedIn (1584 × 396) : recadrer en ligne",
-        "Dimensions officielles de la bannière LinkedIn : 1584 × 396 px, JPG ou PNG, moins de 8 Mo. Recadrez "
-        "la vôtre au bon format ici, gratuitement et sans envoi.",
+        "Redimensionner une image en bannière LinkedIn (1584 × 396 px)",
+        "Redimensionner une image en bannière LinkedIn (1584 × 396)",
+        "Redimensionnez votre image en bannière LinkedIn, 1584 × 396 px, sans la déformer : choisissez "
+        "la zone visible et téléchargez en PNG ou JPG. Gratuit.",
         "Déposez votre image : elle est recadrée au format exact recommandé par LinkedIn. Faites-la glisser pour choisir la partie visible.",
         1584, 396, limit_text="8 Mo", formats_text="JPG ou PNG", source_name="Aide LinkedIn",
         source_url="https://www.linkedin.com/help/linkedin/answer/a568217",
@@ -948,10 +948,10 @@ PLATFORM_PAGES = [
     ),
     _platform(
         "banniere-linkedin-entreprise", "Couverture LinkedIn entreprise", "1512 × 256 px, la couverture d'une Page entreprise.",
-        "Couverture d'une page entreprise LinkedIn : 1512 × 256 px",
-        "Couverture de page entreprise LinkedIn : 1512 × 256 px",
-        "Image de couverture d'une Page entreprise LinkedIn : 1512 × 256 px, PNG ou JPEG, 3 Mo maximum. "
-        "Recadrez-la au bon format ici, gratuitement et sans envoi.",
+        "Recadrer la couverture d'une page entreprise LinkedIn (1512 × 256 px)",
+        "Recadrer une couverture de page LinkedIn (1512 × 256)",
+        "Recadrez l'image de couverture de votre Page entreprise LinkedIn en 1512 × 256 px, PNG ou JPEG sous "
+        "3 Mo, sans la déformer. Gratuit et sans envoi.",
         "Pour la Page de votre entreprise, pas pour votre profil personnel : LinkedIn y impose un format bien plus étroit. Recadrez votre image au format officiel.",
         1512, 256, target=2_000_000, limit_text="3 Mo", formats_text="PNG ou JPEG", source_name="Aide LinkedIn",
         source_url="https://www.linkedin.com/help/linkedin/answer/a563309",
@@ -974,10 +974,10 @@ PLATFORM_PAGES = [
     ),
     _platform(
         "photo-profil-linkedin", "Photo de profil LinkedIn", "400 × 400 px, carrée.",
-        "Photo de profil LinkedIn : taille 400 × 400 px",
-        "Taille photo de profil LinkedIn : 400 × 400 px",
-        "Recadrez votre photo de profil LinkedIn en carré, au format recommandé de 400 × 400 px. Gratuit, sans "
-        "envoyer votre photo sur un serveur.",
+        "Recadrer une photo de profil LinkedIn (400 × 400 px)",
+        "Recadrer une photo de profil LinkedIn en ligne (400 × 400)",
+        "Recadrez votre photo de profil LinkedIn en carré de 400 × 400 px, visage bien centré. Gratuit, en "
+        "ligne, sans envoyer votre photo sur un serveur.",
         "Déposez votre photo et centrez votre visage : elle est recadrée en carré de 400 × 400 px, la taille recommandée par LinkedIn.",
         400, 400, limit_text="8 Mo", formats_text="PNG ou JPG", source_name="Aide LinkedIn",
         source_url="https://www.linkedin.com/help/linkedin/answer/a549049",
@@ -988,10 +988,10 @@ PLATFORM_PAGES = [
     ),
     _platform(
         "miniature-youtube", "Miniature YouTube", "3840 × 2160 px (16:9), moins de 2 Mo.",
-        "Taille de la miniature YouTube : 3840 × 2160 px",
-        "Taille miniature YouTube (3840 × 2160) : recadrer en ligne",
-        "Taille officielle d'une miniature YouTube : 3840 × 2160 px en 16:9 (Short : 2160 × 3840), moins de "
-        "2 Mo. Recadrez et compressez la vôtre ici, gratuitement.",
+        "Redimensionner une image en miniature YouTube (3840 × 2160 px)",
+        "Redimensionner une miniature YouTube (16:9, moins de 2 Mo)",
+        "Redimensionnez votre image en miniature YouTube : recadrage 16:9 en 3840 × 2160 px (Short : "
+        "2160 × 3840), compressée sous 2 Mo. Gratuit, sans envoi.",
         "Recadrez votre image en 16:9 à la taille recommandée par YouTube, compressée sous 2 Mo pour être acceptée même depuis l'appli mobile.",
         3840, 2160, target=2_000_000, formats=("jpg", "png"), limit_text="2 Mo depuis l'appli mobile, 50 Mo depuis un ordinateur",
         formats_text="JPG ou PNG", source_name="Aide YouTube",
@@ -1042,8 +1042,8 @@ PLATFORM_PAGES = [
     ),
     _platform(
         "banniere-youtube", "Bannière YouTube", "2560 × 1440 px, moins de 6 Mo.",
-        "Taille de la bannière YouTube : 2560 × 1440 px",
-        "Taille bannière YouTube : 2560 × 1440 px",
+        "Redimensionner une image en bannière YouTube (2560 × 1440 px)",
+        "Redimensionner une image en bannière YouTube (2560 × 1440)",
         "Redimensionnez l'image de bannière de votre chaîne YouTube en 2560 × 1440 px, sous 6 Mo. Gratuit, par "
         "lot, sans envoi sur un serveur.",
         "Recadrez la bannière de votre chaîne au format recommandé par YouTube. Gardez l'essentiel au centre : c'est la seule zone visible sur tous les écrans.",
@@ -1114,10 +1114,10 @@ PLATFORM_PAGES = [
     ),
     _platform(
         "banniere-twitch", "Bannière Twitch", "1200 × 480 px, moins de 10 Mo.",
-        "Taille de la bannière Twitch : 1200 × 480 px",
-        "Bannière Twitch (1200 × 480) : format et recadrage en ligne",
-        "Format de la bannière de profil Twitch : 1200 × 480 px, JPEG, PNG ou GIF, 10 Mo maximum. Recadrez la "
-        "vôtre au bon format ici, gratuitement et sans envoi.",
+        "Redimensionner une image en bannière Twitch (1200 × 480 px)",
+        "Redimensionner une bannière Twitch en ligne (1200 × 480)",
+        "Redimensionnez votre image en bannière de profil Twitch, 1200 × 480 px, JPEG, PNG ou GIF sous 10 Mo : "
+        "choisissez la zone visible. Gratuit, sans envoi.",
         "Déposez votre image : elle est recadrée au format de la bannière de profil Twitch. Faites-la glisser pour choisir la partie visible.",
         1200, 480, limit_text="10 Mo", formats_text="JPEG, PNG ou GIF", source_name="Aide Twitch",
         source_url="https://help.twitch.tv/s/article/channel-page-setup",
@@ -1168,10 +1168,10 @@ PLATFORM_PAGES = [
     ),
     _platform(
         "couverture-facebook", "Couverture Facebook", "851 × 315 px, idéalement moins de 100 Ko.",
-        "Taille de la photo de couverture Facebook : 851 × 315 px",
-        "Couverture Facebook (851 × 315) : recadrer en ligne",
-        "Taille de la photo de couverture Facebook : 851 × 315 px, en JPG de moins de 100 Ko. Recadrez et "
-        "redimensionnez la vôtre ici, gratuitement et sans envoi.",
+        "Redimensionner une photo de couverture Facebook (851 × 315 px)",
+        "Redimensionner une photo de couverture Facebook (851 × 315)",
+        "Redimensionnez votre photo de couverture Facebook en 851 × 315 px sans la déformer : choisissez la zone "
+        "visible, JPG léger ou PNG net. Gratuit, sans envoi.",
         "Déposez votre image : elle est recadrée au format recommandé par Facebook. Faites-la glisser pour choisir la partie visible, puis téléchargez-la.",
         851, 315, target=100_000, formats=("jpg", "png"), limit_text="Moins de 100 Ko recommandé",
         formats_text="JPG sRGB (PNG pour un logo ou du texte)", source_name="Aide Facebook",
@@ -1217,10 +1217,10 @@ PLATFORM_PAGES = [
     ),
     _platform(
         "banniere-twitter-x", "Bannière X (Twitter)", "1500 × 500 px, l'en-tête du profil.",
-        "Taille des images X (Twitter) : bannière 1500 × 500 px",
-        "Taille image Twitter / X : bannière, photo de profil, post",
-        "Tailles officielles des images X (Twitter) : bannière 1500 × 500 px, photo de profil 400 × 400 px, "
-        "posts du 2:1 au 3:4. Recadrez les vôtres ici.",
+        "Redimensionner une image pour X (Twitter) : bannière 1500 × 500 px",
+        "Redimensionner une image pour X (Twitter) : bannière, profil",
+        "Redimensionnez vos images pour X (Twitter) : bannière 1500 × 500 px, photo de profil 400 × 400 px, "
+        "posts du 2:1 au 3:4. Gratuit, sans envoi.",
         "Recadrez l'en-tête de votre profil X au format recommandé (3:1). Pour la photo de profil ou une image de post, changez simplement les dimensions.",
         1500, 500, limit_text="Non précisé par X pour l'en-tête", formats_text="JPG ou PNG (GIF non animé)", source_name="Aide X",
         source_url="https://help.x.com/en/managing-your-account/how-to-customize-your-profile",

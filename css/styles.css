@@ -279,7 +279,10 @@ button, input, select { font: inherit; color: inherit; }
 
 .intro {
   position: relative;
-  height: 300px;
+  /* min-height, not height: a three-line headline grows the band instead of
+     climbing over the breadcrumbs (padding-top keeps their room). */
+  min-height: 300px;
+  padding-top: 56px;
   display: flex;
   flex-direction: column;
   align-items: center;

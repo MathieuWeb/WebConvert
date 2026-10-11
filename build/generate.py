@@ -781,6 +781,23 @@ def platform_spec_html(p):
     <div class="prose">{notes}</div>"""
 
 
+# Platform pages whose titles target "redimensionner / recadrer" searches:
+# one FAQ entry phrased like those searches.
+RESIZE_FAQ_PATHS = {"/banniere-linkedin/", "/banniere-linkedin-entreprise/", "/photo-profil-linkedin/",
+                    "/miniature-youtube/", "/banniere-youtube/", "/banniere-twitch/", "/couverture-facebook/",
+                    "/banniere-twitter-x/"}
+
+
+def resize_faq(p):
+    if p["path"] not in RESIZE_FAQ_PATHS:
+        return []
+    name = p["crumb"][0].lower() + p["crumb"][1:]
+    return [(f"Comment redimensionner une image en {name} sans la déformer ?",
+             f"Déposez-la dans l'outil en haut de cette page : elle est recadrée au format exact "
+             f"({p['width']} × {p['height']} px) sans être étirée. Faites glisser l'image pour choisir la partie "
+             f"gardée, puis téléchargez-la. Tout se passe dans votre navigateur.")]
+
+
 def build_platform_page(p):
     sections = (
         t.section_html("dimensions", f"Format officiel : {p['crumb']}", platform_spec_html(p), tag="article")
@@ -795,7 +812,8 @@ def build_platform_page(p):
         tool_html=t.resize_tool_markup(width=p["width"], height=p["height"], output=p.get("output", "jpg"),
                                        target=p.get("target"), formats=p.get("formats", ("jpg", "png", "webp"))),
         wc_config={"tool": "resize", "zipName": p["path"].strip("/") + ".zip"},
-        sections=sections, faq_items=list(p["faq"]) + list(t.PRIVACY_FAQ[:1]), app_name=p["title"], priority="0.8",
+        sections=sections, faq_items=list(p["faq"]) + resize_faq(p) + list(t.PRIVACY_FAQ[:1]),
+        app_name=p["title"], priority="0.8",
     )
 
 
