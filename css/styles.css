@@ -1647,3 +1647,20 @@ figure.diagram figcaption {
   .dropzone,
   .app__main.has-files .dropzone { padding: 18px 14px; gap: 12px; }
 }
+
+/* ---------- Gabarits (downloadable templates) ---------- */
+.gabarit { display: grid; gap: 20px; }
+.gabarit__preview {
+  background: #8fa0b2 linear-gradient(135deg, #a7b6c4, #7d8fa3);
+  border-radius: var(--radius-box);
+  padding: 12px;
+  line-height: 0;
+}
+.gabarit__img { display: block; width: 100%; height: auto; max-height: 360px; object-fit: contain; margin: 0 auto; }
+.gabarit-grid { list-style: none; margin: 8px 0 40px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; }
+.gabarit-card__title { margin: 14px 0 2px; font-size: 19px; }
+.gabarit-card__dims { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
+.gabarit-card__acts { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin: 0; }
+.gabarit-card .gabarit__preview { height: 196px; display: flex; align-items: center; justify-content: center; }
+.gabarit-card .gabarit__img { max-height: 172px; width: auto; max-width: 100%; }
+.gabarit-notes { max-width: 720px; margin-bottom: 40px; }

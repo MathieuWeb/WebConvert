@@ -798,11 +798,91 @@ def resize_faq(p):
              f"gardée, puis téléchargez-la. Tout se passe dans votre navigateur.")]
 
 
+# Downloadable templates (assets/gabarits/, drawn by build/gabarits.py from
+# the same zones as the crop preview).
+GABARITS_PATH = "/gabarits/"
+
+
+def gabarit_file(p):
+    return f"/assets/gabarits/gabarit-{p['path'].strip('/')}.png"
+
+
+def gabarit_pages():
+    # Square formats (profile photos) only show a circle: no template.
+    return [p for p in PLATFORM_PAGES if p.get("zones") and p["width"] != p["height"]
+            and os.path.exists(os.path.join(ROOT, gabarit_file(p).lstrip("/")))]
+
+
+def gabarit_preview_html(p, eager=False):
+    w, h = p["width"], p["height"]
+    lazy = "" if eager else ' loading="lazy"'
+    return (f'<img class="gabarit__img" src="{gabarit_file(p)}" width="{w}" height="{h}" '
+            f'alt="Gabarit {p["crumb"]} {w} × {h} px : zones à risque et zone sûre"{lazy} decoding="async" />')
+
+
+def gabarit_section_html(p):
+    if p not in gabarit_pages():
+        return ""
+    w, h = p["width"], p["height"]
+    body = f"""    <div class="gabarit">
+      <div class="gabarit__preview">{gabarit_preview_html(p)}</div>
+      <div class="prose">
+        <p>Créez votre visuel dans Canva, Photoshop ou Figma avec ce gabarit : une image PNG transparente de {w} × {h} px qui montre les zones à risque. Placez-la au-dessus de votre création, à la même taille, puis masquez-la ou supprimez-la avant d'exporter.</p>
+        <p><a class="btn btn--dark" href="{gabarit_file(p)}" download>Télécharger le gabarit (PNG)</a></p>
+        <p><a class="link-arrow" href="{GABARITS_PATH}">Tous les gabarits →</a></p>
+      </div>
+    </div>"""
+    return t.section_html("gabarit", "Gabarit à télécharger", body, tag="article") + "\n"
+
+
+def build_gabarits_page():
+    pages = gabarit_pages()
+    cards = "\n".join(f"""      <li class="gabarit-card">
+        <div class="gabarit__preview">{gabarit_preview_html(p, eager=i < 2)}</div>
+        <h2 class="gabarit-card__title">{p['crumb']}</h2>
+        <p class="gabarit-card__dims">{p['width']} × {p['height']} px</p>
+        <p class="gabarit-card__acts"><a class="btn btn--dark" href="{gabarit_file(p)}" download>Télécharger</a>
+          <a class="link-arrow" href="{p['path']}">Recadrer une image →</a></p>
+      </li>""" for i, p in enumerate(pages))
+    title = "Gabarits de bannières gratuits (PNG) : YouTube, LinkedIn…"
+    meta = ("Gabarits PNG gratuits pour bannière YouTube, LinkedIn, Twitch, X et couverture Facebook : zones "
+            "coupées et zone sûre, à poser dans Canva ou Photoshop.")
+    body = f"""<main id="contenu" class="wrap page">
+  <div class="page-intro">
+    {t.breadcrumbs_nav([("Accueil", "/"), ("Gabarits", None)])}
+    <h1>Gabarits de bannières à télécharger</h1>
+    <p>Des images PNG transparentes, à la taille exacte de chaque format, qui montrent ce qui sera coupé ou masqué. Posez-les au-dessus de votre création dans Canva, Photoshop ou Figma, puis masquez-les avant d'exporter.</p>
+  </div>
+  <ul class="gabarit-grid">
+{cards}
+  </ul>
+  <div class="prose gabarit-notes">
+    <h2>Comment utiliser un gabarit</h2>
+    <ol>
+      <li>Créez un design à la taille indiquée sous le gabarit (par exemple 2560 × 1440 px pour une bannière YouTube).</li>
+      <li>Importez le gabarit et placez-le en haut de la pile des calques, à la même taille que le design.</li>
+      <li>Gardez le texte et le logo dans la zone sûre, et rien d'important dans les zones hachurées ou assombries.</li>
+      <li>Masquez ou supprimez le gabarit, puis exportez votre visuel.</li>
+    </ol>
+    <p>Les zones marquées « indicatif » varient selon l'écran : elles donnent un ordre d'idée, pas une limite exacte. Une fois votre image prête, l'outil de chaque format la recadre aux dimensions exactes, sans envoi sur un serveur.</p>
+  </div>
+</main>"""
+    json_ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "BreadcrumbList", "itemListElement": t.breadcrumb_json_ld([("Accueil", "/"), ("Gabarits", GABARITS_PATH)])},
+        {"@type": "CollectionPage", "name": "Gabarits de bannières à télécharger", "description": meta,
+         "url": t.BASE_URL + GABARITS_PATH, "inLanguage": "fr-FR"},
+    ]}
+    html = t.render_page(path=GABARITS_PATH, title=title, meta_description=meta, body_html=body, json_ld=json_ld)
+    write_page(GABARITS_PATH, html)
+    register(GABARITS_PATH, "monthly", "0.7")
+
+
 def build_platform_page(p):
     sections = (
         t.section_html("dimensions", f"Format officiel : {p['crumb']}", platform_spec_html(p), tag="article")
         + "\n"
         + "".join(t.section_html(gid, heading, body, tag="article") + "\n" for gid, heading, body in p["guide"])
+        + gabarit_section_html(p)
         + t.section_html("plateformes", "Autres formats", t.link_list_html(platform_links(exclude=p["path"])))
     )
     build_tool_page(
@@ -1356,6 +1436,7 @@ def main():
     build_resize_hub()
     for p in PLATFORM_PAGES:
         build_platform_page(p)
+    build_gabarits_page()
     build_pdf_hub()
     build_exif_page()
     build_compress_hub()
