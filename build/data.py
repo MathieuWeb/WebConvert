@@ -769,8 +769,8 @@ DEMARCHES = {
         crumb="Pour l'ANEF (titre de séjour)",
         title="Fichier trop lourd pour l'ANEF (titre de séjour)",
         h1="Justificatif refusé sur l'ANEF ? Passez-le sous 10 Mo",
-        meta=("Fichier trop volumineux ou refusé sur l'ANEF ? Convertissez vos photos, même HEIC d'iPhone, en JPG "
-              "sous 5 Mo, sans envoyer vos documents."),
+        meta=("L'ANEF limite chaque justificatif à 10 Mo : convertissez vos photos, même HEIC d'iPhone, en JPG "
+              "sous 5 Mo pour garder de la marge, sans les envoyer."),
         intro="Pour un titre de séjour sur l'ANEF, chaque justificatif doit peser moins de 10 Mo, en JPG, PDF, PNG, BMP ou TIFF. Vos documents restent sur votre appareil.",
         target=5_000_000,
         output="jpg",
