@@ -34,7 +34,7 @@ FONTS_LINK = (
 # ?v= busts browsers' favicon cache (Chrome keeps the old icon for weeks);
 # bump it whenever the icons change. The 192 px PNG is the one Google Search
 # prefers for its results (multiple of 48 px).
-ICON_VERSION = "2"
+ICON_VERSION = "3"
 ICON_LINKS = (
     f'<link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico?v={ICON_VERSION}" />\n'
     f'<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png?v={ICON_VERSION}" />\n'

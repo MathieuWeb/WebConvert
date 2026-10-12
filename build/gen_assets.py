@@ -1,6 +1,6 @@
 """One-off asset generator: favicons, OG image, logo-square, in the "Pierre"
 palette (see css/styles.css). The mark is the one drawn in CSS in the site
-header (.brand__mark): a dark rounded square with a stone-coloured square
+header (.brand__mark): an olive (--accent) rounded square with a stone-coloured square
 outline inside. Run once when the brand changes, not part of the shipped site.
 """
 from PIL import Image, ImageDraw, ImageFont
@@ -17,6 +17,7 @@ WIN = (251, 250, 248, 255)     # --win   #fbfaf8
 LINE = (220, 216, 207, 255)    # --line  #dcd8cf
 MUTED = (93, 90, 83, 255)      # --muted #5d5a53
 OK = (47, 107, 59, 255)        # --ok    #2f6b3b
+ACCENT = (95, 111, 29, 255)    # --accent #5f6f1d
 
 ARIAL_BOLD = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 ARIAL = "/System/Library/Fonts/Supplemental/Arial.ttf"
@@ -33,7 +34,7 @@ def draw_mark(size, bg=None, pad_ratio=0.0):
     REF = 26.0
     u = box / REF
     x0, y0, x1, y1 = pad, pad, pad + box, pad + box
-    d.rounded_rectangle([x0, y0, x1, y1], radius=round(8 * u), fill=INK)
+    d.rounded_rectangle([x0, y0, x1, y1], radius=round(8 * u), fill=ACCENT)
     inset = 7 * u
     d.rounded_rectangle([x0 + inset, y0 + inset, x1 - inset, y1 - inset], radius=round(3 * u),
                         outline=STONE, width=max(2, round(2 * u)))

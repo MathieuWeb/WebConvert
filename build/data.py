@@ -787,6 +787,11 @@ DEMARCHES = {
             "Passeport, justificatif de domicile, contrat de travail : ces documents ne sont jamais envoyés sur un "
             "serveur, tout le traitement a lieu dans votre navigateur. Pour un document de plusieurs pages, réunissez "
             "les photos en un seul PDF avec l'outil « Images en PDF ».",
+            "Pour aller plus loin : si votre dépôt bloque pour une autre raison (compte, nom de fichier, "
+            "erreur de téléversement), le guide <a href=\"https://naturalisation-facile.fr/articles/"
+            "anef-ne-fonctionne-pas-erreurs-solutions\" rel=\"noopener\">ANEF ne fonctionne pas ou bloqué : "
+            "9 erreurs courantes et leurs solutions</a> de Naturalisation-Facile.fr passe en revue les "
+            "blocages les plus fréquents.",
         ],
         faq=[
             ("Quelle taille maximale pour un fichier sur l'ANEF ?",
