@@ -22,8 +22,10 @@
    Webconvert.fr — charte « Pierre »
    Soft stone background, one application window for the tool, Figtree.
    Colours: --bg #e7e4dd (stone), --win #fbfaf8 (window), --side #f2f0eb
-   (sidebar), --ink #23221f (text, dark buttons), --muted #5d5a53 (secondary
-   text, 5.4:1 on --bg), --line #dcd8cf (hairlines), --ok #2f6b3b (gains).
+   (sidebar), --ink #23221f (text), --muted #5d5a53 (secondary
+   text, 5.4:1 on --bg), --line #dcd8cf (hairlines), --ok #2f6b3b (gains),
+   --accent #5f6f1d (olive: buttons, icons, links; 6.1:1 with white,
+   --accent-text #59681b reads 4.8:1 on --bg).
    ========================================================================== */
 
 :root {
@@ -31,7 +33,6 @@
   --win: #fbfaf8;
   --side: #f2f0eb;
   --ink: #23221f;
-  --ink-hover: #3a3833;
   --text: #3a3833;
   --muted: #5d5a53;
   --line: #dcd8cf;
@@ -41,6 +42,11 @@
   --track: #d5d1c7;
   --bar: #ebe8e1;
   --ok: #2f6b3b;
+  --accent: #5f6f1d;
+  --accent-hover: #515e19;
+  --accent-text: #59681b;
+  --accent-soft: #e5e8db;
+  --accent-line: #b7be99;
   --error: #8f2a1c;
   --white: #fff;
 
@@ -84,7 +90,7 @@ img { max-width: 100%; }
 button, input, select { font: inherit; color: inherit; }
 
 :focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--accent-text);
   outline-offset: 2px;
 }
 
@@ -110,7 +116,7 @@ button, input, select { font: inherit; color: inherit; }
   left: 16px;
   top: -64px;
   z-index: 100;
-  background: var(--ink);
+  background: var(--accent);
   color: var(--white);
   padding: 12px 16px;
   border-radius: var(--radius);
@@ -138,10 +144,10 @@ button, input, select { font: inherit; color: inherit; }
   cursor: pointer;
 }
 .btn--dark {
-  background: var(--ink);
+  background: var(--accent);
   color: var(--white);
 }
-.btn--dark:hover { background: var(--ink-hover); }
+.btn--dark:hover { background: var(--accent-hover); }
 .btn:disabled { cursor: progress; opacity: 0.7; }
 .btn[hidden] { display: none; }
 
@@ -172,7 +178,7 @@ button, input, select { font: inherit; color: inherit; }
   width: 26px;
   height: 26px;
   border-radius: 8px;
-  background: var(--ink);
+  background: var(--accent);
 }
 .brand__mark::after {
   content: "";
@@ -197,7 +203,7 @@ button, input, select { font: inherit; color: inherit; }
   text-decoration: none;
 }
 .site-nav a:hover,
-.site-nav a[aria-current="page"] { background: rgba(35, 34, 31, 0.07); }
+.site-nav a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-text); }
 
 /* "Outils" menu (native <details>, closed on outside click by js/nav.js) */
 .nav-menu { position: relative; }
@@ -216,8 +222,8 @@ button, input, select { font: inherit; color: inherit; }
 .nav-menu[open] summary .icon { transform: rotate(180deg); }
 .nav-menu summary:hover,
 .nav-menu[open] summary,
-.nav-menu summary[aria-current="page"] { background: rgba(35, 34, 31, 0.07); }
-.nav-menu summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.nav-menu summary[aria-current="page"] { background: var(--accent-soft); color: var(--accent-text); }
+.nav-menu summary:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
 .nav-menu__panel {
   position: absolute;
   z-index: 60;
@@ -253,7 +259,7 @@ button, input, select { font: inherit; color: inherit; }
   padding-top: 12px;
   border-top: 1px solid var(--line);
   font-weight: 600;
-  color: var(--ok);
+  color: var(--accent-text);
 }
 
 /* ---------- Breadcrumbs ---------- */
@@ -271,7 +277,7 @@ button, input, select { font: inherit; color: inherit; }
   padding: 4px 0;
 }
 .breadcrumbs a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-.breadcrumbs [aria-current] { color: var(--ink); font-weight: 500; }
+.breadcrumbs [aria-current] { color: var(--accent-text); font-weight: 500; }
 
 /* ---------- Intro (tool pages) ----------
    Fixed height on desktop, text bottom-aligned: the tool window below
@@ -370,7 +376,7 @@ button, input, select { font: inherit; color: inherit; }
 }
 .fcard:hover { border-color: var(--line-strong); }
 .fcard:focus-within {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--accent-text);
   outline-offset: 2px;
 }
 .fcard__label {
@@ -469,7 +475,7 @@ button, input, select { font: inherit; color: inherit; }
 .slider__fill {
   width: 66.67%;
   height: 100%;
-  background: var(--ink);
+  background: var(--accent);
 }
 .slider__thumb {
   position: absolute;
@@ -483,7 +489,7 @@ button, input, select { font: inherit; color: inherit; }
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 .slider:focus-visible .slider__thumb {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--accent-text);
   outline-offset: 2px;
 }
 .quality__note {
@@ -522,14 +528,15 @@ button, input, select { font: inherit; color: inherit; }
   gap: 24px;
   min-height: 128px;
   padding: 20px;
-  border: 1.5px dashed var(--dash);
+  background: color-mix(in srgb, var(--accent-soft) 60%, transparent);
+  border: 1.5px dashed var(--accent-line);
   border-radius: var(--radius-box);
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 .app__main.has-files .dropzone { flex: 0 0 128px; }
 .dropzone.is-dragover {
-  background: var(--side);
-  border-color: var(--ink);
+  background: var(--accent-soft);
+  border-color: var(--accent);
 }
 .dropzone__title {
   margin: 0;
@@ -662,7 +669,7 @@ button, input, select { font: inherit; color: inherit; }
   color: var(--ink);
   cursor: pointer;
 }
-.file__dl:hover { border-color: var(--ink); }
+.file__dl:hover { border-color: var(--accent); }
 
 .files__foot {
   display: flex;
@@ -734,9 +741,19 @@ button, input, select { font: inherit; color: inherit; }
   border-radius: var(--radius-box);
   transition: border-color 0.15s ease, transform 0.15s ease;
 }
-.tool-card:hover { border-color: var(--ink); transform: translateY(-1px); }
-.tool-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.tool-card__icon { display: flex; margin-bottom: 8px; color: var(--ink); }
+.tool-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.tool-card:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.tool-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 8px;
+  border-radius: 11px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
 .tool-card__title { font-size: 16px; font-weight: 700; line-height: 1.25; }
 .tool-card__desc { font-size: 14px; line-height: 1.45; color: var(--muted); }
 
@@ -759,7 +776,7 @@ button, input, select { font: inherit; color: inherit; }
   border-radius: 999px;
   cursor: pointer;
 }
-.cat-tab:hover { border-color: var(--ink); }
+.cat-tab:hover { border-color: var(--accent); }
 .cat-tab {
   display: inline-flex;
   align-items: center;
@@ -779,7 +796,7 @@ button, input, select { font: inherit; color: inherit; }
 }
 .tool-group__head h2 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
 .tool-group__head .sec__intro { flex: 1 1 360px; margin: 0; }
-.cat-tab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.cat-tab:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
 
 /* Measured results on threshold pages */
 .measures {
@@ -820,7 +837,7 @@ button, input, select { font: inherit; color: inherit; }
 }
 .spec th { width: 38%; padding-right: 16px; font-weight: 600; color: var(--muted); }
 .spec td { color: var(--ink); font-weight: 600; }
-.spec a { color: var(--ok); text-decoration: underline; text-underline-offset: 2px; font-weight: 500; }
+.spec a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; font-weight: 500; }
 
 /* ---------- Tools: resize, PDF, metadata ---------- */
 .dims {
@@ -841,7 +858,7 @@ button, input, select { font: inherit; color: inherit; }
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
-.dims input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.dims input:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
 .dims input:disabled { color: var(--muted); background: var(--seg); }
 .dims__x { color: var(--muted); font-weight: 600; }
 .check {
@@ -854,7 +871,7 @@ button, input, select { font: inherit; color: inherit; }
   color: var(--text);
   cursor: pointer;
 }
-.check input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--ink); flex: none; }
+.check input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--accent); flex: none; }
 
 .side-list {
   margin: 0;
@@ -890,7 +907,7 @@ button, input, select { font: inherit; color: inherit; }
   box-shadow: 0 0 0 1px var(--line-strong);
 }
 .editor__canvas:active { cursor: grabbing; }
-.editor__canvas:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.editor__canvas:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; }
 .editor.is-static .editor__canvas { cursor: default; }
 .editor.is-static .editor__bar { display: none; }
 .editor__bar {
@@ -974,7 +991,7 @@ button, input, select { font: inherit; color: inherit; }
   border-radius: var(--radius);
   cursor: pointer;
 }
-.file__act:hover:not(:disabled) { border-color: var(--ink); }
+.file__act:hover:not(:disabled) { border-color: var(--accent); }
 .file__act:disabled { opacity: 0.35; cursor: default; }
 .files__summary.is-over { color: var(--error); }
 
@@ -993,7 +1010,7 @@ button, input, select { font: inherit; color: inherit; }
 }
 .meta__list dt { font-weight: 600; color: var(--muted); }
 .meta__list dd { margin: 0; color: var(--text); overflow-wrap: anywhere; }
-.meta__map { color: var(--ok); text-decoration: underline; text-underline-offset: 2px; }
+.meta__map { color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; }
 
 @container (max-width: 620px) {
   .app--pdf .file {
@@ -1055,7 +1072,7 @@ button, input, select { font: inherit; color: inherit; }
   font-weight: 600;
   text-decoration: none;
 }
-.chip:hover { border-color: var(--ink); }
+.chip:hover { border-color: var(--accent); background: var(--accent-soft); }
 
 .catalog__group + .catalog__group { margin-top: 28px; }
 .catalog__label {
@@ -1113,6 +1130,7 @@ button, input, select { font: inherit; color: inherit; }
 
 .link-arrow {
   font-weight: 600;
+  color: var(--accent-text);
   text-decoration: none;
 }
 .link-arrow:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -1126,11 +1144,11 @@ button, input, select { font: inherit; color: inherit; }
 .article a:not(.btn),
 .faq-item__answer a {
   text-decoration: underline;
-  text-decoration-color: var(--dash);
+  text-decoration-color: var(--accent-line);
   text-underline-offset: 3px;
 }
 .prose a:hover,
-.article a:not(.btn):hover { text-decoration-color: var(--ink); }
+.article a:not(.btn):hover { color: var(--accent-text); text-decoration-color: var(--accent-text); }
 code {
   padding: 1px 5px;
   border-radius: 4px;
@@ -1415,7 +1433,7 @@ figure.diagram figcaption {
 
 .site-footer {
   margin-top: 48px;
-  border-top: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
 }
 .site-footer__bar {
   display: flex;
